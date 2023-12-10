@@ -1,0 +1,12 @@
+com.mastertipsy.flutter_localization-jetified-annotation-experimental-1.1.0-0 /Users/kemalsarac/.gradle/caches/transforms-3/40aebe7700795438adbd3daab7ae1ff9/transformed/jetified-annotation-experimental-1.1.0/res
+com.mastertipsy.flutter_localization-core-1.6.0-1 /Users/kemalsarac/.gradle/caches/transforms-3/5f7c8bec4875ba55b1273d724949c5bc/transformed/core-1.6.0/res
+com.mastertipsy.flutter_localization-jetified-window-1.0.0-beta04-2 /Users/kemalsarac/.gradle/caches/transforms-3/b734f4f2ef56619cfc425335a55b8ea1/transformed/jetified-window-1.0.0-beta04/res
+com.mastertipsy.flutter_localization-jetified-window-java-1.0.0-beta04-3 /Users/kemalsarac/.gradle/caches/transforms-3/c2678c1ffee94a989fa2d7f64d09a82e/transformed/jetified-window-java-1.0.0-beta04/res
+com.mastertipsy.flutter_localization-main-4 /Users/kemalsarac/.pub-cache/hosted/pub.dev/flutter_localization-0.1.14/android/src/main/res
+com.mastertipsy.flutter_localization-release-5 /Users/kemalsarac/.pub-cache/hosted/pub.dev/flutter_localization-0.1.14/android/src/release/res
+com.mastertipsy.flutter_localization-pngs-6 /Users/kemalsarac/Downloads/bulutvet-mobile-veterinary-main/build/flutter_localization/generated/res/pngs/release
+com.mastertipsy.flutter_localization-resValues-7 /Users/kemalsarac/Downloads/bulutvet-mobile-veterinary-main/build/flutter_localization/generated/res/resValues/release
+com.mastertipsy.flutter_localization-rs-8 /Users/kemalsarac/Downloads/bulutvet-mobile-veterinary-main/build/flutter_localization/generated/res/rs/release
+com.mastertipsy.flutter_localization-mergeReleaseResources-9 /Users/kemalsarac/Downloads/bulutvet-mobile-veterinary-main/build/flutter_localization/intermediates/incremental/release/mergeReleaseResources/merged.dir
+com.mastertipsy.flutter_localization-mergeReleaseResources-10 /Users/kemalsarac/Downloads/bulutvet-mobile-veterinary-main/build/flutter_localization/intermediates/incremental/release/mergeReleaseResources/stripped.dir
+com.mastertipsy.flutter_localization-merged_res-11 /Users/kemalsarac/Downloads/bulutvet-mobile-veterinary-main/build/flutter_localization/intermediates/merged_res/release

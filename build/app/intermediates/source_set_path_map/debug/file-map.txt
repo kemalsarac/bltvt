@@ -1,0 +1,16 @@
+com.example.bltvt_mobile_veterinary.app-jetified-annotation-experimental-1.1.0-0 /Users/kemalsarac/.gradle/caches/transforms-3/40aebe7700795438adbd3daab7ae1ff9/transformed/jetified-annotation-experimental-1.1.0/res
+com.example.bltvt_mobile_veterinary.app-core-1.6.0-1 /Users/kemalsarac/.gradle/caches/transforms-3/5f7c8bec4875ba55b1273d724949c5bc/transformed/core-1.6.0/res
+com.example.bltvt_mobile_veterinary.app-jetified-window-1.0.0-beta04-2 /Users/kemalsarac/.gradle/caches/transforms-3/b734f4f2ef56619cfc425335a55b8ea1/transformed/jetified-window-1.0.0-beta04/res
+com.example.bltvt_mobile_veterinary.app-jetified-window-java-1.0.0-beta04-3 /Users/kemalsarac/.gradle/caches/transforms-3/c2678c1ffee94a989fa2d7f64d09a82e/transformed/jetified-window-java-1.0.0-beta04/res
+com.example.bltvt_mobile_veterinary.app-debug-4 /Users/kemalsarac/Downloads/bulutvet-mobile-veterinary-main/android/app/src/debug/res
+com.example.bltvt_mobile_veterinary.app-main-5 /Users/kemalsarac/Downloads/bulutvet-mobile-veterinary-main/android/app/src/main/res
+com.example.bltvt_mobile_veterinary.app-pngs-6 /Users/kemalsarac/Downloads/bulutvet-mobile-veterinary-main/build/app/generated/res/pngs/debug
+com.example.bltvt_mobile_veterinary.app-resValues-7 /Users/kemalsarac/Downloads/bulutvet-mobile-veterinary-main/build/app/generated/res/resValues/debug
+com.example.bltvt_mobile_veterinary.app-rs-8 /Users/kemalsarac/Downloads/bulutvet-mobile-veterinary-main/build/app/generated/res/rs/debug
+com.example.bltvt_mobile_veterinary.app-mergeDebugResources-9 /Users/kemalsarac/Downloads/bulutvet-mobile-veterinary-main/build/app/intermediates/incremental/debug/mergeDebugResources/merged.dir
+com.example.bltvt_mobile_veterinary.app-mergeDebugResources-10 /Users/kemalsarac/Downloads/bulutvet-mobile-veterinary-main/build/app/intermediates/incremental/debug/mergeDebugResources/stripped.dir
+com.example.bltvt_mobile_veterinary.app-merged_res-11 /Users/kemalsarac/Downloads/bulutvet-mobile-veterinary-main/build/app/intermediates/merged_res/debug
+com.example.bltvt_mobile_veterinary.app-packaged_res-12 /Users/kemalsarac/Downloads/bulutvet-mobile-veterinary-main/build/flutter_localization/intermediates/packaged_res/debug
+com.example.bltvt_mobile_veterinary.app-packaged_res-13 /Users/kemalsarac/Downloads/bulutvet-mobile-veterinary-main/build/fluttertoast/intermediates/packaged_res/debug
+com.example.bltvt_mobile_veterinary.app-packaged_res-14 /Users/kemalsarac/Downloads/bulutvet-mobile-veterinary-main/build/path_provider_android/intermediates/packaged_res/debug
+com.example.bltvt_mobile_veterinary.app-packaged_res-15 /Users/kemalsarac/Downloads/bulutvet-mobile-veterinary-main/build/shared_preferences_android/intermediates/packaged_res/debug
