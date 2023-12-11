@@ -10,13 +10,11 @@ import 'package:bltvt_mobile_veterinary/utils/custom_style.dart';
 import 'package:flutter/material.dart';
 // ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
-     
 
 class AdmissionsScreen extends StatelessWidget {
-  
-
-  const AdmissionsScreen({Key key,}) : super(key: key);
-  
+  const AdmissionsScreen({
+    Key key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -38,8 +36,7 @@ class AdmissionsScreen extends StatelessWidget {
               label: const Text("Daha Fazla"),
             ), */
             appBar: AppBar(
-
-            title: const Text("Gelecek Randevular"),
+              title: const Text("Gelecek Randevular"),
               backgroundColor: CustomColor.primaryColor,
               bottom: const TabBar(
                 labelColor: Colors.white,
@@ -73,53 +70,53 @@ class AdmissionsScreen extends StatelessWidget {
     );
   }
 }
+
 class SearchTextWidget extends StatelessWidget {
   final AdmissionsScreenViewModel vm;
 
   SearchTextWidget(this.vm);
 
   @override
- Widget build(BuildContext context) {
-  return Padding(
-    padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 20.0),
-    child: Container(
-      width: 320.0, 
-      height: 35.0, 
-      child: TextField(
-      
-        controller: vm.searchController,
-        decoration: InputDecoration(
-          hintText: 'Kullanıcı Adı Ara...',
-          hintStyle: TextStyle(color: Color.fromARGB(133, 57, 57, 57)),
-          prefixIcon: Icon(Icons.search, color: Color.fromARGB(133, 57, 57, 57)),
-          contentPadding: EdgeInsets.symmetric(vertical: 0.01),
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.0),
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 20.0),
+      child: Container(
+        width: 320.0,
+        height: 35.0,
+        child: TextField(
+          controller: vm.searchController,
+          decoration: InputDecoration(
+            hintText: 'Kullanıcı Adı Ara...',
+            hintStyle: TextStyle(color: Color.fromARGB(133, 57, 57, 57)),
+            prefixIcon:
+                Icon(Icons.search, color: Color.fromARGB(133, 57, 57, 57)),
+            contentPadding: EdgeInsets.symmetric(vertical: 0.01),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
           ),
+          onChanged: vm.filterAppointmentsByUserName,
         ),
-        onChanged: vm.filterAppointmentsByUserName,
       ),
-    ),
-  );
+    );
+  }
 }
-
-}
-
-
 
 class TabPage1 extends StatefulWidget {
   final AdmissionsScreenViewModel vm;
   final String patientGuid;
   final SearchCalendarResponse appointment;
 
-  const TabPage1(this.vm, {Key key, this.patientGuid,this.appointment}) : super(key: key);
+  const TabPage1(this.vm, {Key key, this.patientGuid, this.appointment})
+      : super(key: key);
 
   @override
   State<TabPage1> createState() => _TabPage1State();
 }
 
-class _TabPage1State extends State<TabPage1> with AutomaticKeepAliveClientMixin {
-   AdmissionsScreenViewModel vm;
+class _TabPage1State extends State<TabPage1>
+    with AutomaticKeepAliveClientMixin {
+  AdmissionsScreenViewModel vm;
 
   @override
   void initState() {
@@ -130,7 +127,8 @@ class _TabPage1State extends State<TabPage1> with AutomaticKeepAliveClientMixin 
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    List<SearchCalendarResponse> futureAppointments = vm.getFutureAppointments();
+    List<SearchCalendarResponse> futureAppointments =
+        vm.getFutureAppointments();
     return Padding(
       padding: const EdgeInsets.all(15),
       child: ListView.builder(
@@ -138,14 +136,38 @@ class _TabPage1State extends State<TabPage1> with AutomaticKeepAliveClientMixin 
         itemCount: futureAppointments.length,
         itemBuilder: (context, index) {
           SearchCalendarResponse appointment = futureAppointments[index];
-          
+
           return Padding(
             padding: const EdgeInsets.only(bottom: 15),
-           
             child: GestureDetector(
-            
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text("Randevu Onayı"),
+                      content: Text("Randevu onaylansın mı?"),
+                      actions: [
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Text("Onayla"),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Text("İptal Et"),
+                        ),
+                      ], //if(randevu onaylı ise ekrana gelme falan filan)
+                    );
+                  },
+                );
+              },
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 10.0, vertical: 10.0),
                 decoration: BoxDecoration(
                   color: CustomColor.accentColor,
                   border: Border.all(
@@ -163,7 +185,9 @@ class _TabPage1State extends State<TabPage1> with AutomaticKeepAliveClientMixin 
                           Row(
                             children: [
                               Text(
-                                (appointment.dsCustomerAndPatient ?? "").length > 13
+                                (appointment.dsCustomerAndPatient ?? "")
+                                            .length >
+                                        13
                                     ? "${appointment.dsCustomerAndPatient.substring(0, 13)}..."
                                     : appointment.dsCustomerAndPatient,
                                 style: CustomStyle.defaultStyle,
@@ -194,7 +218,8 @@ class _TabPage1State extends State<TabPage1> with AutomaticKeepAliveClientMixin 
                             children: [
                               Text(
                                 DateFormat("dd/MM/y")
-                                    .format(DateTime.tryParse(appointment.dtAdmissionDate) ??
+                                    .format(DateTime.tryParse(
+                                            appointment.dtAdmissionDate) ??
                                         DateTime.now())
                                     .toString(),
                                 style: CustomStyle.defaultStyle,
@@ -230,7 +255,6 @@ class _TabPage1State extends State<TabPage1> with AutomaticKeepAliveClientMixin 
   bool get wantKeepAlive => true;
 }
 
-
 class TabPage2 extends StatefulWidget {
   final AdmissionsScreenViewModel vm;
 
@@ -249,8 +273,7 @@ class _TabPage2State extends State<TabPage2>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    List<SearchCalendarResponse> pastAppointments =
-        vm.getPastAppointments();
+    List<SearchCalendarResponse> pastAppointments = vm.getPastAppointments();
     pastAppointments.sort((a, b) {
       DateTime dateA = DateTime.tryParse(a.dtAdmissionDate);
       DateTime dateB = DateTime.tryParse(b.dtAdmissionDate);
@@ -266,85 +289,113 @@ class _TabPage2State extends State<TabPage2>
         shrinkWrap: true,
         itemCount: pastAppointments.length,
         itemBuilder: (context, index) {
-          SearchCalendarResponse appointment =
-              pastAppointments[index];
+          SearchCalendarResponse appointment = pastAppointments[index];
           return Padding(
             padding: const EdgeInsets.only(bottom: 15),
-            child: Container(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-              decoration: BoxDecoration(
-                color: CustomColor.accentColor,
-                border: Border.all(
-                  color: CustomColor.primaryColor,
-                ),
-                borderRadius: const BorderRadius.all(
-                  Radius.circular(20.0),
-                ),
-              ),
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            Text(
-                              (appointment.dsCustomerAndPatient ?? "").length > 13
-                                  ? "${appointment.dsCustomerAndPatient.substring(0, 13)}..."
-                                  : appointment.dsCustomerAndPatient,
-                              style: CustomStyle.defaultStyle,
-                            ),
-                          ],
+            child: GestureDetector(
+               onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text("Randevu Onayı"),
+                      content: Text("Randevu onaylansın mı?"),
+                      actions: [
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Text("Onayla"),
                         ),
-                        const SizedBox(
-                          height: 5,
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Text("İptal Et"),
                         ),
-                        Row(
-                          children: [
-                            Text(
-                              appointment.dsCustomerAndPatient ?? "",
-                              style: CustomStyle.textStyle,
-                            ),
-                          ],
-                        ),
+                        //if(randevu onaylı ise ekrana gelme falan filan)
                       ],
-                    ),
+                    );
+                  },
+                );
+              },
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+                decoration: BoxDecoration(
+                  color: CustomColor.accentColor,
+                  border: Border.all(
+                    color: CustomColor.primaryColor,
                   ),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Text(
-                              DateFormat("dd/MM/y")
-                                  .format(DateTime.tryParse(
-                                          appointment.dtAdmissionDate) ??
-                                      DateTime.now())
-                                  .toString(),
-                              style: CustomStyle.defaultStyle,
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        /* Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Text(
-                              appointment.dsProduct ?? "",
-                              style: CustomStyle.textStyle,
-                            ),
-                          ],
-                        ), */
-                      ],
-                    ),
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(20.0),
                   ),
-                ],
+                ),
+                child: Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                (appointment.dsCustomerAndPatient ?? "").length >
+                                        13
+                                    ? "${appointment.dsCustomerAndPatient.substring(0, 13)}..."
+                                    : appointment.dsCustomerAndPatient,
+                                style: CustomStyle.defaultStyle,
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Row(
+                            children: [
+                              Text(
+                                appointment.dsCustomerAndPatient ?? "",
+                                style: CustomStyle.textStyle,
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text(
+                                DateFormat("dd/MM/y")
+                                    .format(DateTime.tryParse(
+                                            appointment.dtAdmissionDate) ??
+                                        DateTime.now())
+                                    .toString(),
+                                style: CustomStyle.defaultStyle,
+                              ),
+                            ],
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          /* Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text(
+                                appointment.dsProduct ?? "",
+                                style: CustomStyle.textStyle,
+                              ),
+                            ],
+                          ), */
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           );

@@ -719,66 +719,65 @@ class GeneralApiService {
       return model;
     }
   }
- Future<List<SearchCalendarResponse>> getSearchCalendarResults() async {
-  var accountInfo = await localStorageService.getCredentialAccounts();
-  token = accountInfo.token.isNotEmpty ? accountInfo.token : '';
 
-  // API'nin beklediği JSON formatına uygun gövde
-  var requestBody = {
-    "idAddmisionType": 2,
-    "idStatus": 2,
-    "idCustomer": null,
-    "dtFrom": "2023-11-27T00:00:00.000Z",
-    "dtTo": "2024-01-08T00:00:00.000Z",
-  };
+  Future<List<SearchCalendarResponse>> getSearchCalendarResults() async {
+    var accountInfo = await localStorageService.getCredentialAccounts();
+    token = accountInfo.token.isNotEmpty ? accountInfo.token : '';
 
-  final response = await http.post(
-    Uri.parse("${ApplicationConstants.baseURL}/appointment/searchCalendar/"),
-    headers: getHeaders(),
-    body: json.encode(requestBody), // JSON gövdeyi encode et
-  );
+    // API'nin beklediği JSON formatına uygun gövde
+    var requestBody = {
+      "idAddmisionType": 2,
+      "idStatus": 2,
+      "idCustomer": null,
+      "dtFrom": "2023-11-27T00:00:00.000Z",
+      "dtTo": "2024-01-08T00:00:00.000Z",
+    };
 
-  if (response.statusCode == 200) {
-    // Başarılı cevap alındı, JSON'ı parse et ve işle
-    var data = json.decode(response.body);
-    var modelList = (data as List<dynamic>)
-        .map((item) => SearchCalendarResponse.fromJson(item))
-        .toList();
+    final response = await http.post(
+      Uri.parse("${ApplicationConstants.baseURL}/appointment/searchCalendar/"),
+      headers: getHeaders(),
+      body: json.encode(requestBody), // JSON gövdeyi encode et
+    );
 
-    return modelList;
-  } else {
-    // Başarısız bir cevap alındı, hata işleme
-    print("Request failed with status: ${response.statusCode}");
-    return <SearchCalendarResponse>[]; // veya null, hata durumuna göre
-  }
-}
-
-
-   Future<CompanyDataResponse> getById() async {
-  var accountInfo = await localStorageService.getCredentialAccounts();
-  token = accountInfo.token;
-
-  final response = await http.get(
-    Uri.parse("${ApplicationConstants.baseURL}/company/getById"),
-    headers: getHeaders(),
-  );
-
-  if (!checkTokenExpired(response)) {
     if (response.statusCode == 200) {
+      // Başarılı cevap alındı, JSON'ı parse et ve işle
       var data = json.decode(response.body);
-      var model = CompanyDataResponse.fromJson(data);
-      return model;
+      var modelList = (data as List<dynamic>)
+          .map((item) => SearchCalendarResponse.fromJson(item))
+          .toList();
+
+      return modelList;
     } else {
-      // Hata durumunu işle
-      print("API request failed with status code: ${response.statusCode}");
-      print("Error message: ${response.body}");
+      // Başarısız bir cevap alındı, hata işleme
+      print("Request failed with status: ${response.statusCode}");
+      return <SearchCalendarResponse>[]; // veya null, hata durumuna göre
+    }
+  }
+
+  Future<CompanyDataResponse> getById() async {
+    var accountInfo = await localStorageService.getCredentialAccounts();
+    token = accountInfo.token;
+
+    final response = await http.get(
+      Uri.parse("${ApplicationConstants.baseURL}/company/getById"),
+      headers: getHeaders(),
+    );
+
+    if (!checkTokenExpired(response)) {
+      if (response.statusCode == 200) {
+        var data = json.decode(response.body);
+        var model = CompanyDataResponse.fromJson(data);
+        return model;
+      } else {
+        // Hata durumunu işle
+        print("API request failed with status code: ${response.statusCode}");
+        print("Error message: ${response.body}");
+        return null;
+      }
+    } else {
+      // Token kontrolü yap
+      print("Token expired or invalid.");
       return null;
     }
-  } else {
-    // Token kontrolü yap
-    print("Token expired or invalid.");
-    return null;
   }
-}
-
 }

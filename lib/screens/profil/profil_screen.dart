@@ -40,10 +40,13 @@ class ProfileScreen extends StatelessWidget {
                               width: 2.0,
                             ),
                           ),
-                          child: const CircleAvatar(
+                          child:   CircleAvatar(
                             radius: 50,
-                            backgroundImage:
-                                AssetImage("assets/images/anonymous.jpg"),
+                            backgroundImage: (companydata != null &&
+                                    companydata.dsLogoUrl != null &&
+                                    companydata.dsLogoUrl.isNotEmpty)
+                                ? NetworkImage(companydata.dsLogoUrl)
+                                : AssetImage("assets/images/anonymous.jpg"),
                           ),
                         ),
                       ),
@@ -51,14 +54,14 @@ class ProfileScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 1),
-                ProfileInfoCard(label: 'Name', initialValue: 'Okan Akad'),
+                ProfileInfoCard(label: 'Şirket ismi', initialValue: companydata.dsCompany ?? 'Default Name'),
                 ProfileInfoCard(
-                    label: 'Email', initialValue: 'Okan.akad@kodiks.com'),
-                ProfileInfoCard(label: 'Phone', initialValue: '5344567890'),
+                    label: 'Telefon numarası', initialValue: companydata.dsOfficalPhone ?? 'Default Name'),
+                ProfileInfoCard(label: 'İl/İlçe', initialValue: companydata.dsCity + "/" + companydata.dsTown),
                 ProfileInfoCard(
-                    label: 'Address', initialValue: 'fikirtepe mah./kadıköy'),
-                ProfileInfoCard(label: 'City', initialValue: 'İstanbul'),
-                ProfileInfoCard(label: 'Country', initialValue: 'Türkiye'),
+                    label: 'Vergi dairesi', initialValue: companydata.dsTaxOffice),
+                ProfileInfoCard(label: 'Vergi no', initialValue: companydata.dsTaxNo),
+               
                 const SizedBox(height: 1),
                 Column(
                   children: [

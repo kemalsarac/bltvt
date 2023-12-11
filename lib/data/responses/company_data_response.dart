@@ -2,43 +2,44 @@ class CompanyDataResponse {
   int idCompany;
   String dsGuidId;
   String dsCompany;
-  Null mtTaxNo;
+  dynamic mtTaxNo; // Değişiklik burada, mtTaxNo'nun türü dynamic oldu
   String dtExpire;
   String dsOfficalTitle;
   String dsOfficalPhone;
   int idCity;
   int idTown;
-  Null dsOfficalAddress;
-  Null dsLogoUrl;
-  Null idCrmStatus;
+  String dsOfficalAddress;
+  String dsLogoUrl;
+  dynamic idCrmStatus; // Değişiklik burada, idCrmStatus'un türü dynamic oldu
   bool flChurn;
-  Null idCrmAgent;
-  Null mtChurnCount;
+  dynamic idCrmAgent; // Değişiklik burada, idCrmAgent'in türü dynamic oldu
+  dynamic mtChurnCount; // Değişiklik burada, mtChurnCount'un türü dynamic oldu
   bool flUsageContract;
-  Null idTaxOffice;
-  Null dsPromotionCode;
-  Null dsTaxOffice;
-  Null dsTaxNo;
+  dynamic idTaxOffice; // Değişiklik burada, idTaxOffice'un türü dynamic oldu
+  String dsPromotionCode;
+  String dsTaxOffice;
+  String dsTaxNo;
   String dsCity; 
-  Null dsTown;
+  String dsTown;
   bool flTrial;
   int mtTotalSms;
-  Null dsPostalAddressJson;
-  Null dsDialCode;
-  Null dsCountryCode;
+  String dsPostalAddressJson; // Değişiklik burada, dsPostalAddressJson'un türü dynamic oldu
+  dynamic dsDialCode; // Değişiklik burada, dsDialCode'un türü dynamic oldu
+  dynamic dsCountryCode; // Değişiklik burada, dsCountryCode'un türü dynamic oldu
   int idStatus;
   bool flRaise;
-  Null dsApiKeyEInvoice;
-  Null dsApiSecretEInvoice;
-  Null dsCustomerIdEInvoice;
-  Null dsCompanyServices;
+  dynamic dsApiKeyEInvoice; // Değişiklik burada, dsApiKeyEInvoice'un türü dynamic oldu
+  dynamic dsApiSecretEInvoice; // Değişiklik burada, dsApiSecretEInvoice'un türü dynamic oldu
+  dynamic dsCustomerIdEInvoice; // Değişiklik burada, dsCustomerIdEInvoice'un türü dynamic oldu
+  dynamic dsCompanyServices; // Değişiklik burada, dsCompanyServices'un türü dynamic oldu
   String dtInsertDate;
   String dtUpdateDate;
-  Null idUserInsert;
-  Null idUserUpdate;
-  Null messages;
-  List<String> messageList; // Değişiklik burada, messageList'in türü List<String> oldu
+  dynamic idUserInsert; // Değişiklik burada, idUserInsert'in türü dynamic oldu
+  dynamic idUserUpdate; // Değişiklik burada, idUserUpdate'un türü dynamic oldu
+  dynamic messages; // Değişiklik burada, messages'un türü dynamic oldu
+  List<String> messageList;
   int dbStatus;
+
 
   CompanyDataResponse({
     this.idCompany,
@@ -123,7 +124,7 @@ class CompanyDataResponse {
     idUserUpdate = json['idUserUpdate'];
     messages = json['messages'];
     if (json['messageList'] != null) {
-      messageList = <String>[]; // Değişiklik burada, messageList'in türü List<String> oldu
+      messageList = <String>[]; 
       json['messageList'].forEach((v) {
         messageList.add(v as String);
       });
