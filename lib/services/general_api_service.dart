@@ -11,6 +11,9 @@ import 'package:bltvt_mobile_veterinary/data/requests/save_customer_request.dart
 import 'package:bltvt_mobile_veterinary/data/requests/update_admission_status_request.dart';
 import 'package:bltvt_mobile_veterinary/data/requests/update_appointment_info_request.dart';
 import 'package:bltvt_mobile_veterinary/data/requests/update_patient_status_request.dart';
+import 'package:bltvt_mobile_veterinary/data/requests/update_request.dart';
+import 'package:bltvt_mobile_veterinary/data/responses/bilanco_response.dart';
+import 'package:bltvt_mobile_veterinary/data/responses/depohak_response.dart';
 import 'package:bltvt_mobile_veterinary/data/responses/get_all_color_response.dart';
 import 'package:bltvt_mobile_veterinary/data/responses/get_all_customer_groups_response.dart';
 import 'package:bltvt_mobile_veterinary/data/responses/get_all_patient_type_response.dart';
@@ -24,6 +27,7 @@ import 'package:bltvt_mobile_veterinary/data/responses/get_product_vaccine_respo
 import 'package:bltvt_mobile_veterinary/data/responses/get_sms_settings_response.dart';
 import 'package:bltvt_mobile_veterinary/data/responses/get_species_by_id_response.dart';
 import 'package:bltvt_mobile_veterinary/data/responses/login_response.dart';
+import 'package:bltvt_mobile_veterinary/data/responses/money_resonse.dart';
 import 'package:bltvt_mobile_veterinary/data/responses/save_appointment_response.dart';
 import 'package:bltvt_mobile_veterinary/data/responses/save_patient_response.dart';
 import 'package:bltvt_mobile_veterinary/data/responses/search_calendar_response.dart';
@@ -31,6 +35,11 @@ import 'package:bltvt_mobile_veterinary/data/responses/update_admission_status_r
 import 'package:bltvt_mobile_veterinary/data/responses/update_appointment_info_response.dart';
 import 'package:bltvt_mobile_veterinary/data/responses/update_customer_response.dart';
 import 'package:bltvt_mobile_veterinary/data/responses/update_patient_status_response.dart';
+import 'package:bltvt_mobile_veterinary/data/responses/update_randevu_%C4%B1nfo_response.dart';
+import 'package:bltvt_mobile_veterinary/data/responses/update_response.dart';
+import 'package:bltvt_mobile_veterinary/data/responses/warecategoryval_response.dart';
+import 'package:bltvt_mobile_veterinary/data/responses/waredata_response.dart';
+import 'package:bltvt_mobile_veterinary/data/responses/warehouses_transferesponse.dart';
 import 'package:bltvt_mobile_veterinary/services/local_storage_service.dart';
 import 'package:bltvt_mobile_veterinary/data/responses/company_data_response.dart';
 import 'package:http/http.dart' as http;
@@ -81,6 +90,7 @@ class GeneralApiService {
       return LoginResponse.fromJson(json.decode(response.body));
     }
   }
+  
 
   Future<GetSmsSettingsResponse> getSmsSettings(int idProvider) async {
     var accountInfo = await localStorageService.getCredentialAccounts();
@@ -213,6 +223,34 @@ class GeneralApiService {
       return model;
     }
   }
+  
+  Future<WarehouseTransferResponse> stocktransferware(
+     ) async {
+    var accountInfo = await localStorageService.getCredentialAccounts();
+    token = accountInfo.token.isNotEmpty ? accountInfo.token : '';
+
+    final response = await http.post(
+      Uri.parse("${ApplicationConstants.baseURL}/stockdefination/sendWarehouseStokTransfer"),
+      headers: getHeaders(),
+    
+    );
+
+    var model = WarehouseTransferResponse();
+
+    if (!checkTokenExpired(response)) {
+      if (response.statusCode == 200) {
+        var data = json.decode(response.body);
+        model = WarehouseTransferResponse.fromJson(data);
+
+        return model;
+      } else {
+        return model;
+      }
+    } else {
+      return model;
+    }
+  }
+
 
   Future<UpdateCustomerResponse> updateCustomer(
       SaveCustomerRequest request) async {
@@ -373,6 +411,67 @@ class GeneralApiService {
       return model;
     }
   }
+  Future<updateResponse> updateHayvan(
+      updateRequest request) async {
+    var accountInfo = await localStorageService.getCredentialAccounts();
+    token = accountInfo.token.isNotEmpty ? accountInfo.token : '';
+
+    final response = await http.post(
+      Uri.parse("${ApplicationConstants.baseURL}/patient/update"),
+      headers: getHeaders(),
+      body: json.encode(request),
+    );
+
+    var model = updateResponse();
+
+    if (!checkTokenExpired(response)) {
+      if (response.statusCode == 200) {
+        var data = json.decode(response.body);
+        model = updateResponse.fromJson(data);
+
+        return model;
+      } else {
+        return model;
+      }
+    } else {
+      return model;
+    }
+  }
+  
+
+
+
+Future<List<depohak>> getdepoturu() async {
+  var accountInfo = await localStorageService.getCredentialAccounts();
+  token = accountInfo.token.isNotEmpty ? accountInfo.token : '';
+
+  final response = await http.get(
+    Uri.parse("${ApplicationConstants.baseURL}/warehouse/getAllCompany/1"),
+    headers: getHeaders(),
+  );
+
+  var model = <depohak>[];
+
+  if (!checkTokenExpired(response)) {
+    if (response.statusCode == 200) {
+      var data = json.decode(response.body);
+      if (data is List && data.isNotEmpty) {
+        data = data.first;
+      }
+
+        Iterable list = json.decode(response.body);
+        model = list.map((e) => depohak.fromJson(e)).toList();
+
+      return model;
+    } else {
+      return model;
+    }
+  } else {
+    return model;
+  }
+}
+
+
 
   Future<SavePatientResponse> getPatientByGuid(
       String customerGuid, String patientGuid) async {
@@ -453,6 +552,44 @@ class GeneralApiService {
     }
   }
 
+ Future<Warecategoryval> Warecategory(int productId, int selectedDepoAdi) async {
+  var accountInfo = await localStorageService.getCredentialAccounts();
+  token = accountInfo.token.isNotEmpty ? accountInfo.token : '';
+
+  final response = await http.get(
+    Uri.parse("${ApplicationConstants.baseURL}/stockdefination/getProductWarehouseStock/$productId/$selectedDepoAdi/0"),
+    headers: getHeaders(),
+  );
+
+  if (!checkTokenExpired(response)) {
+    if (response.statusCode == 200) {
+      var data = json.decode(response.body);
+      var model = Warecategoryval.fromJson(data);
+      return model;
+    } else {
+    }
+  } 
+}
+
+ Future<MoneyDasboards> Moneyhesap() async {
+  var accountInfo = await localStorageService.getCredentialAccounts();
+  token = accountInfo.token.isNotEmpty ? accountInfo.token : '';
+
+  final response = await http.get(
+    Uri.parse("${ApplicationConstants.baseURL}/dashboard/getDashboards"),
+    headers: getHeaders(),
+  );
+
+  if (!checkTokenExpired(response)) {
+    if (response.statusCode == 200) {
+      var data = json.decode(response.body);
+      var model = MoneyDasboards.fromJson(data);
+      return model;
+    } else {
+    }
+  } 
+}
+  
   Future<List<GetAllColorResponse>> getAllColor() async {
     var accountInfo = await localStorageService.getCredentialAccounts();
     token = accountInfo.token.isNotEmpty ? accountInfo.token : '';
@@ -584,6 +721,7 @@ class GeneralApiService {
       return model;
     }
   }
+   
 
   Future<UpdateAdmissionStatusResponse> updateAdmissionStatus(
       UpdateAdmissionStatusRequest request) async {
@@ -665,6 +803,7 @@ class GeneralApiService {
       return model;
     }
   }
+ 
 
   Future<GetDashboardsResponse> getDashboards() async {
     var accountInfo = await localStorageService.getCredentialAccounts();
@@ -709,6 +848,34 @@ class GeneralApiService {
         Iterable list = json.decode(response.body);
         model = list
             .map((e) => GetDashboardsAppointmentsResponse.fromJson(e))
+            .toList();
+
+        return model;
+      } else {
+        return model;
+      }
+    } else {
+      return model;
+    }
+  }
+   Future<List<Bilanco>>
+      bilancoResponse() async {
+    var accountInfo = await localStorageService.getCredentialAccounts();
+    token = accountInfo.token.isNotEmpty ? accountInfo.token : '';
+
+    final response = await http.get(
+      Uri.parse(
+          "${ApplicationConstants.baseURL}/dashboard/getPatientGraphic"),
+      headers: getHeaders(),
+    );
+
+    var model = <Bilanco>[];
+
+    if (!checkTokenExpired(response)) {
+      if (response.statusCode == 200) {
+        Iterable list = json.decode(response.body);
+        model = list
+            .map((e) => Bilanco.fromJson(e))
             .toList();
 
         return model;
@@ -780,4 +947,35 @@ class GeneralApiService {
       return null;
     }
   }
+  Future<List<Waredata>> waredatasettings(dynamic depoguid)async {
+    var accountInfo = await localStorageService.getCredentialAccounts();
+    token = accountInfo.token.isNotEmpty ? accountInfo.token : '';
+
+    final response = await http.get(
+      Uri.parse(
+          "${ApplicationConstants.baseURL}/warehouse/getWarehouseProductsStockInventory/$depoguid"),
+      headers: getHeaders(),
+    );
+
+    var model = <Waredata>[];
+
+    if (!checkTokenExpired(response)) {
+      if (response.statusCode == 200) {
+        Iterable list = json.decode(response.body);
+        model = list
+            .map((e) => Waredata.fromJson(e))
+            .toList();
+
+        return model;
+      } else {
+        return model;
+      }
+    } else {
+      return model;
+    }
+  }
+  
+
+
+  
 }

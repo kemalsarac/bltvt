@@ -123,6 +123,10 @@ class CustomerEditScreen extends StatelessWidget {
                   ],
                 ),
                 title: const Text('Müşteri Bilgileri'),
+                flexibleSpace: Image(
+                image: AssetImage("assets/images/appbar1.jpg"),
+                fit: BoxFit.cover,
+              ),
               ),
               body: TabBarView(
                 children: [

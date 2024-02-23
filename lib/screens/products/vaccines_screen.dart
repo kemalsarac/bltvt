@@ -1,4 +1,5 @@
 import 'package:bltvt_mobile_veterinary/data/responses/get_all_products_response.dart';
+import 'package:bltvt_mobile_veterinary/screens/Depobilgileri.dart/depo_transfer.dart';
 import 'package:bltvt_mobile_veterinary/screens/_base/base_widget.dart';
 import 'package:bltvt_mobile_veterinary/screens/products/vaccines_detail_screen.dart';
 import 'package:bltvt_mobile_veterinary/screens/products/vaccines_screen_view_model.dart';
@@ -36,17 +37,28 @@ class _VaccinesScreenState extends State<VaccinesScreen> {
         return Scaffold(
           appBar: AppBar(
             title: const Text("Aşılar"),
-            backgroundColor: CustomColor.primaryColor,
+            backgroundColor: Colors.transparent,
             centerTitle: true,
+             flexibleSpace: Image(
+            image: AssetImage("assets/images/appbar.jpg"), 
+            fit: BoxFit.cover,
           ),
-          body: Column(
-            children: <Widget>[
-              Container(
-                child: buildSearch(context, vm),
+          ),
+          body:  GestureDetector(
+              onHorizontalDragEnd: (DragEndDetails details) {
+                if (details.primaryVelocity > 0) {
+                  Navigator.pop(context);
+                }
+              },
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    child: buildSearch(context, vm),
+                  ),
+                  buildProductList(context, vm),
+                ],
               ),
-              buildProductList(context, vm),
-            ],
-          ),
+            ),
         );
       },
     );
@@ -104,16 +116,23 @@ class _VaccinesScreenState extends State<VaccinesScreen> {
                         vm.productList[index];
 
                     return GestureDetector(
-                      onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => VaccinesDetailScreen(product),
-                        ),
-                      ).then(
-                        (value) => setState(
-                          () {},
-                        ),
-                      ),
+                      onTap: () => {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => VaccinesDetailScreen(product),
+                          ),
+                        ).then((value) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => WarehouseTransfer(product),
+                            ),
+                          ).then((value) {
+                            setState(() {});
+                          });
+                        })
+                      },
                       child: Container(
                         margin: const EdgeInsets.all(10),
                         padding: const EdgeInsets.symmetric(

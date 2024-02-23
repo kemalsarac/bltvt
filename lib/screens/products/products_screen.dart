@@ -1,4 +1,5 @@
 import 'package:bltvt_mobile_veterinary/data/responses/get_all_products_response.dart';
+import 'package:bltvt_mobile_veterinary/screens/Depobilgileri.dart/depo_transfer.dart';
 import 'package:bltvt_mobile_veterinary/screens/_base/base_widget.dart';
 import 'package:bltvt_mobile_veterinary/screens/products/products_detail_screen.dart';
 import 'package:bltvt_mobile_veterinary/screens/products/products_screen_view_model.dart';
@@ -8,6 +9,8 @@ import 'package:bltvt_mobile_veterinary/widgets/search_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_scroll_to_top/flutter_scroll_to_top.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
+
+import 'package:flutter/material.dart';
 
 class ProductsScreen extends StatefulWidget {
   const ProductsScreen({Key key}) : super(key: key);
@@ -33,20 +36,32 @@ class _ProductsScreenState extends State<ProductsScreen> {
       viewModelBuilder: (p0) => ProductsScreenViewModel(),
       builder: (context, vm) {
         viewModel = vm;
-        return Scaffold(
-          appBar: AppBar(
-            title: const Text("Ürünler"),
-            backgroundColor: CustomColor.primaryColor,
-            centerTitle: true,
-          ),
-          body: Column(
-            children: <Widget>[
-              Container(
-                child: buildSearch(context, vm),
+        return  Scaffold(
+            appBar: AppBar(
+              title: const Text("Ürünler"),
+              backgroundColor: CustomColor.primaryColor,
+              centerTitle: true,
+              flexibleSpace: Image(
+                image: AssetImage("assets/images/appbar.jpg"),
+                fit: BoxFit.cover,
               ),
-              buildProductList(context, vm),
-            ],
-          ),
+            ),
+            body: GestureDetector(
+              onHorizontalDragEnd: (DragEndDetails details) {
+                if (details.primaryVelocity > 0) {
+                  Navigator.pop(context);
+                }
+              },
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    child: buildSearch(context, vm),
+                  ),
+                  buildProductList(context, vm),
+                ],
+              ),
+            ),
+          
         );
       },
     );
@@ -95,27 +110,37 @@ class _ProductsScreenState extends State<ProductsScreen> {
             ),
             builder: (BuildContext context, ScrollViewProperties properties) {
               return LazyLoadScrollView(
+                onEndOfPage: () =>
+                    vm.loadMoreProducts(query, vm.productList.length),
+                scrollDirection: properties.scrollDirection,
                 child: ListView.builder(
-                  controller: properties.scrollController,
-                  scrollDirection: properties.scrollDirection,
                   itemCount: vm.productList.length,
                   itemBuilder: (context, index) {
                     final GetAllProductsResponse product = vm.productList[index];
-
                     return GestureDetector(
-                      onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ProductDetailScreen(product),
-                        ),
-                      ).then(
-                        (value) => setState(
-                          () {},
-                        ),
-                      ),
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ProductDetailScreen(product),
+                          ),
+                        ).then((value) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => WarehouseTransfer(product),
+                            ),
+                          ).then((value) {
+                            setState(() {});
+                          });
+                        });
+                      },
                       child: Container(
                         margin: const EdgeInsets.all(10),
-                        padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 10.0,
+                          vertical: 10.0,
+                        ),
                         decoration: BoxDecoration(
                           color: CustomColor.accentColor,
                           border: Border.all(
@@ -139,9 +164,15 @@ class _ProductsScreenState extends State<ProductsScreen> {
                                     Text(
                                       product.mtPrice.toString() == "null"
                                           ? "0"
-                                          : product.mtPrice.toString().split(".").last == "0"
-                                              ? product.mtPrice.toString().split(".").first
-                                              : product.mtPrice.toString(),
+                                          : product.mtPrice
+                                              .toString()
+                                              .split(".")
+                                              .last == "0"
+                                          ? product.mtPrice
+                                              .toString()
+                                              .split(".")
+                                              .first
+                                          : product.mtPrice.toString(),
                                       style: CustomStyle.defaultStyle,
                                     ),
                                     Text(
@@ -158,7 +189,6 @@ class _ProductsScreenState extends State<ProductsScreen> {
                     );
                   },
                 ),
-                onEndOfPage: () => vm.loadMoreProducts(query, vm.productList.length),
               );
             },
           ),

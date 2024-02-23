@@ -1,4 +1,4 @@
-#Fri Dec 08 01:49:40 TRT 2023
+#Thu Feb 22 22:54:03 TRT 2024
 base.0=/Users/kemalsarac/Downloads/bulutvet-mobile-veterinary-main/build/app/intermediates/dex/profile/mergeExtDexProfile/classes.dex
 base.1=/Users/kemalsarac/Downloads/bulutvet-mobile-veterinary-main/build/app/intermediates/dex/profile/mergeLibDexProfile/0/classes.dex
 base.2=/Users/kemalsarac/Downloads/bulutvet-mobile-veterinary-main/build/app/intermediates/dex/profile/mergeProjectDexProfile/0/classes.dex

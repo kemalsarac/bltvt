@@ -1,4 +1,8 @@
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+
+import 'package:bltvt_mobile_veterinary/data/responses/depohak_response.dart';
+import 'package:bltvt_mobile_veterinary/screens/Depobilgileri.dart/depo_screen.dart';
+import 'package:bltvt_mobile_veterinary/screens/Depobilgileri.dart/depo_transfer.dart';
+import 'package:bltvt_mobile_veterinary/screens/main_menu/main_menu_screen.dart';
 
 import 'products_detail_view_model.dart';
 import 'package:bltvt_mobile_veterinary/data/responses/get_all_products_response.dart';
@@ -10,63 +14,74 @@ import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class ProductDetailScreen extends StatefulWidget {
+ 
+  String guid;
+ 
   GetAllProductsResponse productDetail;
+  String productG = '';
+  List<depohak> depotur = [];
+  dynamic dsGuidId;
 
-  ProductDetailScreen(this.productDetail, {Key key}) : super(key: key);
+  final String depoguid;
+  ProductDetailScreen(this.productDetail, {this.depoguid, this.guid, Key key})
+      : super(key: key);
 
   @override
   State<ProductDetailScreen> createState() => _ProductDetailScreenState();
 }
 
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
+  Productdetailscreenviewmodel _viewModel;
+  int Productkod;
+  int warehousekod;
   ScrollController scrollController = ScrollController();
+
   @override
   Widget build(BuildContext context) {
-    return BaseWidget<Productdetailscreen>(
-      viewModelBuilder: (p0) => Productdetailscreen(),
+    return BaseWidget<Productdetailscreenviewmodel>(
+      viewModelBuilder: (p0) => Productdetailscreenviewmodel(
+          _viewModel = Productdetailscreenviewmodel(widget.dsGuidId)),
       builder: (context, vm) {
         return Scaffold(
           appBar: AppBar(
             title: const Text("Ürün Detayı"),
             backgroundColor: CustomColor.primaryColor,
             centerTitle: true,
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back),
+              onPressed: () {
+                Navigator.of(context)
+                                  .push(
+                                    MaterialPageRoute(
+                                      builder: (context) => MainMenuScreen()
+                                    ),
+                                  )
+                                  .then(
+                                    (value) => setState(
+                                      () {
+                                        vm.refreshState();
+                                      },
+                                    ),
+                                  );
+              },
+            ),
+            flexibleSpace: Image(
+              image: AssetImage("assets/images/appbar1.jpg"),
+              fit: BoxFit.cover,
+            ),
           ),
-          body: Padding(
-            padding: const EdgeInsets.all(Dimensions.defaultPaddingSize),
-            child: SingleChildScrollView(
-              scrollDirection: Axis.vertical,
-              controller: scrollController,
+          body: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(Dimensions.defaultPaddingSize),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: <Widget>[
-                  const SizedBox(
-                    height: 1,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        width: 80,
-                        height: 80,
-                        padding: EdgeInsets.all(1.0),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10.0),
-                          color: Colors.grey[200],
-                        ),
-                        child: Icon(
-                          Icons.warehouse,
-                          color: CustomColor.primaryColor,
-                          size: 54,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
+                  const SizedBox(height: 5),
                   Row(
                     children: [
                       Expanded(
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: <Widget>[
                             Text(
                               "Ürün Adı",
@@ -86,42 +101,13 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           ],
                         ),
                       ),
-                      const SizedBox(
-                        width: 20,
-                      ),
+                      const SizedBox(width: 5),
                       Expanded(
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             Text(
-                              "Sms ismi",
-                              style: CustomStyle.kTitleStyle,
-                            ),
-                            const Padding(
-                              padding: EdgeInsets.only(top: 5, bottom: 5),
-                              child: Divider(
-                                color: CustomColor.lightGreyColorForDivider,
-                                thickness: 2,
-                              ),
-                            ),
-                            Text(
-                              widget.productDetail.dsProductSmsName ?? "",
-                              style: CustomStyle.defaultStyle,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Column(
-                          children: [
-                            Text(
-                              "Ürün Barkodu",
+                              "Ürün Barkod",
                               style: CustomStyle.kTitleStyle,
                             ),
                             const Padding(
@@ -138,43 +124,17 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           ],
                         ),
                       ),
-                      const SizedBox(
-                        width: 20,
-                      ),
-                      Expanded(
-                        child: Column(
-                          children: [
-                            Text(
-                              "SKT",
-                              style: CustomStyle.kTitleStyle,
-                            ),
-                            const Padding(
-                              padding: EdgeInsets.only(top: 5, bottom: 5),
-                              child: Divider(
-                                color: CustomColor.lightGreyColorForDivider,
-                                thickness: 2,
-                              ),
-                            ),
-                            Text(
-                              widget.productDetail.dtExpiration ??
-                                  "SKT Giriniz",
-                              style: CustomStyle.defaultStyle,
-                            ),
-                          ],
-                        ),
-                      ),
                     ],
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
+                  const SizedBox(height: 5),
                   Row(
                     children: [
                       Expanded(
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             Text(
-                              "Kritik Stok",
+                              "Alış Fiyatı",
                               style: CustomStyle.kTitleStyle,
                             ),
                             const Padding(
@@ -185,79 +145,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                               ),
                             ),
                             Text(
-                              widget.productDetail.mtCriticalStockCount
-                                          .toString() ==
-                                      "null"
+                              widget.productDetail.mtPrice?.toString() == "null"
                                   ? "0"
-                                  : widget.productDetail.mtCriticalStockCount
-                                              .toString()
-                                              .split(".")
-                                              .last ==
-                                          "0"
-                                      ? widget.productDetail
-                                              .mtCriticalStockCount
-                                              .toString()
-                                              .split(".")
-                                              .first +
-                                          " ₺"
-                                      : widget.productDetail
-                                              .mtCriticalStockCount
-                                              .toString() +
-                                          "₺",
-                              style: CustomStyle.defaultStyle,
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(
-                        width: 20,
-                      ),
-                      Expanded(
-                        child: Column(
-                          children: [
-                            Text(
-                              "Vergi",
-                              style: CustomStyle.kTitleStyle,
-                            ),
-                            const Padding(
-                              padding: EdgeInsets.only(top: 5, bottom: 5),
-                              child: Divider(
-                                color: CustomColor.lightGreyColorForDivider,
-                                thickness: 2,
-                              ),
-                            ),
-                            Text(
-                               "%" + widget.productDetail.mtTaxRate.toString()  ?? "",
-                              style: CustomStyle.defaultStyle,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: Column(
-                          children: [
-                            Text(
-                              "Alış fiyatı",
-                              style: CustomStyle.kTitleStyle,
-                            ),
-                            const Padding(
-                              padding: EdgeInsets.only(top: 5, bottom: 5),
-                              child: Divider(
-                                color: CustomColor.lightGreyColorForDivider,
-                                thickness: 2,
-                              ),
-                            ),
-                            Text(
-                              widget.productDetail.mtPrice.toString() == "null"
-                                  ? "0"
-                                  : widget.productDetail.mtPrice
+                                  : widget.productDetail.mtPriceBuying
                                               .toString()
                                               .split(".")
                                               .last ==
@@ -275,11 +165,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           ],
                         ),
                       ),
-                      const SizedBox(
-                        width: 20,
-                      ),
+                      const SizedBox(width: 5),
                       Expanded(
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             Text(
                               "Satış fiyatı",
@@ -293,7 +182,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                               ),
                             ),
                             Text(
-                              widget.productDetail.mtPriceBuying.toString() ==
+                              widget.productDetail.mtPriceBuying?.toString() ==
                                       "null"
                                   ? "0"
                                   : widget.productDetail.mtPrice
@@ -316,85 +205,113 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       ),
                     ],
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
+                  const SizedBox(height: 10),
+                  Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Text(
+                          "Depolar",
+                          style: CustomStyle.kTitleStyle,
+                        ),
+                        const SizedBox(height: 1),
+                        Row(
+                          children: <Widget>[
+                            Expanded(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  ListView.separated(
+                                    shrinkWrap: true,
+                                    separatorBuilder: (context, index) =>
+                                        SizedBox(height: 4),
+                                    itemCount: vm.depopList.length,
+                                    itemBuilder: (context, index) => Center(
+                                      child: ElevatedButton(
+                                        onPressed: () {
+                                          String depoguid =
+                                              vm.depoTuru[index].dsGuidId;
+                                          Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                              builder: (context) => DepoScreen(
+                                                depoguid,
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        style: ElevatedButton.styleFrom(
+                                          primary: CustomColor.accentColor,
+                                          onPrimary: Colors.white,
+                                          padding: EdgeInsets.all(20),
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(5),
+                                          ),
+                                          side: BorderSide(
+                                            color: Colors.grey,
+                                          ),
+                                        ),
+                                        child: Container(
+                                          width: double.infinity,
+                                          child: Text(
+                                            vm.depopList[index].toString(),
+                                            style: CustomStyle.defaultStyle,
+                                            textAlign: TextAlign.center,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ]),
                   Row(
                     children: [
                       Expanded(
                         child: Column(
-                          children: [
-                            Text(
-                              "Birim",
-                              style: CustomStyle.kTitleStyle,
-                            ),
-                            const Padding(
-                              padding: EdgeInsets.only(top: 5, bottom: 5),
-                              child: Divider(
-                                color: CustomColor.lightGreyColorForDivider,
-                                thickness: 2,
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            const SizedBox(height: 30),
+                            ElevatedButton(
+                              style: ButtonStyle(
+                                backgroundColor:
+                                    MaterialStateProperty.all(Colors.red),
                               ),
-                            ),
-                            Text(
-                              widget.productDetail.dtExpiration ?? "dsunitlong",
-                            ),
+                              onPressed: () => Navigator.of(context)
+                                  .push(MaterialPageRoute(
+                                      builder: (context) => WarehouseTransfer(
+                                          widget.productDetail)))
+                                  .then((value) => setState(() {
+                                        vm.refreshState();
+                                      })),
+                              /* onPressed: () => Navigator.of(context)
+                                  .push(
+                                    MaterialPageRoute(
+                                      builder: (context) => WarehouseTransfer(
+                                        
+                                      ),
+                                    ),
+                                  )
+                                  .then(
+                                    (value) => setState(
+                                      () {
+                                        vm.refreshState();
+                                      },
+                                    ),
+                                  ), */
+                              child: const Text('Depolar arası transfer'),
+                            )
                           ],
                         ),
-                      ),
-                      const SizedBox(
-                        width: 20,
-                      ),
-                      Expanded(
-                        child: Column(
-                          children: [
-                            Text(
-                              "Kategori",
-                              style: CustomStyle.kTitleStyle,
-                            ),
-                            const Padding(
-                              padding: EdgeInsets.only(top: 5, bottom: 5),
-                              child: Divider(
-                                color: CustomColor.lightGreyColorForDivider,
-                                thickness: 2,
-                              ),
-                            ),
-                            Text(
-                              widget.productDetail.dbStatus == true
-                                  ? "Aktif"
-                                  : widget.productDetail.dbStatus == false
-                                      ? "Pasif"
-                                      : "null",
-                              style: CustomStyle.defaultStyle,
-                            ),
-                          ],
-                        ),
-                      ),
+                      )
                     ],
-                  ),
+                  )
                 ],
               ),
             ),
-          ),
-          floatingActionButton: SpeedDial(
-            // Ana düğme (FAB) özellikleri
-            child: Icon(Icons.menu),
-            backgroundColor: CustomColor.primaryColor,
-            foregroundColor: Colors.white,
-            elevation: 6,
-            overlayColor: Colors.black,
-            overlayOpacity: 0.5,
-            direction: SpeedDialDirection.up,
-
-            // Menü öğeleri
-            children: [
-              SpeedDialChild(
-                child: Icon(Icons.edit_document),
-                backgroundColor: CustomColor.accentColor,
-                label: 'Düzenle',
-                
-                    
-              ),
-            ],
           ),
         );
       },

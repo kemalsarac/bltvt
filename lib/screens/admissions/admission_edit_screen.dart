@@ -24,8 +24,8 @@ class AdmissionEditScreen extends StatefulWidget {
     this.selectedAppointment,
     this.customerGuid,
     this.patientGuid, {
-   
-    Key key, SearchCalendarResponse appointment,
+    Key key,
+    SearchCalendarResponse appointments,
   }) : super(key: key);
 
   @override
@@ -44,7 +44,6 @@ class _AdmissionEditScreenState extends State<AdmissionEditScreen> {
         widget.selectedAppointment,
         widget.customerGuid,
         widget.patientGuid,
-        
       ),
       builder: (context, vm) {
         return DefaultTabController(
@@ -93,6 +92,10 @@ class _AdmissionEditScreenState extends State<AdmissionEditScreen> {
                 ],
               ),
               title: const Text('Randevu Bilgileri'),
+              flexibleSpace: Image(
+                image: AssetImage("assets/images/appbar1.jpg"),
+                fit: BoxFit.cover,
+              ),
             ),
             body: Column(
               children: [
@@ -127,7 +130,6 @@ class _TabPage1State extends State<TabPage1>
   AdmissionEditScreenViewModel vm;
 
   _TabPage1State(this.vm);
-  String selectedDsPatient;
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -161,16 +163,16 @@ class _TabPage1State extends State<TabPage1>
                             borderRadius: BorderRadius.circular(5.0),
                           ),
                         ),
-                        isEmpty: selectedDsPatient == null ?? true,
+                        isEmpty: vm.selectedPatient == null ?? true,
                         child: DropdownButtonHideUnderline(
                           child: DropdownButton<String>(
                             isExpanded: true,
-                            value: selectedDsPatient,
+                            value: vm.selectedPatient,
                             isDense: true,
                             onChanged: (String newValue) async {
                               if (newValue != null) {
                                 setState(() {
-                                  selectedDsPatient = newValue;
+                                  vm.selectedPatient = newValue;
                                   state.didChange(newValue);
                                   vm.refreshState();
                                 });
@@ -250,7 +252,7 @@ class _TabPage1State extends State<TabPage1>
                           ),
                         ),
                       );
-                    }, 
+                    },
                   ),
                 ],
               ),
@@ -379,11 +381,12 @@ class _TabPage1State extends State<TabPage1>
                                   vm.refreshState();
                                 });
                               },
-                              items: vm.vaccinesList.map((String value) {
+                              items: vm.productList
+                                  .map<DropdownMenuItem<String>>((product) {
                                 return DropdownMenuItem<String>(
-                                  value: value,
+                                  value: product.dsProduct,
                                   child: Text(
-                                    value,
+                                    product.dsProduct,
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 );

@@ -2,10 +2,12 @@ import 'dart:async';
 import 'package:bltvt_mobile_veterinary/data/requests/save_customer_request.dart';
 import 'package:bltvt_mobile_veterinary/data/requests/update_admission_status_request.dart';
 import 'package:bltvt_mobile_veterinary/data/requests/update_patient_status_request.dart';
+import 'package:bltvt_mobile_veterinary/data/requests/update_request.dart';
 import 'package:bltvt_mobile_veterinary/data/responses/get_appointment_by_id_patient_response.dart';
 import 'package:bltvt_mobile_veterinary/data/responses/save_patient_response.dart';
 import 'package:bltvt_mobile_veterinary/data/responses/update_admission_status_response.dart';
 import 'package:bltvt_mobile_veterinary/data/responses/update_patient_status_response.dart';
+import 'package:bltvt_mobile_veterinary/data/responses/update_response.dart';
 import 'package:bltvt_mobile_veterinary/screens/_base/base_view_model.dart';
 import 'package:bltvt_mobile_veterinary/services/general_api_service.dart';
 
@@ -16,7 +18,6 @@ class PatientProfileScreenViewModel extends BaseViewModel {
   SavePatientResponse patientDetail;
   List<GetAppointmentByIdPatientResponse> appointments = [];
   List<String> appointmentTypes = ["Bekleyen", "Onaylanan", "İptal"];
-
   List<GetDashboardsAppointmentsResponse> filteredAppointments = [];
   PatientProfileScreenViewModel(this.patientGuid, this.customerDetail);
 
@@ -48,6 +49,16 @@ class PatientProfileScreenViewModel extends BaseViewModel {
       return false;
     }
   }
+    Future<bool> updateHayvan(updateRequest request) async {
+    updateResponse result = await apiService.updateHayvan(request);
+
+    if (result.messageList.isNotEmpty && result.messageList.first.message == "Kaydedildi") {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
 
   String getAppointmentName(int idAdmissionType) {
     switch (idAdmissionType) {

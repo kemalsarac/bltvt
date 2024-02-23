@@ -8,6 +8,7 @@ import 'package:bltvt_mobile_veterinary/screens/admissions/admissions_screen_vie
 import 'package:bltvt_mobile_veterinary/utils/colors.dart';
 import 'package:bltvt_mobile_veterinary/utils/custom_style.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 // ignore: depend_on_referenced_packages
 import 'package:intl/intl.dart';
 
@@ -25,22 +26,14 @@ class AdmissionsScreen extends StatelessWidget {
           length: 2,
           initialIndex: 0,
           child: Scaffold(
-            /*floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-            floatingActionButton: FloatingActionButton.extended(
-              onPressed: () => Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => const MoreAdmissionsScreen(),
-                ),
-              ),
-              backgroundColor: CustomColor.primaryColor,
-              label: const Text("Daha Fazla"),
-            ), */
+            
             appBar: AppBar(
               title: const Text("Gelecek Randevular"),
               backgroundColor: CustomColor.primaryColor,
               bottom: const TabBar(
                 labelColor: Colors.white,
                 indicatorColor: CustomColor.primaryColor,
+                
                 tabs: [
                   Tab(
                     text: "Gelecek Randevular",
@@ -49,6 +42,10 @@ class AdmissionsScreen extends StatelessWidget {
                     text: "Geçmiş Randevular",
                   ),
                 ],
+              ),
+              flexibleSpace: Image(
+                image: AssetImage("assets/images/appbar1.jpg"),
+                fit: BoxFit.cover,
               ),
             ),
             body: Column(
@@ -106,8 +103,10 @@ class TabPage1 extends StatefulWidget {
   final AdmissionsScreenViewModel vm;
   final String patientGuid;
   final SearchCalendarResponse appointment;
+  final bool isRandevuOnaylandi;
 
-  const TabPage1(this.vm, {Key key, this.patientGuid, this.appointment})
+  const TabPage1(this.vm,
+      {Key key, this.patientGuid, this.appointment, this.isRandevuOnaylandi})
       : super(key: key);
 
   @override
@@ -115,14 +114,12 @@ class TabPage1 extends StatefulWidget {
 }
 
 class _TabPage1State extends State<TabPage1>
-    with AutomaticKeepAliveClientMixin {
+    with AutomaticKeepAliveClientMixin
+     {
   AdmissionsScreenViewModel vm;
+  List<bool> isRandevuOnaylandiList;
 
-  @override
-  void initState() {
-    super.initState();
-    vm = widget.vm;
-  }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -141,29 +138,10 @@ class _TabPage1State extends State<TabPage1>
             padding: const EdgeInsets.only(bottom: 15),
             child: GestureDetector(
               onTap: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text("Randevu Onayı"),
-                      content: Text("Randevu onaylansın mı?"),
-                      actions: [
-                        ElevatedButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: Text("Onayla"),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: Text("İptal Et"),
-                        ),
-                      ], //if(randevu onaylı ise ekrana gelme falan filan)
-                    );
-                  },
-                );
+                setState(() {
+                  isRandevuOnaylandiList[index] =
+                      !isRandevuOnaylandiList[index];
+                });
               },
               child: Container(
                 padding: const EdgeInsets.symmetric(
@@ -188,7 +166,7 @@ class _TabPage1State extends State<TabPage1>
                                 (appointment.dsCustomerAndPatient ?? "")
                                             .length >
                                         13
-                                    ? "${appointment.dsCustomerAndPatient.substring(0, 13)}..."
+                                    ? "${appointment.dsCustomerAndPatient.substring(0, 11)}..."
                                     : appointment.dsCustomerAndPatient,
                                 style: CustomStyle.defaultStyle,
                               ),
@@ -200,7 +178,7 @@ class _TabPage1State extends State<TabPage1>
                           Row(
                             children: [
                               Text(
-                                appointment.dsCustomerAndPatient ?? "",
+                                "Telefon:" + appointment.dsPhoneNo ?? "",
                                 style: CustomStyle.textStyle,
                               ),
                             ],
@@ -229,18 +207,10 @@ class _TabPage1State extends State<TabPage1>
                           const SizedBox(
                             height: 5,
                           ),
-                          /* Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Text(
-                                appointment.dsProduct ?? "",
-                                style: CustomStyle.textStyle,
-                              ),
-                            ],
-                          ), */
                         ],
                       ),
                     ),
+                   
                   ],
                 ),
               ),
@@ -254,6 +224,7 @@ class _TabPage1State extends State<TabPage1>
   @override
   bool get wantKeepAlive => true;
 }
+
 
 class TabPage2 extends StatefulWidget {
   final AdmissionsScreenViewModel vm;
@@ -293,35 +264,12 @@ class _TabPage2State extends State<TabPage2>
           return Padding(
             padding: const EdgeInsets.only(bottom: 15),
             child: GestureDetector(
-               onTap: () {
-                showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text("Randevu Onayı"),
-                      content: Text("Randevu onaylansın mı?"),
-                      actions: [
-                        ElevatedButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: Text("Onayla"),
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: Text("İptal Et"),
-                        ),
-                        //if(randevu onaylı ise ekrana gelme falan filan)
-                      ],
-                    );
-                  },
-                );
+              onTap: () {
+             
               },
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 10.0, vertical: 10.0),
                 decoration: BoxDecoration(
                   color: CustomColor.accentColor,
                   border: Border.all(
@@ -339,7 +287,8 @@ class _TabPage2State extends State<TabPage2>
                           Row(
                             children: [
                               Text(
-                                (appointment.dsCustomerAndPatient ?? "").length >
+                                (appointment.dsCustomerAndPatient ?? "")
+                                            .length >
                                         13
                                     ? "${appointment.dsCustomerAndPatient.substring(0, 13)}..."
                                     : appointment.dsCustomerAndPatient,
@@ -353,7 +302,7 @@ class _TabPage2State extends State<TabPage2>
                           Row(
                             children: [
                               Text(
-                                appointment.dsCustomerAndPatient ?? "",
+                                "Telefon:" + appointment.dsPhoneNo ?? "",
                                 style: CustomStyle.textStyle,
                               ),
                             ],
@@ -382,15 +331,7 @@ class _TabPage2State extends State<TabPage2>
                           const SizedBox(
                             height: 5,
                           ),
-                          /* Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Text(
-                                appointment.dsProduct ?? "",
-                                style: CustomStyle.textStyle,
-                              ),
-                            ],
-                          ), */
+                        
                         ],
                       ),
                     ),

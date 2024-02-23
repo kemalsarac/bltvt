@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'package:bltvt_mobile_veterinary/data/requests/get_all_products_request.dart';
 import 'package:bltvt_mobile_veterinary/data/requests/save_appointment_request.dart';
 import 'package:bltvt_mobile_veterinary/data/requests/update_appointment_info_request.dart';
+import 'package:bltvt_mobile_veterinary/data/responses/get_all_products_response.dart';
 import 'package:bltvt_mobile_veterinary/data/responses/get_appointment_by_id_patient_response.dart';
 import 'package:bltvt_mobile_veterinary/data/responses/get_product_vaccine_response.dart';
 import 'package:bltvt_mobile_veterinary/data/responses/save_appointment_response.dart';
@@ -26,7 +28,10 @@ class AdmissionEditScreenViewModel extends BaseViewModel {
   GetAppointmentByIdPatientResponse selectedAppointment;
   SaveCustomerRequest customerDetail;
   List<SavePatientResponse> customerPatients;
-  
+  String selectedPatient;
+  Timer _searchDebounce;
+  List<GetAllProductsResponse> productList;
+  List<GetAllProductsResponse> filteredList;
 
   AdmissionEditScreenViewModel(this.admissionGuid, this.selectedAppointment, this.customerGuid, this.patientGuid);
 
@@ -36,24 +41,30 @@ class AdmissionEditScreenViewModel extends BaseViewModel {
     appointments = await apiService.getSearchCalendarResults();
     customerDetail = await  apiService.getCustomerByGuid(customerGuid);
     customerPatients = customerDetail.patients.where((element) => element.valid == true).toList();
+    productList = await apiService.getAllProducts(
+      GetAllProductsRequest(
+        status: 2,
+        startIndex: 0,
+        searchText: "",
+        sortDirectionAsc: true,
+        sortColumnIndex: 0,
+        sortColumnName: "",
+        totalRecordCount: 50,
+        searchType: 1,
+      ),
+    );
+    filteredList = productList;
    
-   
-    for (var element in vaccines) {
-      vaccinesList.add(element.dsProduct);
-    }
     if (admissionGuid == '') {
       pickerDate = DateTime.now();
-      SavePatientResponse patient = await apiService.getPatientByGuid(customerGuid, patientGuid);
-      selectedAppointment.idCustomer = patient.idCustomer;
-      selectedAppointment.idPatient = patient.idPatient;
     } else {
       pickerDate =
           selectedAppointment.dtAdmission == null ? DateTime.now() : DateTime.parse(selectedAppointment.dtAdmission);
       selectedAdmissionType = getAppointmentName(selectedAppointment.idAdmissionType);
       if (selectedAppointment.idAdmissionType == 2) {
-        selectedVaccine = vaccinesList.where((element) => element == selectedAppointment.dsProduct).first;
+        selectedVaccine = productList.where((element) => element.dsProduct == selectedAppointment.dsProduct).first.dsProduct;
       } else {
-        selectedVaccine = vaccinesList.first;
+        selectedVaccine = productList.first.dsProduct;
       }
     }
   } 
@@ -86,7 +97,7 @@ class AdmissionEditScreenViewModel extends BaseViewModel {
     updateRequest.flDetail = false;
     if (selectedVaccine != null && selectedVaccine.isNotEmpty) {
       updateRequest.dsProduct = selectedVaccine;
-      updateRequest.idVaccient = vaccines.where((element) => element.dsProduct == selectedVaccine).first.idProduct;
+      updateRequest.idVaccient = productList.where((element) => element.dsProduct == selectedVaccine).first.idProduct;
     }
 
     UpdateAppointmentInfoResponse updateResponse = await apiService.updateAppointmentInfo(updateRequest);
@@ -101,12 +112,13 @@ class AdmissionEditScreenViewModel extends BaseViewModel {
     saveRequest.isSendSms = false;
     saveRequest.idStatus = 2;
     if (selectedVaccine != null && selectedVaccine.isNotEmpty) {
-      saveRequest.idVaccient = vaccines.where((element) => element.dsProduct == selectedVaccine).first.idProduct;
+      saveRequest.idVaccient = productList.where((element) => element.dsProduct == selectedVaccine).first.idProduct;
     }
     saveRequest.dtAdmission = pickerDate.toString();
-    saveRequest.idPatient = selectedAppointment.idPatient;
     saveRequest.idAdmissionType = getAppointmentId(selectedAdmissionType).toString();
-    saveRequest.idCustomer = selectedAppointment.idCustomer;
+    SavePatientResponse patient = customerPatients.where((element) => element.dsGuidId == selectedPatient).first;
+    saveRequest.idPatient = patient.idPatient;
+    saveRequest.idCustomer = patient.idCustomer;
 
     SaveAppointmentResponse saveResponse = await apiService.saveAppointment(saveRequest);
 
@@ -173,5 +185,60 @@ class AdmissionEditScreenViewModel extends BaseViewModel {
       default:
         return null;
     }
+  }
+  Future loadMoreProducts(String search, int retrievedCount) async {
+    var newProducts = await apiService.getAllProducts(
+      GetAllProductsRequest(
+          searchText: search,
+          searchType: 1,
+          status: 2,
+          totalRecordCount: 50,
+          sortColumnIndex: 0,
+          sortColumnName: "",
+          sortDirectionAsc: true,
+          startIndex: retrievedCount),
+    );
+    productList.addAll(newProducts);
+
+    refreshState();
+  }
+
+  void searchText(String text) {
+    if (_searchDebounce?.isActive ?? false) _searchDebounce.cancel();
+
+    _searchDebounce = Timer(
+      const Duration(milliseconds: 500),
+      () async {
+        if ((text?.length ?? 0) > 2) {
+          productList = await apiService.getAllProducts(
+            GetAllProductsRequest(
+              status: 2,
+              startIndex: 0,
+              searchText: text,
+              sortDirectionAsc: true,
+              sortColumnIndex: 0,
+              sortColumnName: "",
+              totalRecordCount: 50,
+              searchType: 1,
+            ),
+          );
+          // this.refreshState();
+        } else {
+          productList = await apiService.getAllProducts(
+            GetAllProductsRequest(
+              status: 2,
+              startIndex: 0,
+              searchText: "",
+              sortDirectionAsc: true,
+              sortColumnIndex: 0,
+              sortColumnName: "",
+              totalRecordCount: 50,
+              searchType: 1,
+            ),
+          );
+        }
+        refreshState();
+      },
+    );
   }
 }

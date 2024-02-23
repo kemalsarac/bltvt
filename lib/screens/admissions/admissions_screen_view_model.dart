@@ -3,7 +3,6 @@ import 'package:bltvt_mobile_veterinary/data/requests/save_customer_request.dart
 import 'package:bltvt_mobile_veterinary/data/responses/search_calendar_response.dart';
 import 'package:bltvt_mobile_veterinary/screens/_base/base_view_model.dart';
 import 'package:bltvt_mobile_veterinary/services/general_api_service.dart';
-import 'package:bltvt_mobile_veterinary/data/responses/get_dashboards_appointments_response.dart';
 import 'package:flutter/material.dart';
 
 class AdmissionsScreenViewModel extends BaseViewModel {
@@ -42,7 +41,6 @@ class AdmissionsScreenViewModel extends BaseViewModel {
         futureAppointments.add(appointment);
       }
     }
-
     return futureAppointments;
   }
 

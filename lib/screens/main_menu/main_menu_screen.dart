@@ -1,5 +1,6 @@
 import 'package:bltvt_mobile_veterinary/screens/_base/base_widget.dart';
 import 'package:bltvt_mobile_veterinary/screens/admissions/admissions_screen.dart';
+import 'package:bltvt_mobile_veterinary/screens/bilanco_screen/bilanco_screen.dart';
 import 'package:bltvt_mobile_veterinary/screens/customers/customers_screen.dart';
 import 'package:bltvt_mobile_veterinary/screens/main_menu/main_menu_view_model.dart';
 import 'package:bltvt_mobile_veterinary/screens/products/products_screen.dart';
@@ -28,11 +29,24 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
         viewModel = vm;
         return Scaffold(
           appBar: AppBar(
-            title: const Text("BulutVet"),
+            title: Row(
+              children: [
+                Image.asset(
+                  'assets/images/bulutvet-logo-white.png',
+                  height: 30,
+                  width: 102,
+                  fit: BoxFit.cover,
+                ),
+              ],
+            ),
             centerTitle: false,
-            backgroundColor: CustomColor.primaryColor,
+            backgroundColor: Colors.transparent,
+            elevation: 0,
             automaticallyImplyLeading: false,
-            //actions: [buildAppBarColumn(vm) ],
+            flexibleSpace: Image(
+              image: AssetImage("assets/images/appbar.jpg"),
+              fit: BoxFit.cover,
+            ),
           ),
           backgroundColor: CustomColor.accentColor,
           body: Padding(
@@ -41,13 +55,18 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Container(
-                  height: 30.0, 
-                  color: Color.fromARGB(255, 255, 255, 255), 
+                  height: 30.0,
+                  color: Color.fromARGB(255, 255, 255, 255),
                   alignment: Alignment.center,
-                  child: Text("Sms Bakiyesi: ${vm.smsBalance.toInt()}" "    "
-            "Günlük Ciro: ${vm.dashboardsResponse.total.toInt()} ₺" ,style:TextStyle(fontStyle: FontStyle.italic) ),
+                  child: Text(
+                    "Günlük Randevu: ${vm.hesaptablosu.appointmentRate.toInt()}    ",
+                    style: const TextStyle(
+                      fontSize: 15,
+                      color: Color.fromARGB(255, 0, 0, 0),
+                    ),
+                  ),
                 ),
-                SizedBox(height: 2.0), 
+                SizedBox(height: 2.0),
                 Expanded(
                   child: GridView.count(
                     mainAxisSpacing: 10.scaleByHeight(),
@@ -55,11 +74,15 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
                     crossAxisCount: 2,
                     children: const <Widget>[
                       MainMenuItemWidget('Müşteriler', Icons.groups),
-                      MainMenuItemWidget('Randevular', Icons.date_range_outlined),
+                      MainMenuItemWidget(
+                          'Randevular', Icons.date_range_outlined),
                       MainMenuItemWidget('Ürünler', Icons.shopping_bag),
                       MainMenuItemWidget('Aşılar', Icons.vaccines),
                       //MainMenuItemWidget('Cüzdan', Icons.wallet),
                       MainMenuItemWidget('Profilim', Icons.person),
+
+                      MainMenuItemWidget(
+                          'Bilanço', Icons.account_balance_wallet_rounded),
                     ],
                   ),
                 ),
@@ -72,7 +95,7 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
   }
 }
 
-  /*Widget buildAppBarColumn(MainMenuViewModel vm) {
+/*Widget buildAppBarColumn(MainMenuViewModel vm) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
       mainAxisAlignment: MainAxisAlignment.center,
@@ -96,7 +119,6 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
       ),
     );
   } */
-
 
 class MainMenuItemWidget extends StatelessWidget {
   const MainMenuItemWidget(this.title, this.icon, {Key key}) : super(key: key);
@@ -123,6 +145,9 @@ class MainMenuItemWidget extends StatelessWidget {
             break;
           case "Profilim":
             _navigateToScreen(context, ProfileScreen());
+            break;
+          case "Bilanço":
+            _navigateToScreen(context, BilancoScreen());
             break;
         }
       },

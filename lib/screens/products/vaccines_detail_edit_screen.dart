@@ -1,119 +1,152 @@
-/*
-import 'package:bltvt_mobile_veterinary/data/responses/get_all_products_response.dart';
-import 'package:bltvt_mobile_veterinary/data/responses/get_product_vaccine_response.dart';
-import 'package:bltvt_mobile_veterinary/screens/_base/base_widget.dart';
+
 import 'package:bltvt_mobile_veterinary/screens/products/vaccines_detail_edit_view_model.dart';
-import 'package:bltvt_mobile_veterinary/screens/products/vaccines_detail_screen.dart';
 import 'package:bltvt_mobile_veterinary/utils/colors.dart';
-import 'package:bltvt_mobile_veterinary/utils/custom_style.dart';
-import 'package:bltvt_mobile_veterinary/utils/dimensions.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
-// ignore: must_be_immutable
-class VaccinesDetaileditScreen extends StatefulWidget {
-  GetAllProductsResponse vaccineDetail;
+class VaccinesdetaileditScreen extends StatelessWidget {
+  final VaccinesdetaileditviewScreen vm;
 
-  VaccinesDetaileditScreen(this.vaccineDetail, {Key key}) : super(key: key);
+ VaccinesdetaileditScreen({Key key, this.vm}) : super(key: key);
 
-  @override
-  State<VaccinesDetaileditScreen> createState() =>
-      _VaccinesDetaileditScreenState();
-}
-
-class _VaccinesDetaileditScreenState extends State<VaccinesDetaileditScreen> {
-  ScrollController scrollController = ScrollController();
-  final GlobalKey<FormState> _keyForm = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    return BaseWidget<Vaccinesdetaileditview>(
-      viewModelBuilder: (p0) => Vaccinesdetaileditview(),
-      builder: (context, vm) {
-        return DefaultTabController(
-            length: 3,
-            initialIndex: 0,
-            child: Form(
-                key: _keyForm,
-                child: Scaffold(
-                  floatingActionButtonLocation:
-                      FloatingActionButtonLocation.centerFloat,
-                  floatingActionButton:
-                      FloatingActionButton.extended(onPressed: () async {
-                    var flValid = _keyForm.currentState.validate();
-                    if (widget.vaccineDetail.dsProduct == null)
-                      widget.vaccineDetail.dsProduct = '';
+    return DefaultTabController(
+          length: 1,
+          initialIndex: 0,
+          child: Form(
+            
+            child: Scaffold(
+              floatingActionButtonLocation:
+                  FloatingActionButtonLocation.centerFloat,
+              floatingActionButton: FloatingActionButton.extended(
+                onPressed: () async {
+                 
 
-                    if (widget.vaccineDetail.dsProductSmsName == null)
-                      widget.vaccineDetail.dsProductSmsName = '';
-
-                    if (widget.vaccineDetail.dsProductCode == null)
-                      widget.vaccineDetail.dsProductCode = '';
-
-                    if (widget.vaccineDetail.dtExpiration == null)
-                      widget.vaccineDetail.dtExpiration = '';
-
-                    if (widget.vaccineDetail.mtCriticalStockCount == null)
-                      widget.vaccineDetail.mtCriticalStockCount = '' as int;
-
-                    if (widget.vaccineDetail.mtTaxRate == null)
-                      widget.vaccineDetail.mtTaxRate = '' as int;
-
-                    if (widget.vaccineDetail.mtPriceBuying == null)
-                      widget.vaccineDetail.mtPriceBuying = '' as double;
-                    if (widget.vaccineDetail.mtPrice == null)
-                      widget.vaccineDetail.mtPrice = '' as double;
-
-                    var result = GetProductVaccineResponse();
-                     if (flValid) {
-                    if (widget.vaccineDetail == '') {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => VaccinesDetailScreen('', '',
-                              widget.vaccineDetail.idProduct, widget.vaccineDetail, true),
-                        ),
-                      );
-                    } else {
-                      result = await vm.vaccineDetail;
-
-                      if (result.dsGuidId != null) {
-                        Fluttertoast.showToast(
-                          msg: "Müşteri kaydedildi",
-                          backgroundColor: Colors.green,
-                          textColor: Colors.white,
-                          fontSize: 20,
-                          toastLength: Toast.LENGTH_LONG,
-                        );
-
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => CustomerProfileScreen(guid)));
-                      } else {
-                        for (var element in result.messageList) {
-                          Fluttertoast.showToast(
-                            msg: element.message,
-                            backgroundColor: Colors.red,
-                            textColor: Colors.white,
-                            fontSize: 20,
-                            toastLength: Toast.LENGTH_LONG,
-                          );
-                        }
-                      }
-                    }
-                    vm.refreshState();
-                  } else {
-                    Fluttertoast.showToast(
-                      msg: "Lütfen Eksik Bilgileri Doldurunuz!",
-                      backgroundColor: Colors.red,
-                      textColor: Colors.white,
-                      fontSize: 20,
-                      toastLength: Toast.LENGTH_LONG,
-                    );
-                  }
+                
+                },
+                backgroundColor: CustomColor.primaryColor,
+                label: const Text("KAYDET"),
+                icon: const Icon(
+                  Icons.save,
+                  color: Colors.white,
+                  size: 30,
+                ),
+              ),
+              appBar: AppBar(
+                backgroundColor: CustomColor.primaryColor,
+                bottom: const TabBar(
+                  labelColor: Colors.white,
+                  indicatorColor: CustomColor.primaryColor,
+                  tabs: [
+                    Tab(
+                      text: "TANIM",
+                    ),
                     
-                  }),
-                )));
-      },
-    );
+                  ],
+                ),
+                title: const Text('Ürün Bilgileri'),
+                flexibleSpace: Image(
+                image: AssetImage("assets/images/appbar1.jpg"),
+                fit: BoxFit.cover,
+              ),
+              ),
+              body: TabBarView(
+                children: [
+                  TabPage1(vm),
+                ],
+              ),
+            ),
+          ),
+        );
   }
 }
-*/
+
+class TabPage1 extends StatefulWidget {
+  final VaccinesdetaileditviewScreen vm;
+
+  const TabPage1(this.vm, {Key key}) : super(key: key);
+
+  @override
+  State<TabPage1> createState() => _TabPage1State(vm);
+}
+
+class _TabPage1State extends State<TabPage1>
+    with AutomaticKeepAliveClientMixin {
+  VaccinesdetaileditviewScreen vm;
+
+  _TabPage1State(this.vm);
+
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: ListView(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(bottom: 20.0),
+              child: TextFormField(
+                maxLength: 100,
+                decoration: const InputDecoration(
+                  hintText: 'Ürün Adı',
+                  prefixIcon: Icon(Icons.production_quantity_limits),
+                ),
+                validator: (val) {
+                  if (val.isEmpty) {
+                    return "Ürün Adı boş olamaz";
+                  }
+                },
+              ),
+            ),
+             Padding(
+              padding: const EdgeInsets.only(bottom: 20.0),
+              child: TextFormField(
+              
+                // controller: _name,
+                maxLength: 100,
+                decoration: const InputDecoration(
+                  hintText: 'Ürün Barkod',
+                  prefixIcon: Icon(Icons.barcode_reader),
+                ),
+               
+                  
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 20.0),
+              child: TextFormField(
+                
+                // controller: _name,
+                maxLength: 100,
+                decoration: const InputDecoration(
+                  hintText: 'Alış Fiyatı',
+                  prefixIcon: Icon(Icons.monetization_on_outlined),
+                ),
+                
+                
+              ),
+            ),
+             Padding(
+              padding: const EdgeInsets.only(bottom: 20.0),
+              child: TextFormField(
+                
+                // controller: _name,
+                maxLength: 100,
+                decoration: const InputDecoration(
+                  hintText: 'Satış Fiyatı',
+                  prefixIcon: Icon(Icons.monetization_on),
+                ),
+                
+                
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  @override
+  bool get wantKeepAlive => true;
+}

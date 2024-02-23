@@ -42,7 +42,7 @@ abstract class BaseViewModel with ChangeNotifier {
 
   bool get isInitialized => _isInitialized;
 
-  BaseViewModel({bool runInitAutomatically = true}) {
+  BaseViewModel({bool runInitAutomatically = true, Key key}) {
     if (runInitAutomatically) {
       load();
     }
@@ -57,8 +57,6 @@ abstract class BaseViewModel with ChangeNotifier {
     await _initState;
     _isInitialized = true;
     s.stop();
-
-    //Only print if it takes more than a frame
     if (printViewModelInitTimingsToConsole && s.elapsedMilliseconds > 16) {
       debugPrint("${toString()} init time : ${s.elapsedMilliseconds} ms");
     }

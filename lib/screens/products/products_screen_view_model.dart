@@ -10,6 +10,7 @@ class ProductsScreenViewModel extends BaseViewModel {
   List<GetAllProductsResponse> productList;
   List<GetAllProductsResponse> filteredList;
 
+
   @override
   FutureOr<void> init() async {
     productList = await apiService.getAllProducts(

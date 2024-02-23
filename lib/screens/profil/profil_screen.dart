@@ -16,10 +16,24 @@ class ProfileScreen extends StatelessWidget {
         return Scaffold(
           backgroundColor: CustomColor.accentColor,
           appBar: AppBar(
-            title: const Text("BulutVet"),
+            title: Row(
+            children: [
+              Image.asset(
+                'assets/images/bulutvet-logo-white.png', 
+                height: 30,  
+                width: 102,   
+                fit: BoxFit.cover,
+              ),
+             
+            ],
+          ),
             centerTitle: false,
             backgroundColor: CustomColor.primaryColor,
             automaticallyImplyLeading: false,
+            flexibleSpace: Image(
+                image: AssetImage("assets/images/appbar1.jpg"),
+                fit: BoxFit.cover,
+              ),
           ),
           body: SingleChildScrollView(
             child: Column(
@@ -349,50 +363,17 @@ class _ProfileInfoCardState extends State<ProfileInfoCard> {
   bool _isEditing = false;
 
   @override
-  void initState() {
+/*  void initState() {
     super.initState();
     _controller = TextEditingController(text: widget.initialValue);
-  }
+  } */
 
   void _editValue() {
     setState(() {
       _isEditing = !_isEditing;
     });
     if (_isEditing) {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            content: TextFormField(
-              controller: _controller,
-              decoration: InputDecoration(
-                labelText: widget.label,
-                border: const OutlineInputBorder(),
-              ),
-            ),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  setState(() {
-                    _isEditing = false;
-                  });
-                },
-                child: const Text('İptal'),
-              ),
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                  setState(() {
-                    _isEditing = false;
-                  });
-                },
-                child: const Text('Kaydet'),
-              ),
-            ],
-          );
-        },
-      );
+      
     }
   }
 
@@ -420,11 +401,7 @@ class _ProfileInfoCardState extends State<ProfileInfoCard> {
                 },
               ),
             ),
-            IconButton(
-              onPressed: _editValue,
-              icon: const Icon(Icons.settings),
-              tooltip: 'Settings',
-            ),
+            
           ],
         ),
       ),

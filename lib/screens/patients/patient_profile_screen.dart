@@ -1,6 +1,7 @@
 import 'package:bltvt_mobile_veterinary/data/requests/save_customer_request.dart';
 import 'package:bltvt_mobile_veterinary/data/requests/update_admission_status_request.dart';
 import 'package:bltvt_mobile_veterinary/data/requests/update_patient_status_request.dart';
+import 'package:bltvt_mobile_veterinary/data/requests/update_request.dart';
 import 'package:bltvt_mobile_veterinary/data/responses/get_appointment_by_id_patient_response.dart';
 import 'package:bltvt_mobile_veterinary/screens/_base/base_widget.dart';
 import 'package:bltvt_mobile_veterinary/screens/admissions/admission_edit_screen.dart';
@@ -83,11 +84,12 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
                       .push(
                         MaterialPageRoute(
                           builder: (context) => AdmissionTestScreen(
-                            "",
-                            GetAppointmentByIdPatientResponse(),
-                            vm.customerDetail.dsGuidId,
-                            widget.patientGuid,
-                          ),
+                              vm.patientDetail.dsPatientName ?? "",
+                              "",
+                              GetAppointmentByIdPatientResponse(),
+                              vm.customerDetail.dsGuidId,
+                              widget.patientGuid,
+                              vm.patientDetail.dsPatientName),
                         ),
                       )
                       .then(
@@ -144,16 +146,15 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
                               children: <Widget>[
                                 GestureDetector(
                                   onTap: () async {
-                                    bool result = await vm.updatePatientStatus(
-                                      UpdatePatientStatusRequest(
-                                        dsGuidId: vm.patientDetail.dsGuidId,
-                                        idCustomer: vm.patientDetail.idCustomer,
-                                        dsPatientName:
-                                            vm.patientDetail.dsPatientName,
-                                        idPatient: vm.patientDetail.idPatient,
-                                        valid: false,
-                                      ),
-                                    );
+                                    bool result =
+                                        await vm.updateHayvan(updateRequest(
+                                      dsGuidId: vm.patientDetail.dsGuidId,
+                                      idCustomer: vm.patientDetail.idCustomer,
+                                      dsPatientName:
+                                          vm.patientDetail.dsPatientName,
+                                      idPatient: vm.patientDetail.idPatient,
+                                      valid: false,
+                                    ));
 
                                     if (result) {
                                       Fluttertoast.showToast(
@@ -216,6 +217,10 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
               title: const Text("Hasta Detayı"),
               backgroundColor: CustomColor.primaryColor,
               centerTitle: true,
+              flexibleSpace: Image(
+                image: AssetImage("assets/images/appbar1.jpg"),
+                fit: BoxFit.cover,
+              ),
             ),
             backgroundColor: Colors.white,
             body: Padding(

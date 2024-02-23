@@ -40,7 +40,7 @@ class _CustomersScreenState extends State<CustomersScreen> with ChangeNotifier {
         viewModel = vm;
         return Scaffold(
           appBar: buildAppBar(),
-          body: Column(
+          body:  Column(
             children: <Widget>[
               Container(
                 child: buildSearch(context, vm),
@@ -72,6 +72,10 @@ class _CustomersScreenState extends State<CustomersScreen> with ChangeNotifier {
       title: const Text("Müşteriler"),
       backgroundColor: CustomColor.primaryColor,
       centerTitle: true,
+      flexibleSpace: Image(
+                image: AssetImage("assets/images/appbar1.jpg"),
+                fit: BoxFit.cover,
+              ),
     );
   }
 

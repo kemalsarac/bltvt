@@ -53,17 +53,26 @@ class _SignInScreenState extends State<SignInScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    ScreenUtil.init(context);
-    return Scaffold(
-      backgroundColor: CustomColor.primaryColor,
-      body: SizedBox(
+Widget build(BuildContext context) {
+  ScreenUtil.init(context);
+  return Scaffold(
+    backgroundColor: CustomColor.primaryColor,
+    body: Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('assets/images/welcome_page.png'),
+          fit: BoxFit.cover,
+        ),
+      ),
+      child: SizedBox(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         child: bodyWidget(context),
       ),
-    );
-  }
+    ),
+  );
+}
+
 
   Widget bodyWidget(BuildContext context) {
     return Column(
@@ -86,12 +95,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     child: Container(
                       padding: const EdgeInsets.all(10),
                       decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: CustomColor.primaryColor,
-                          width: 3.0,
-                          style: BorderStyle.solid,
-                        ),
+                        
                       ),
                       child: Hero(
                         tag: "logo-hero",
@@ -251,8 +255,8 @@ class _SignInScreenState extends State<SignInScreen> {
                           onPressed: () async {
                             if (kDebugMode) {
                               emailController.text =
-                                  "okan.akad@kodiks.com";
-                              passwordController.text = "Kodiks2023";
+                                  "hasan.seremet@hotmail.com";
+                              passwordController.text = "ferrari1";
                             }
                             if (emailController.value.text.isNotEmpty &&
                                 passwordController.value.text.isNotEmpty) {
@@ -271,13 +275,13 @@ class _SignInScreenState extends State<SignInScreen> {
                           },
                           style: ButtonStyle(
                             foregroundColor: MaterialStateProperty.all(
-                                CustomColor.primaryColor),
+                                Color.fromARGB(255, 29, 55, 201)),
                             shape: MaterialStateProperty.all<
                                 RoundedRectangleBorder>(
                               RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(30.0),
                                 side: const BorderSide(
-                                  color: Colors.white,
+                                  color: Color.fromARGB(255, 54, 21, 130),
                                   width: 3,
                                 ),
                               ),
@@ -290,7 +294,7 @@ class _SignInScreenState extends State<SignInScreen> {
                               softWrap: true,
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                color: Colors.white,
+                                color: Color.fromARGB(255, 54, 21, 130),
                                 decoration: TextDecoration.none,
                                 fontSize: 15,
                                 fontWeight: FontWeight.w700,

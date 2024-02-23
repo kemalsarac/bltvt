@@ -22,13 +22,16 @@ class PatientEditScreen extends StatelessWidget {
 
   final _keyForm = GlobalKey<FormState>();
 
-  PatientEditScreen(this.customerGuid, this.patientGuid, this.idCustomer, this.customer, this.isContinue, {Key key})
+  PatientEditScreen(this.customerGuid, this.patientGuid, this.idCustomer,
+      this.customer, this.isContinue,
+      {Key key})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BaseWidget<PatientEditScreenViewModel>(
-      viewModelBuilder: (p0) => PatientEditScreenViewModel(customerGuid, patientGuid, idCustomer, customer, isContinue),
+      viewModelBuilder: (p0) => PatientEditScreenViewModel(
+          customerGuid, patientGuid, idCustomer, customer, isContinue),
       builder: (context, vm) {
         return DefaultTabController(
           length: 2,
@@ -36,15 +39,18 @@ class PatientEditScreen extends StatelessWidget {
           child: Form(
             key: _keyForm,
             child: Scaffold(
-              floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+              floatingActionButtonLocation:
+                  FloatingActionButtonLocation.centerFloat,
               floatingActionButton: FloatingActionButton.extended(
                 onPressed: () async {
                   var flValid = _keyForm.currentState.validate();
                   _keyForm.currentState.save();
 
-                  if (vm.patient.dsPatientName == null) vm.patient.dsPatientName = '';
+                  if (vm.patient.dsPatientName == null)
+                    vm.patient.dsPatientName = '';
                   if (vm.patient.idType == null) vm.patient.idType = 0;
-                  if (vm.patient.idCustomer == null) vm.patient.idCustomer = idCustomer;
+                  if (vm.patient.idCustomer == null)
+                    vm.patient.idCustomer = idCustomer;
                   // if (vm.patient.idSpecies == null) vm.patient.idSpecies = 0;
                   // if (vm.patient.idColor == null) vm.patient.idColor = 0;
                   // if (vm.patient.dtBirthDate == null) vm.patient.dtBirthDate = '';
@@ -64,7 +70,8 @@ class PatientEditScreen extends StatelessWidget {
                       result = await vm.savePatient();
                     }
 
-                    if (result.dsGuidId != null || customerResult.dsGuidId != null) {
+                    if (result.dsGuidId != null ||
+                        customerResult.dsGuidId != null) {
                       if (isContinue) {
                         Fluttertoast.showToast(
                           msg: "Müşteri kaydedildi",
@@ -75,7 +82,8 @@ class PatientEditScreen extends StatelessWidget {
                         );
                         Navigator.of(context).push(
                           MaterialPageRoute(
-                            builder: (context) => CustomerProfileScreen(customerResult.dsGuidId),
+                            builder: (context) =>
+                                CustomerProfileScreen(customerResult.dsGuidId),
                           ),
                         );
                       } else {
@@ -85,12 +93,11 @@ class PatientEditScreen extends StatelessWidget {
                           textColor: Colors.white,
                           fontSize: 20,
                           toastLength: Toast.LENGTH_LONG,
-                        ); 
-      Navigator.pop(context);
-      vm.refreshState();
+                        );
+                        Navigator.pop(context);
+                        vm.refreshState();
 
-     
-                       /* Navigator.of(context).push(
+                        /* Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (context) => PatientProfileScreen(customer, result.dsGuidId),
                           ),
@@ -136,9 +143,7 @@ class PatientEditScreen extends StatelessWidget {
                   Icons.save,
                   color: Colors.white,
                   size: 30,
-                  
                 ),
-                
               ),
               appBar: AppBar(
                 backgroundColor: CustomColor.primaryColor,
@@ -155,6 +160,10 @@ class PatientEditScreen extends StatelessWidget {
                   ],
                 ),
                 title: const Text('Hasta Bilgileri'),
+                flexibleSpace: Image(
+                image: AssetImage("assets/images/appbar1.jpg"),
+                fit: BoxFit.cover,
+              ),
               ),
               body: TabBarView(
                 children: [
@@ -179,7 +188,8 @@ class TabPage1 extends StatefulWidget {
   State<TabPage1> createState() => _TabPage1State(vm);
 }
 
-class _TabPage1State extends State<TabPage1> with AutomaticKeepAliveClientMixin {
+class _TabPage1State extends State<TabPage1>
+    with AutomaticKeepAliveClientMixin {
   PatientEditScreenViewModel vm;
 
   _TabPage1State(this.vm);
@@ -216,53 +226,53 @@ class _TabPage1State extends State<TabPage1> with AutomaticKeepAliveClientMixin 
                 },
               ),
             ),
-           Padding(
-  padding: const EdgeInsets.only(bottom: 20.0),
-  child: FormField<String>(
-    builder: (FormFieldState<String> state) {
-      return InputDecorator(
-        decoration: InputDecoration(
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(5.0),
-          ),
-        ),
-        isEmpty: vm.selectedType == null ?? true,
-        child: DropdownButtonHideUnderline(
-          child: DropdownButton<String>(
-            isExpanded: true,
-            value: vm.selectedType,
-            isDense: true,
-            onChanged: (String newValue) async {
-              setState(() {
-                vm.selectedType = newValue;
-                vm.idSpecies = vm.allPatientTypeData
-                    .where((element) => element.dsPatientType == newValue)
-                    .first
-                    .idPatientType;
-                state.didChange(newValue);
-              });
+            Padding(
+              padding: const EdgeInsets.only(bottom: 20.0),
+              child: FormField<String>(
+                builder: (FormFieldState<String> state) {
+                  return InputDecorator(
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(5.0),
+                      ),
+                    ),
+                    isEmpty: vm.selectedType == null ?? true,
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButton<String>(
+                        isExpanded: true,
+                        value: vm.selectedType,
+                        isDense: true,
+                        onChanged: (String newValue) async {
+                          setState(() {
+                            vm.selectedType = newValue;
+                            vm.idSpecies = vm.allPatientTypeData
+                                .where((element) =>
+                                    element.dsPatientType == newValue)
+                                .first
+                                .idPatientType;
+                            state.didChange(newValue);
+                          });
 
-              vm.allSpeciesById = await vm.getSpeciesById();
-              setState(() {
-                vm.refreshState();
-              });
-            },
-            items: vm.allPatientType.map((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(
-                  value,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              );
-            }).toList(),
-          ),
-        ),
-      );
-    },
-  ),
-),
-
+                          vm.allSpeciesById = await vm.getSpeciesById();
+                          setState(() {
+                            vm.refreshState();
+                          });
+                        },
+                        items: vm.allPatientType.map((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(
+                              value,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
             Padding(
               padding: const EdgeInsets.only(bottom: 20.0),
               child: FormField<String>(
@@ -277,15 +287,16 @@ class _TabPage1State extends State<TabPage1> with AutomaticKeepAliveClientMixin 
                     child: DropdownButtonHideUnderline(
                       child: DropdownButton<String>(
                         isExpanded: true,
-                        value: vm.selectedSpecies ,
+                        value: vm.selectedSpecies,
                         isDense: true,
                         onChanged: (String newValue) {
                           setState(() {
                             vm.selectedSpecies = newValue;
                             vm.idSpecies = vm.allSpeciesByIdData
-                    .where((element) => element.dsSpecies == newValue)
-                    .first
-                    .idSpecies;
+                                .where(
+                                    (element) => element.dsSpecies == newValue)
+                                .first
+                                .idSpecies;
                             state.didChange(newValue);
                           });
                         },
@@ -349,7 +360,8 @@ class _TabPage1State extends State<TabPage1> with AutomaticKeepAliveClientMixin 
                     context: context,
                     initialDate: vm.pickerDate,
                     firstDate: DateTime(1970),
-                    lastDate: DateUtils.dateOnly(DateTime.now().add(const Duration(days: 1))),
+                    lastDate: DateUtils.dateOnly(
+                        DateTime.now().add(const Duration(days: 1))),
                     initialEntryMode: DatePickerEntryMode.calendarOnly,
                     confirmText: "Seç",
                     cancelText: "Kapat",
@@ -423,7 +435,8 @@ class TabPage3 extends StatefulWidget {
   State<TabPage3> createState() => _TabPage3State(vm);
 }
 
-class _TabPage3State extends State<TabPage3> with AutomaticKeepAliveClientMixin {
+class _TabPage3State extends State<TabPage3>
+    with AutomaticKeepAliveClientMixin {
   PatientEditScreenViewModel vm;
 
   _TabPage3State(this.vm);
@@ -533,7 +546,7 @@ class _TabPage3State extends State<TabPage3> with AutomaticKeepAliveClientMixin 
                     // controller: _name,
                     maxLength: 100,
                     keyboardType: TextInputType.multiline,
-                    
+
                     decoration: const InputDecoration(
                       hintText: 'Not',
                       prefixIcon: Icon(Icons.note),
@@ -619,7 +632,7 @@ class _TabPage3State extends State<TabPage3> with AutomaticKeepAliveClientMixin 
                     // controller: _name,
                     maxLength: 100,
                     keyboardType: TextInputType.multiline,
-                   
+
                     decoration: const InputDecoration(
                       hintText: 'Hasta Özel Durumu',
                       prefixIcon: Icon(Icons.note),

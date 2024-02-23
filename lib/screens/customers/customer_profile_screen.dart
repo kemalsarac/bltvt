@@ -41,6 +41,10 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
             title: const Text("Müşteri Detayı"),
             backgroundColor: CustomColor.primaryColor,
             centerTitle: true,
+            flexibleSpace: Image(
+                image: AssetImage("assets/images/appbar1.jpg"),
+                fit: BoxFit.cover,
+              ),
           ),
           backgroundColor: Colors.white,
           body: Padding(
