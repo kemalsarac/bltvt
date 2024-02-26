@@ -1,4 +1,5 @@
 import 'package:bltvt_mobile_veterinary/data/responses/get_all_products_response.dart';
+import 'package:bltvt_mobile_veterinary/data/responses/gethavedepo_response.dart';
 import 'package:bltvt_mobile_veterinary/screens/Depobilgileri.dart/depo_screen.dart';
 import 'package:bltvt_mobile_veterinary/screens/Depobilgileri.dart/depo_transfer.dart';
 import 'package:bltvt_mobile_veterinary/screens/_base/base_widget.dart';
@@ -24,7 +25,7 @@ class _VaccinesDetailScreenState extends State<VaccinesDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return BaseWidget<Vaccinesdetailview>(
-      viewModelBuilder: (p0) => Vaccinesdetailview(),
+      viewModelBuilder: (p0) => Vaccinesdetailview(widget.vaccineDetail),
       builder: (context, vm) {
         return Scaffold(
           appBar: AppBar(
@@ -193,70 +194,51 @@ class _VaccinesDetailScreenState extends State<VaccinesDetailScreen> {
                         ),
                       ],
                     ),
-                    const SizedBox(height: 30),
-                    Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Text(
-                            "Depolar",
-                            style: CustomStyle.kTitleStyle,
-                          ),
-                          const SizedBox(height: 20),
-                          Row(
-                            children: <Widget>[
-                              Expanded(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    ListView.separated(
-                                      shrinkWrap: true,
-                                      separatorBuilder: (context, index) =>
-                                          SizedBox(height: 10),
-                                      itemCount: vm.depopList.length,
-                                      itemBuilder: (context, index) => Center(
-                                        child: ElevatedButton(
-                                          onPressed: () {
-                                            String depoguid =
-                                                vm.depoTuru[index].dsGuidId;
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) =>
-                                                    DepoScreen(
-                                                  depoguid,
-                                                ),
-                                              ),
-                                            );
-                                          },
-                                          style: ElevatedButton.styleFrom(
-                                            primary: CustomColor.accentColor,
-                                            onPrimary: Colors.white,
-                                            padding: EdgeInsets.all(20),
-                                            shape: RoundedRectangleBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(5),
-                                            ),
-                                            side: BorderSide(
-                                              color: Colors.grey,
-                                            ),
-                                          ),
-                                          child: Container(
-                                            width: double.infinity,
-                                            child: Text(
-                                              vm.depopList[index].toString(),
-                                              style: CustomStyle.defaultStyle,
-                                              textAlign: TextAlign.center,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
+                   
+                         Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Text(
+                        "Mevcut depo",
+                        style: CustomStyle.kTitleStyle,
+                      ),
+                      const SizedBox(height: 1),
+                      SizedBox(
+                        height: 150,
+                        child: ListView.builder(
+                          itemCount: vm.havedepo.length,
+                          itemBuilder: (context, index) {
+                            String depoguid = vm.havedepo[index].dsWarehouse;
+                            return Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 8.0),
+                              child: ElevatedButton(
+                                onPressed: () {
+                             
+                                },
+                                style: ElevatedButton.styleFrom(
+                                  primary: CustomColor.accentColor,
+                                  onPrimary: Colors.white,
+                                  padding: EdgeInsets.all(20),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  side: BorderSide(
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                                child: Text(
+                                  vm.havedepo[index].dsWarehouse.toString(),
+                                  style: CustomStyle.defaultStyle,
                                 ),
                               ),
-                            ],
-                          ),
-                        ]),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                
                     Row(
                       children: [
                         Expanded(
@@ -288,10 +270,58 @@ class _VaccinesDetailScreenState extends State<VaccinesDetailScreen> {
                   ],
                 ),
               ),
+              
             ),
-          
+              floatingActionButton: FloatingActionButton(
+            onPressed: () async {
+              List<GethavewareResponse> secilenDepolar =
+                  await _depoyuSecmeDialogunuGoster(context,vm);
+            },
+            tooltip: 'Depolarınızı görüntüleyin',
+            child: Icon(Icons.add),
+          ),
         );
       },
     );
   }
+
+  Future<List<GethavewareResponse>> _depoyuSecmeDialogunuGoster(
+    BuildContext context, Vaccinesdetailview vm) async {
+  return await showDialog<List<GethavewareResponse>>(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text("Depolarınız"),
+        content: SizedBox(
+          height: 150,
+          child: ListView.builder(
+            itemCount: vm.depopList.length,
+            itemBuilder: (context, index) {
+              String depoguid = vm.depopList[index];
+              return ListTile(
+                title: Text(
+                  vm.depopList[index].toString(),
+                  style: CustomStyle.defaultStyle,
+                ),
+                onTap: () {
+
+                                          String depoguid =
+                                              vm.depoTuru[index].dsGuidId;
+                  Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => DepoScreen( depoguid
+        ),
+      ),
+    );
+                },
+              );
+            },
+          ),
+        ),
+      );
+    },
+  );
 }
+}
+       

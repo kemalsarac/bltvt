@@ -8,6 +8,7 @@ import 'package:bltvt_mobile_veterinary/data/requests/get_customer_search_reques
 import 'package:bltvt_mobile_veterinary/data/requests/get_sms_balance_request.dart';
 import 'package:bltvt_mobile_veterinary/data/requests/save_appointment_request.dart';
 import 'package:bltvt_mobile_veterinary/data/requests/save_customer_request.dart';
+import 'package:bltvt_mobile_veterinary/data/requests/search_selling_request.dart';
 import 'package:bltvt_mobile_veterinary/data/requests/update_admission_status_request.dart';
 import 'package:bltvt_mobile_veterinary/data/requests/update_appointment_info_request.dart';
 import 'package:bltvt_mobile_veterinary/data/requests/update_patient_status_request.dart';
@@ -26,8 +27,10 @@ import 'package:bltvt_mobile_veterinary/data/responses/get_dashboards_response.d
 import 'package:bltvt_mobile_veterinary/data/responses/get_product_vaccine_response.dart';
 import 'package:bltvt_mobile_veterinary/data/responses/get_sms_settings_response.dart';
 import 'package:bltvt_mobile_veterinary/data/responses/get_species_by_id_response.dart';
+import 'package:bltvt_mobile_veterinary/data/responses/gethavedepo_response.dart';
 import 'package:bltvt_mobile_veterinary/data/responses/login_response.dart';
 import 'package:bltvt_mobile_veterinary/data/responses/money_resonse.dart';
+import 'package:bltvt_mobile_veterinary/data/responses/sales_search_response.dart';
 import 'package:bltvt_mobile_veterinary/data/responses/save_appointment_response.dart';
 import 'package:bltvt_mobile_veterinary/data/responses/save_patient_response.dart';
 import 'package:bltvt_mobile_veterinary/data/responses/search_calendar_response.dart';
@@ -499,6 +502,36 @@ Future<List<depohak>> getdepoturu() async {
       return model;
     }
   }
+    Future<List<salessearchresponse>> getSalesResponse(SearchSellinRequest request) async {
+  var accountInfo = await localStorageService.getCredentialAccounts();
+  token = accountInfo.token.isNotEmpty ? accountInfo.token : '';
+
+  final response = await http.post(
+    Uri.parse("${ApplicationConstants.baseURL}/Document/salesSearch"),
+    headers: getHeaders(),
+       body: json.encode(request),
+  );
+
+  var model = <salessearchresponse>[];
+
+  if (!checkTokenExpired(response)) {
+    if (response.statusCode == 200) {
+      var data = json.decode(response.body);
+      if (data is List && data.isNotEmpty) {
+        data = data.first;
+      }
+
+        Iterable list = json.decode(response.body);
+        model = list.map((e) => salessearchresponse.fromJson(e)).toList();
+
+      return model;
+    } else {
+      return model;
+    }
+  } else {
+    return model;
+  }
+}
 
   Future<SavePatientResponse> savePatient(SavePatientResponse request) async {
     var accountInfo = await localStorageService.getCredentialAccounts();
@@ -552,7 +585,7 @@ Future<List<depohak>> getdepoturu() async {
     }
   }
 
- Future<Warecategoryval> Warecategory(int productId, int selectedDepoAdi) async {
+ Future<Warecategoryval> Warecategory(int productId, int selectedDepoAdi ) async {
   var accountInfo = await localStorageService.getCredentialAccounts();
   token = accountInfo.token.isNotEmpty ? accountInfo.token : '';
 
@@ -656,6 +689,31 @@ Future<List<depohak>> getdepoturu() async {
       if (response.statusCode == 200) {
         Iterable list = json.decode(response.body);
         model = list.map((e) => GetSpeciesByIdResponse.fromJson(e)).toList();
+
+        return model;
+      } else {
+        return model;
+      }
+    } else {
+      return model;
+    }
+  }
+  Future<List<GethavewareResponse>> gethavedepo(int idproducts)async {
+    var accountInfo = await localStorageService.getCredentialAccounts();
+    token = accountInfo.token.isNotEmpty ? accountInfo.token : '';
+
+    final response = await http.get(
+      Uri.parse(
+          "${ApplicationConstants.baseURL}/product/getProductWarehouses/$idproducts"),
+      headers: getHeaders(),
+    );
+
+    var model = <GethavewareResponse>[];
+
+    if (!checkTokenExpired(response)) {
+      if (response.statusCode == 200) {
+        Iterable list = json.decode(response.body);
+        model = list.map((e) => GethavewareResponse.fromJson(e)).toList();
 
         return model;
       } else {

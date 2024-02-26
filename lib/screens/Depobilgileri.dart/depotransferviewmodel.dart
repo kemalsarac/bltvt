@@ -21,6 +21,7 @@ class WarehouseTransferViewModel extends BaseViewModel {
   List<String> depopList = [];
   String dsWarehouse = '';
   List<depohak> depoTuru;
+  
   GetAllProductsResponse Productkod;
   Warecategoryval warecatego;
 
@@ -28,8 +29,7 @@ class WarehouseTransferViewModel extends BaseViewModel {
     productId = Productkod.idProduct;
    
   }
-
-  @override
+ @override
 FutureOr<void> init() async {
   depoTuru = await apiService.getdepoturu();
  

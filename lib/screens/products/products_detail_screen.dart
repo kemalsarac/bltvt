@@ -1,5 +1,5 @@
-
 import 'package:bltvt_mobile_veterinary/data/responses/depohak_response.dart';
+import 'package:bltvt_mobile_veterinary/data/responses/gethavedepo_response.dart';
 import 'package:bltvt_mobile_veterinary/screens/Depobilgileri.dart/depo_screen.dart';
 import 'package:bltvt_mobile_veterinary/screens/Depobilgileri.dart/depo_transfer.dart';
 import 'package:bltvt_mobile_veterinary/screens/main_menu/main_menu_screen.dart';
@@ -14,15 +14,14 @@ import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class ProductDetailScreen extends StatefulWidget {
- 
+  GetAllProductsResponse Productkod;
   String guid;
- 
   GetAllProductsResponse productDetail;
   String productG = '';
   List<depohak> depotur = [];
   dynamic dsGuidId;
 
-  final String depoguid;
+  final dynamic depoguid;
   ProductDetailScreen(this.productDetail, {this.depoguid, this.guid, Key key})
       : super(key: key);
 
@@ -39,8 +38,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return BaseWidget<Productdetailscreenviewmodel>(
-      viewModelBuilder: (p0) => Productdetailscreenviewmodel(
-          _viewModel = Productdetailscreenviewmodel(widget.dsGuidId)),
+      viewModelBuilder: (p0) {
+        _viewModel = Productdetailscreenviewmodel(widget.productDetail);
+        return _viewModel;
+      },
       builder: (context, vm) {
         return Scaffold(
           appBar: AppBar(
@@ -51,18 +52,16 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               icon: Icon(Icons.arrow_back),
               onPressed: () {
                 Navigator.of(context)
-                                  .push(
-                                    MaterialPageRoute(
-                                      builder: (context) => MainMenuScreen()
-                                    ),
-                                  )
-                                  .then(
-                                    (value) => setState(
-                                      () {
-                                        vm.refreshState();
-                                      },
-                                    ),
-                                  );
+                    .push(
+                      MaterialPageRoute(builder: (context) => MainMenuScreen()),
+                    )
+                    .then(
+                      (value) => setState(
+                        () {
+                          vm.refreshState();
+                        },
+                      ),
+                    );
               },
             ),
             flexibleSpace: Image(
@@ -205,69 +204,47 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 10),
                   Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Text(
-                          "Depolar",
-                          style: CustomStyle.kTitleStyle,
-                        ),
-                        const SizedBox(height: 1),
-                        Row(
-                          children: <Widget>[
-                            Expanded(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  ListView.separated(
-                                    shrinkWrap: true,
-                                    separatorBuilder: (context, index) =>
-                                        SizedBox(height: 4),
-                                    itemCount: vm.depopList.length,
-                                    itemBuilder: (context, index) => Center(
-                                      child: ElevatedButton(
-                                        onPressed: () {
-                                          String depoguid =
-                                              vm.depoTuru[index].dsGuidId;
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                              builder: (context) => DepoScreen(
-                                                depoguid,
-                                              ),
-                                            ),
-                                          );
-                                        },
-                                        style: ElevatedButton.styleFrom(
-                                          primary: CustomColor.accentColor,
-                                          onPrimary: Colors.white,
-                                          padding: EdgeInsets.all(20),
-                                          shape: RoundedRectangleBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(5),
-                                          ),
-                                          side: BorderSide(
-                                            color: Colors.grey,
-                                          ),
-                                        ),
-                                        child: Container(
-                                          width: double.infinity,
-                                          child: Text(
-                                            vm.depopList[index].toString(),
-                                            style: CustomStyle.defaultStyle,
-                                            textAlign: TextAlign.center,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      Text(
+                        "Mevcut depo",
+                        style: CustomStyle.kTitleStyle,
+                      ),
+                      const SizedBox(height: 1),
+                      SizedBox(
+                        height: 150,
+                        child: ListView.builder(
+                          itemCount: vm.havedepo.length,
+                          itemBuilder: (context, index) {
+                            String depoguid = vm.havedepo[index].dsWarehouse;
+                            return Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 8.0),
+                              child: ElevatedButton(
+                                onPressed: () {},
+                                style: ElevatedButton.styleFrom(
+                                  primary: CustomColor.accentColor,
+                                  onPrimary: Colors.white,
+                                  padding: EdgeInsets.all(20),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5),
                                   ),
-                                ],
+                                  side: BorderSide(
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                                child: Text(
+                                  vm.havedepo[index].dsWarehouse.toString(),
+                                  style: CustomStyle.defaultStyle,
+                                ),
                               ),
-                            ),
-                          ],
+                            );
+                          },
                         ),
-                      ]),
+                      ),
+                    ],
+                  ),
                   Row(
                     children: [
                       Expanded(
@@ -282,39 +259,71 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                               ),
                               onPressed: () => Navigator.of(context)
                                   .push(MaterialPageRoute(
-                                      builder: (context) => WarehouseTransfer(
-                                          widget.productDetail)))
+                                      builder: (context) =>
+                                          WarehouseTransfer(widget.productDetail)))
                                   .then((value) => setState(() {
                                         vm.refreshState();
                                       })),
-                              /* onPressed: () => Navigator.of(context)
-                                  .push(
-                                    MaterialPageRoute(
-                                      builder: (context) => WarehouseTransfer(
-                                        
-                                      ),
-                                    ),
-                                  )
-                                  .then(
-                                    (value) => setState(
-                                      () {
-                                        vm.refreshState();
-                                      },
-                                    ),
-                                  ), */
                               child: const Text('Depolar arası transfer'),
-                            )
+                            ),
                           ],
                         ),
                       )
                     ],
-                  )
+                  ),
                 ],
               ),
             ),
+          ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () async {
+              List<GethavewareResponse> secilenDepolar =
+                  await _depoyuSecmeDialogunuGoster(context,vm);
+            },
+            tooltip: 'Depolarınızı görüntüleyin',
+            child: Icon(Icons.add),
           ),
         );
       },
     );
   }
+
+  Future<List<GethavewareResponse>> _depoyuSecmeDialogunuGoster(
+    BuildContext context, Productdetailscreenviewmodel vm) async {
+  return await showDialog<List<GethavewareResponse>>(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text("Depolarınız"),
+        content: SizedBox(
+          height: 150,
+          child: ListView.builder(
+            itemCount: vm.depopList.length,
+            itemBuilder: (context, index) {
+              String depoguid = vm.depopList[index];
+              return ListTile(
+                title: Text(
+                  vm.depopList[index].toString(),
+                  style: CustomStyle.defaultStyle,
+                ),
+                onTap: () {
+
+                                          String depoguid =
+                                              vm.depoTuru[index].dsGuidId;
+                  Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => DepoScreen( depoguid
+        ),
+      ),
+    );
+                },
+              );
+            },
+          ),
+        ),
+      );
+    },
+  );
+}
 }

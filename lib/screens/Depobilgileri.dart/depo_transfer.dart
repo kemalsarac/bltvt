@@ -146,23 +146,21 @@ class _TabPage1State extends State<TabPage1>
                             isExpanded: true,
                             value: vm.selectedwarehousesType1,
                             isDense: true,
-                            onChanged: (String newValue) async {
-                              setState(() {
-                                vm.selectedwarehousesType1 = newValue;
-                                state.didChange(newValue);
-                                vm.refreshState();
+                         onChanged: (String newValue) async {
+  setState(() {
+    vm.selectedwarehousesType1 = newValue;
+    state.didChange(newValue);
 
-                                selectedDepoAdi = vm.depoTuru
-                                    .firstWhere(
-                                      (depohak) =>
-                                          depohak.dsGuidId.toString() ==
-                                          newValue,
-                                    )
-                                    .idWarehouse;
-                                vm.updateWarecategory();
-                                vm.refreshState();
-                              });
-                            },
+    selectedDepoAdi = vm.depoTuru
+      .firstWhere(
+        (depohak) => depohak.dsGuidId.toString() == newValue,
+      )
+      .idWarehouse;
+
+    vm.updateWarecategory(); 
+  });
+},
+
                             items: vm.depoTuru.map((depohak dattta) {
                               return DropdownMenuItem<String>(
                                 value: dattta.dsGuidId.toString(),
@@ -190,7 +188,7 @@ class _TabPage1State extends State<TabPage1>
                     style: CustomStyle.kTitleStyle,
                   ),
                   Text(
-                    "ürün stok = ${widget.vm.warecategoMtpiece} " ?? "",
+                    "ürün stok = ${vm.warecategoMtpiece} " ?? "",
                     style: CustomStyle.kTitleStyle,
                   ),
                 ],

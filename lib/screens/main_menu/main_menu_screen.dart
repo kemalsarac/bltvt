@@ -1,15 +1,18 @@
 import 'package:bltvt_mobile_veterinary/screens/_base/base_widget.dart';
 import 'package:bltvt_mobile_veterinary/screens/admissions/admissions_screen.dart';
 import 'package:bltvt_mobile_veterinary/screens/bilanco_screen/bilanco_screen.dart';
+import 'package:bltvt_mobile_veterinary/screens/customers/customer_edit_screen.dart';
 import 'package:bltvt_mobile_veterinary/screens/customers/customers_screen.dart';
 import 'package:bltvt_mobile_veterinary/screens/main_menu/main_menu_view_model.dart';
 import 'package:bltvt_mobile_veterinary/screens/products/products_screen.dart';
 import 'package:bltvt_mobile_veterinary/screens/products/vaccines_screen.dart';
+import 'package:bltvt_mobile_veterinary/screens/sellingscreen/selling_screen.dart';
 import 'package:bltvt_mobile_veterinary/utils/colors.dart';
 import 'package:bltvt_mobile_veterinary/utils/dimensions.dart';
 import 'package:bltvt_mobile_veterinary/utils/extensions/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:bltvt_mobile_veterinary/screens/profil/profil_screen.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 class MainMenuScreen extends StatefulWidget {
   const MainMenuScreen({Key key}) : super(key: key);
@@ -80,7 +83,7 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
                       MainMenuItemWidget('Aşılar', Icons.vaccines),
                       //MainMenuItemWidget('Cüzdan', Icons.wallet),
                       MainMenuItemWidget('Profilim', Icons.person),
-
+                
                       MainMenuItemWidget(
                           'Bilanço', Icons.account_balance_wallet_rounded),
                     ],
@@ -88,37 +91,139 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
                 ),
               ],
             ),
+          ),    bottomNavigationBar: BottomAppBar(
+            shape: CircularNotchedRectangle(),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                IconButton(
+                  icon: Icon(Icons.home),
+                  onPressed: () {
+                    Navigator.of(context)
+                      .push(
+                        MaterialPageRoute(
+                          builder: (context) => MainMenuScreen()
+                        ),
+                      )
+                      .then(
+                        (value) => setState(
+                          () {
+                            vm.refreshState();
+                          },
+                        ),
+                      );
+                
+                    
+                  },
+                ),
+                IconButton(
+                  icon: Icon(Icons.search),
+                  onPressed: () {
+                    Navigator.of(context)
+                      .push(
+                        MaterialPageRoute(
+                          builder: (context) => SellingScreen()
+                        ),
+                      )
+                      .then(
+                        (value) => setState(
+                          () {
+                            vm.refreshState();
+                          },
+                        ),
+                      );
+                  },
+                ),
+                 IconButton(
+                  icon: Icon(Icons.person),
+                  onPressed: () {
+                    Navigator.of(context)
+                      .push(
+                        MaterialPageRoute(
+                          builder: (context) => ProfileScreen()
+                        ),
+                      )
+                      .then(
+                        (value) => setState(
+                          () {
+                            vm.refreshState();
+                          },
+                        ),
+                      );
+                  },
+                ),
+                 IconButton(
+                  icon: Icon(Icons.settings),
+                  onPressed: () {
+                  },
+                ),
+             
+              ],
+            ),
           ),
+          floatingActionButton: SpeedDial(
+              icon: Icons.menu,
+              activeIcon: Icons.close,
+              spacing: 3,
+              childPadding: const EdgeInsets.all(5),
+              spaceBetweenChildren: 4,
+              visible: true,
+              direction: SpeedDialDirection.up,
+              elevation: 8,
+              animationCurve: Curves.elasticInOut,
+              isOpenOnStart: false,
+              backgroundColor: CustomColor.primaryColor,
+              foregroundColor: Colors.white,
+              buttonSize: const Size(60, 60),
+              childrenButtonSize: const Size(60, 60),
+              children: [
+               
+                   SpeedDialChild(
+                  
+                  backgroundColor: CustomColor.primaryColor,
+                  foregroundColor: Colors.white,
+                  label: "Hızlı Satış",
+                /*  onTap: () => Navigator.of(context)
+                      .push(
+                        MaterialPageRoute(
+                          builder: (context) => AdmissionTestScreen(
+                              vm.patientDetail.dsPatientName ?? "",
+                              "",
+                              GetAppointmentByIdPatientResponse(),
+                              vm.customerDetail.dsGuidId,
+                              widget.patientGuid,
+                              vm.patientDetail.dsPatientName),
+                        ),
+                      )
+                      .then(
+                        (value) => setState(
+                          () {
+                            vm.refreshState();
+                          },
+                        ),
+                      ), */
+                ),
+                   SpeedDialChild(
+                  backgroundColor: CustomColor.primaryColor,
+                  foregroundColor: Colors.white,
+                  label: "Hızlı müşteri ekle",
+                  onTap: () =>  Navigator.of(context)
+                .push(MaterialPageRoute(
+                    builder: (context) => CustomerEditScreen('')))
+                .then((value) => setState(() {
+                      vm.refreshState();
+                    })),
+                ),
+              ]
+          ),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
+          
         );
       },
     );
   }
 }
-
-/*Widget buildAppBarColumn(MainMenuViewModel vm) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        buildAppBarText("Sms Bakiyesi: ${vm.smsBalance.toInt()}"),
-        const SizedBox(height: 5),
-        buildAppBarText(
-            "Günlük Ciro: ${vm.dashboardsResponse.total.toInt()} ₺"),
-      ],
-    );
-  } 
-
-  Widget buildAppBarText(String text) {
-    return Padding(
-      padding: const EdgeInsets.only(right: Dimensions.defaultPaddingSize),
-      child: Text(
-        text,
-        style: TextStyle(
-          fontSize: Dimensions.defaultTextSize,
-        ),
-      ),
-    );
-  } */
 
 class MainMenuItemWidget extends StatelessWidget {
   const MainMenuItemWidget(this.title, this.icon, {Key key}) : super(key: key);

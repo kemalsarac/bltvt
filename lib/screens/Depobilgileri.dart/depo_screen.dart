@@ -1,4 +1,6 @@
+import 'package:bltvt_mobile_veterinary/data/responses/get_all_products_response.dart';
 import 'package:bltvt_mobile_veterinary/data/responses/waredata_response.dart';
+import 'package:bltvt_mobile_veterinary/screens/Depobilgileri.dart/depo_screen_view.dart';
 import 'package:bltvt_mobile_veterinary/screens/_base/base_widget.dart';
 import 'package:bltvt_mobile_veterinary/screens/products/products_detail_view_model.dart';
 import 'package:bltvt_mobile_veterinary/services/general_api_service.dart';
@@ -9,18 +11,19 @@ import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 
 class DepoScreen extends StatefulWidget {
   final String dsGuidId;
-
   const DepoScreen(this.dsGuidId, {Key key}) : super(key: key);
 
   @override
   State<DepoScreen> createState() => _DepoScreenState();
+  
 }
 
 class _DepoScreenState extends State<DepoScreen> {
+  
   @override
   Widget build(BuildContext context) {
-    return BaseWidget<Productdetailscreenviewmodel>(
-      viewModelBuilder: (p0) => Productdetailscreenviewmodel(widget.dsGuidId),
+    return BaseWidget<depodetailscreenviewmodel>(
+      viewModelBuilder: (p0) => depodetailscreenviewmodel(widget.dsGuidId),
       builder: (context, vm) {
         return Scaffold(
           appBar: AppBar(
