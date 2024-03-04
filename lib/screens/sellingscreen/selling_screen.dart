@@ -1,5 +1,7 @@
 import 'package:bltvt_mobile_veterinary/data/responses/sales_search_response.dart';
 import 'package:bltvt_mobile_veterinary/screens/_base/base_widget.dart';
+import 'package:bltvt_mobile_veterinary/screens/sellingscreen/registered_customer.dart';
+import 'package:bltvt_mobile_veterinary/screens/sellingscreen/retail_sales.dart';
 import 'package:bltvt_mobile_veterinary/screens/sellingscreen/selling_screen_view.dart';
 import 'package:bltvt_mobile_veterinary/utils/colors.dart';
 import 'package:bltvt_mobile_veterinary/utils/custom_style.dart';
@@ -66,6 +68,7 @@ class _SellingScreenState extends State<SellingScreen> {
     return SearchWidget(
       text: query,
       hintText: 'Satış arama',
+      onChanged: searchSales,
     );
   }
 
@@ -82,23 +85,23 @@ class _SellingScreenState extends State<SellingScreen> {
         children: [
           ElevatedButton(
             onPressed: () {
-              // İlk butona tıklandığında yapılacak işlemler
+              navigateToRetailSalesScreen();
             },
             style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all<Color>(
                   Color(0xFF17a2b8)),
             ),
-            child: Text("PERAKENDE SATIŞ"),
+            child: Text("PERAKENDE SATIŞ" , style: TextStyle(fontSize: 10)),
           ),
           ElevatedButton(
             onPressed: () {
-              // İkinci butona tıklandığında yapılacak işlemler
+              navigateToRegisteredCustomerScreen();
             },
             style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all<Color>(
                   Color(0xFF28a745)),
             ),
-            child: Text("KAYITLI  SATIŞ"),
+            child: Text("KAYITLI MÜŞTERİ SATIŞ" , style: TextStyle(fontSize: 10)),
           ),
         ],
       ),
@@ -222,11 +225,13 @@ class _SellingScreenState extends State<SellingScreen> {
                                             width: 5,
                                           ),
                                           Text(
-                                            sales.dsCustomer,
+                                            (sales.dsCustomer ?? "") .length > 13 ? "${sales.dsCustomer.substring(0,15)}..."
+                                            : sales.dsCustomer,
                                             style:
                                             const TextStyle(fontSize: 17),
                                             overflow: TextOverflow.ellipsis,
                                           ),
+                                          
                                         ],
                                       ),
                                       Row(
@@ -295,9 +300,8 @@ class _SellingScreenState extends State<SellingScreen> {
                     );
                   },
                 ),
-
                 onEndOfPage: () =>
-                    vm.loadMoreCustomers(query, vm.salesData.length),
+                    vm.loadMoreSales(query, vm.salesData.length),
               );
             },
           ),
@@ -351,4 +355,19 @@ class _SellingScreenState extends State<SellingScreen> {
       ),
     );
   }
+
+  void navigateToRetailSalesScreen() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => RetailSalesScreen("")),
+    );
+  }
+
+  void navigateToRegisteredCustomerScreen() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => RegisteredCustomerScreen("")),
+    );
+  }
+
 }

@@ -6,103 +6,121 @@ import 'package:bltvt_mobile_veterinary/services/general_api_service.dart';
 
 class SellingScreenViewModel extends BaseViewModel {
   Timer _searchDebounce;
-List<salessearchresponse> salesData = [];
-List<salessearchresponse> filteredData=[];
-
+  List<salessearchresponse> salesData;
+  List<salessearchresponse> filteredList;
 
   @override
- FutureOr<void> init() async {
-  salesData = await apiService.getSalesResponse(
-    SearchSellinRequest(
-      flBuying: false,
-      idPaymentTypes: [],
-      isAll: false,
-      isBank: false,
-      isCustomer: false,
-      isExpriy: false,
-      isNotCollection: false,
-      isPartialCollection: false,
-      isRemaining: false,
-      isSupplier: false,
-      length: 0,
-      sortColumnIndex: 0,
-      sortDirectionAsc: false,
-      searchText : '',
-      startIndex: 0,
-    )
-  );
+  FutureOr<void> init() async {
+    salesData = await apiService.getSalesResponse(
+        SearchSellinRequest(
+          flBuying: false,
+          idPaymentTypes: [],
+          isAll: false,
+          isBank: false,
+          isCustomer: false,
+          isExpriy: false,
+          isNotCollection: false,
+          isPartialCollection: false,
+          isRemaining: false,
+          isSupplier: false,
+          length: 0,
+          searchText: "",
+          sortColumnIndex: 0,
+          sortDirectionAsc: false,
+          startIndex: 0,
+        )
+    );
 
-    filteredData = List.from(salesData);
-}
-Future loadMoreCustomers(String search, int retrievedCount) async {
+    if (salesData == null) {
+      return;
+    }
+
+    filteredList = List.from(salesData);
+  }
+
+  Future loadMoreSales(String search, int retrievedCount) async {
     var newSales = await apiService.getSalesResponse(
-    SearchSellinRequest(
-      flBuying: false,
-      idPaymentTypes: [],
-      isAll: false,
-      isBank: false,
-      isCustomer: false,
-      isExpriy: false,
-      isNotCollection: false,
-      isPartialCollection: false,
-      isRemaining: false,
-      isSupplier: false,
-      length: 0,
-      sortColumnIndex: 0,
-      sortDirectionAsc: false,
-      searchText : '',
-      startIndex: 0,
-    )
-  ); 
-    filteredData = List.from(salesData);
+      SearchSellinRequest(
+        flBuying: false,
+        idPaymentTypes: [],
+        isAll: false,
+        isBank: false,
+        isCustomer: false,
+        isExpriy: false,
+        isNotCollection: false,
+        isPartialCollection: false,
+        isRemaining: false,
+        isSupplier: false,
+        length: 0,
+        searchText: search,
+        sortColumnIndex: 0,
+        sortDirectionAsc: false,
+        startIndex: 0,
+      ),
+    );
 
     if (newSales == null) {
       return;
     }
 
     salesData.addAll(newSales);
-
-    filteredData = List.from(salesData);
+    filteredList.addAll(newSales);
 
     refreshState();
   }
-void searchText(String text) {
+  void searchText(String text) {
     if (_searchDebounce?.isActive ?? false) _searchDebounce.cancel();
 
     _searchDebounce = Timer(const Duration(milliseconds: 500), () async {
       if ((text?.length ?? 0) > 2) {
         salesData = await apiService.getSalesResponse(
-         SearchSellinRequest(
-      flBuying: false,
-      idPaymentTypes: [],
-      isAll: false,
-      isBank: false,
-      isCustomer: false,
-      isExpriy: false,
-      isNotCollection: false,
-      isPartialCollection: false,
-      isRemaining: false,
-      isSupplier: false,
-      length: 0,
-      sortColumnIndex: 0,
-      sortDirectionAsc: false,
-      searchText : '',
-      startIndex: 0,
-    )
+          SearchSellinRequest(
+            flBuying: false,
+            idPaymentTypes: [],
+            isAll: false,
+            isBank: false,
+            isCustomer: false,
+            isExpriy: false,
+            isNotCollection: false,
+            isPartialCollection: false,
+            isRemaining: false,
+            isSupplier: false,
+            length: 0,
+            searchText: text,
+            sortColumnIndex: 0,
+            sortDirectionAsc: false,
+            startIndex: 0,
+          ),
         );
-
-    filteredData = List.from(salesData);
-        
-      } 
-
+        filteredList = List.from(salesData);
+      } else {
+        salesData = await apiService.getSalesResponse(
+          SearchSellinRequest(
+            flBuying: false,
+            idPaymentTypes: [],
+            isAll: false,
+            isBank: false,
+            isCustomer: false,
+            isExpriy: false,
+            isNotCollection: false,
+            isPartialCollection: false,
+            isRemaining: false,
+            isSupplier: false,
+            length: 0,
+            searchText: "",
+            sortColumnIndex: 0,
+            sortDirectionAsc: false,
+            startIndex: 0,
+          ),
+        );
+        filteredList = List.from(salesData);
+      }
       if (salesData == null) {
         return;
       }
-
       refreshState();
     });
   }
 
 
-  
 }

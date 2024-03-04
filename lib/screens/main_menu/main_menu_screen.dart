@@ -7,6 +7,7 @@ import 'package:bltvt_mobile_veterinary/screens/main_menu/main_menu_view_model.d
 import 'package:bltvt_mobile_veterinary/screens/products/products_screen.dart';
 import 'package:bltvt_mobile_veterinary/screens/products/vaccines_screen.dart';
 import 'package:bltvt_mobile_veterinary/screens/searchpage/search_page.dart';
+import 'package:bltvt_mobile_veterinary/screens/sellingscreen/retail_sales.dart';
 import 'package:bltvt_mobile_veterinary/screens/sellingscreen/selling_screen.dart';
 import 'package:bltvt_mobile_veterinary/utils/colors.dart';
 import 'package:bltvt_mobile_veterinary/utils/dimensions.dart';
@@ -183,16 +184,10 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
                   backgroundColor: CustomColor.primaryColor,
                   foregroundColor: Colors.white,
                   label: "Hızlı Satış",
-                /*  onTap: () => Navigator.of(context)
+                  onTap: () => Navigator.of(context)
                       .push(
                         MaterialPageRoute(
-                          builder: (context) => AdmissionTestScreen(
-                              vm.patientDetail.dsPatientName ?? "",
-                              "",
-                              GetAppointmentByIdPatientResponse(),
-                              vm.customerDetail.dsGuidId,
-                              widget.patientGuid,
-                              vm.patientDetail.dsPatientName),
+                          builder: (context) => RetailSalesScreen("")
                         ),
                       )
                       .then(
@@ -201,7 +196,7 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
                             vm.refreshState();
                           },
                         ),
-                      ), */
+                      ), 
                 ),
                    SpeedDialChild(
                   backgroundColor: CustomColor.primaryColor,

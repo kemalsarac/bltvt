@@ -14,25 +14,25 @@ class salessearchresponse {
   bool flApprovedDocument;
   String dsDocumentNo;
   bool flDetail;
-  dynamic documentDetail;
+  String documentDetail;
 
   salessearchresponse(
       {this.dtDocument,
-      this.dsDocument,
-      this.idDocument,
-      this.dsCustomer,
-      this.dsProduct,
-      this.mtTotal,
-      this.mtGross,
-      this.mtNet,
-      this.mtDiscount,
-      this.mtTax,
-      this.mtQuantity,
-      this.dsPaymentType,
-      this.flApprovedDocument,
-      this.dsDocumentNo,
-      this.flDetail,
-      this.documentDetail});
+        this.dsDocument,
+        this.idDocument,
+        this.dsCustomer,
+        this.dsProduct,
+        this.mtTotal,
+        this.mtGross,
+        this.mtNet,
+        this.mtDiscount,
+        this.mtTax,
+        this.mtQuantity,
+        this.dsPaymentType,
+        this.flApprovedDocument,
+        this.dsDocumentNo,
+        this.flDetail,
+        this.documentDetail});
 
   salessearchresponse.fromJson(Map<String, dynamic> json) {
     dtDocument = json['dtDocument'];
