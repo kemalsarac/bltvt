@@ -1,13 +1,18 @@
 import 'package:bltvt_mobile_veterinary/data/responses/get_all_products_response.dart';
 import 'package:bltvt_mobile_veterinary/screens/Depobilgileri.dart/depo_transfer.dart';
 import 'package:bltvt_mobile_veterinary/screens/_base/base_widget.dart';
+import 'package:bltvt_mobile_veterinary/screens/customers/customer_edit_screen.dart';
+import 'package:bltvt_mobile_veterinary/screens/main_menu/main_menu_screen.dart';
 import 'package:bltvt_mobile_veterinary/screens/products/products_detail_screen.dart';
 import 'package:bltvt_mobile_veterinary/screens/products/products_screen_view_model.dart';
+import 'package:bltvt_mobile_veterinary/screens/profil/profil_screen.dart';
+import 'package:bltvt_mobile_veterinary/screens/sellingscreen/selling_screen.dart';
 import 'package:bltvt_mobile_veterinary/utils/colors.dart';
 import 'package:bltvt_mobile_veterinary/utils/custom_style.dart';
 import 'package:bltvt_mobile_veterinary/widgets/search_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_scroll_to_top/flutter_scroll_to_top.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 
 import 'package:flutter/material.dart';
@@ -60,7 +65,134 @@ class _ProductsScreenState extends State<ProductsScreen> {
                   buildProductList(context, vm),
                 ],
               ),
+            ),  bottomNavigationBar: BottomAppBar(
+            shape: CircularNotchedRectangle(),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                IconButton(
+                  icon: Icon(Icons.home),
+                  onPressed: () {
+                    Navigator.of(context)
+                      .push(
+                        MaterialPageRoute(
+                          builder: (context) => MainMenuScreen()
+                        ),
+                      )
+                      .then(
+                        (value) => setState(
+                          () {
+                            vm.refreshState();
+                          },
+                        ),
+                      );
+                
+                    
+                  },
+                ),
+                IconButton(
+                  icon: Icon(Icons.search),
+                  onPressed: () {
+                    Navigator.of(context)
+                      .push(
+                        MaterialPageRoute(
+                          builder: (context) => SellingScreen()
+                        ),
+                      )
+                      .then(
+                        (value) => setState(
+                          () {
+                            vm.refreshState();
+                          },
+                        ),
+                      );
+                  },
+                ), Text('            '),
+                 IconButton(
+                  icon: Icon(Icons.person),
+                  onPressed: () {
+                    Navigator.of(context)
+                      .push(
+                        MaterialPageRoute(
+                          builder: (context) => ProfileScreen()
+                        ),
+                      )
+                      .then(
+                        (value) => setState(
+                          () {
+                            vm.refreshState();
+                          },
+                        ),
+                      );
+                  },
+                ),
+                 IconButton(
+                  icon: Icon(Icons.settings),
+                  onPressed: () {
+                  },
+                ),
+             
+              ],
             ),
+          ),
+          floatingActionButton: SpeedDial(
+              icon: Icons.menu,
+              activeIcon: Icons.close,
+              spacing: 3,
+              childPadding: const EdgeInsets.all(5),
+              spaceBetweenChildren: 4,
+              visible: true,
+              direction: SpeedDialDirection.up,
+              elevation: 8,
+              animationCurve: Curves.elasticInOut,
+              isOpenOnStart: false,
+              backgroundColor: CustomColor.primaryColor,
+              foregroundColor: Colors.white,
+              buttonSize: const Size(60, 60),
+              childrenButtonSize: const Size(60, 60),
+              children: [
+               
+                   SpeedDialChild(
+                  
+                  backgroundColor: CustomColor.primaryColor,
+                  foregroundColor: Colors.white,
+                  label: "Hızlı Satış",
+                /*  onTap: () => Navigator.of(context)
+                      .push(
+                        MaterialPageRoute(
+                          builder: (context) => AdmissionTestScreen(
+                              vm.patientDetail.dsPatientName ?? "",
+                              "",
+                              GetAppointmentByIdPatientResponse(),
+                              vm.customerDetail.dsGuidId,
+                              widget.patientGuid,
+                              vm.patientDetail.dsPatientName),
+                        ),
+                      )
+                      .then(
+                        (value) => setState(
+                          () {
+                            vm.refreshState();
+                          },
+                        ),
+                      ), */
+                ),
+                   SpeedDialChild(
+                  backgroundColor: CustomColor.primaryColor,
+                  foregroundColor: Colors.white,
+                  label: "Hızlı müşteri ekle",
+                  onTap: () =>  Navigator.of(context)
+                .push(MaterialPageRoute(
+                    builder: (context) => CustomerEditScreen('')))
+                .then((value) => setState(() {
+                      vm.refreshState();
+                    })),
+                ),
+              ]
+          ),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
+          
           
         );
       },

@@ -2,6 +2,7 @@ import 'package:bltvt_mobile_veterinary/data/requests/save_customer_request.dart
 import 'package:bltvt_mobile_veterinary/data/requests/update_patient_status_request.dart';
 import 'package:bltvt_mobile_veterinary/data/responses/save_patient_response.dart';
 import 'package:bltvt_mobile_veterinary/screens/_base/base_widget.dart';
+import 'package:bltvt_mobile_veterinary/screens/customers/customer_edit_screen.dart';
 import 'package:bltvt_mobile_veterinary/screens/customers/customer_profile_screen_view_model.dart';
 import 'package:bltvt_mobile_veterinary/screens/patients/patient_edit_screen.dart';
 import 'package:bltvt_mobile_veterinary/screens/patients/patient_profile_screen.dart';
@@ -587,8 +588,8 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
                 ],
               ),
             ),
-          ),
-          floatingActionButton: SpeedDial(
+          ), 
+         /* floatingActionButton: SpeedDial(
             // Ana düğme (FAB) özellikleri
             child: Icon(Icons.menu),
             backgroundColor: CustomColor.primaryColor,
@@ -648,9 +649,98 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
                     ),
               ),
             ],
+          ), */  bottomNavigationBar: BottomAppBar(
+            shape: CircularNotchedRectangle(),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                IconButton(
+                  icon: Icon(Icons.home),
+                  onPressed: () {
+                    // Burada ana ekranınıza yönlendirme yapabilirsiniz
+                  },
+                ),
+                IconButton(
+                  icon: Icon(Icons.search),
+                  onPressed: () {
+                    // Burada arama ekranınıza yönlendirme yapabilirsiniz
+                  },
+                ), Text('            '),
+                IconButton(
+                  icon: Icon(Icons.person),
+                  onPressed: () {
+                    // Burada profil ekranınıza yönlendirme yapabilirsiniz
+                  },
+                ),
+                IconButton(
+                  icon: Icon(Icons.settings),
+                  onPressed: () {
+                    // Burada ayarlar ekranınıza yönlendirme yapabilirsiniz
+                  },
+                ),
+              ],
+            ),
+          ), floatingActionButton: SpeedDial(
+              icon: Icons.menu,
+              activeIcon: Icons.close,
+              spacing: 3,
+              childPadding: const EdgeInsets.all(5),
+              spaceBetweenChildren: 4,
+              visible: true,
+              direction: SpeedDialDirection.up,
+              elevation: 8,
+              animationCurve: Curves.elasticInOut,
+              isOpenOnStart: false,
+              backgroundColor: CustomColor.primaryColor,
+              foregroundColor: Colors.white,
+              buttonSize: const Size(60, 60),
+              childrenButtonSize: const Size(60, 60),
+              children: [
+               
+                   SpeedDialChild(
+                  
+                  backgroundColor: CustomColor.primaryColor,
+                  foregroundColor: Colors.white,
+                  label: "Hızlı Satış",
+                /*  onTap: () => Navigator.of(context)
+                      .push(
+                        MaterialPageRoute(
+                          builder: (context) => AdmissionTestScreen(
+                              vm.patientDetail.dsPatientName ?? "",
+                              "",
+                              GetAppointmentByIdPatientResponse(),
+                              vm.customerDetail.dsGuidId,
+                              widget.patientGuid,
+                              vm.patientDetail.dsPatientName),
+                        ),
+                      )
+                      .then(
+                        (value) => setState(
+                          () {
+                            vm.refreshState();
+                          },
+                        ),
+                      ), */
+                ),
+                   SpeedDialChild(
+                  backgroundColor: CustomColor.primaryColor,
+                  foregroundColor: Colors.white,
+                  label: "Hızlı müşteri ekle",
+                  onTap: () =>  Navigator.of(context)
+                .push(MaterialPageRoute(
+                    builder: (context) => CustomerEditScreen('')))
+                .then((value) => setState(() {
+                      vm.refreshState();
+                    })),
+                ),
+              ]
           ),
-        );
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
+          
+        
+        ); 
       },
-    );
-  }
+    );  
+  } 
 }

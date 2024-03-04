@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_scroll_to_top/flutter_scroll_to_top.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 class CustomersScreen extends StatefulWidget {
   const CustomersScreen({Key key}) : super(key: key);
@@ -26,6 +27,7 @@ class _CustomersScreenState extends State<CustomersScreen> with ChangeNotifier {
   String query = '';
   CustomersScreenViewModel viewModel;
   ScrollController scrollController = ScrollController();
+  int _selectedIndex = 0; // Seçili sekmenin dizini
 
   @override
   void initState() {
@@ -40,7 +42,7 @@ class _CustomersScreenState extends State<CustomersScreen> with ChangeNotifier {
         viewModel = vm;
         return Scaffold(
           appBar: buildAppBar(),
-          body:  Column(
+          body: Column(
             children: <Widget>[
               Container(
                 child: buildSearch(context, vm),
@@ -48,20 +50,97 @@ class _CustomersScreenState extends State<CustomersScreen> with ChangeNotifier {
               buildCustomerList(context, vm),
             ],
           ),
-          floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-          floatingActionButton: FloatingActionButton(
-            onPressed: () => Navigator.of(context)
+        
+          
+          bottomNavigationBar: BottomAppBar(
+            shape: CircularNotchedRectangle(),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                IconButton(
+                  icon: Icon(Icons.home),
+                  onPressed: () {
+                    // Burada ana ekranınıza yönlendirme yapabilirsiniz
+                  },
+                ),
+                IconButton(
+                  icon: Icon(Icons.search),
+                  onPressed: () {
+                    // Burada arama ekranınıza yönlendirme yapabilirsiniz
+                  },
+                ), Text('            '),
+                IconButton(
+                  icon: Icon(Icons.person),
+                  onPressed: () {
+                    // Burada profil ekranınıza yönlendirme yapabilirsiniz
+                  },
+                ),
+                IconButton(
+                  icon: Icon(Icons.settings),
+                  onPressed: () {
+                    // Burada ayarlar ekranınıza yönlendirme yapabilirsiniz
+                  },
+                ),
+              ],
+            ),
+          ), floatingActionButton: SpeedDial(
+              icon: Icons.menu,
+              activeIcon: Icons.close,
+              spacing: 3,
+              childPadding: const EdgeInsets.all(5),
+              spaceBetweenChildren: 4,
+              visible: true,
+              direction: SpeedDialDirection.up,
+              elevation: 8,
+              animationCurve: Curves.elasticInOut,
+              isOpenOnStart: false,
+              backgroundColor: CustomColor.primaryColor,
+              foregroundColor: Colors.white,
+              buttonSize: const Size(60, 60),
+              childrenButtonSize: const Size(60, 60),
+              children: [
+               
+                   SpeedDialChild(
+                  
+                  backgroundColor: CustomColor.primaryColor,
+                  foregroundColor: Colors.white,
+                  label: "Hızlı Satış",
+                /*  onTap: () => Navigator.of(context)
+                      .push(
+                        MaterialPageRoute(
+                          builder: (context) => AdmissionTestScreen(
+                              vm.patientDetail.dsPatientName ?? "",
+                              "",
+                              GetAppointmentByIdPatientResponse(),
+                              vm.customerDetail.dsGuidId,
+                              widget.patientGuid,
+                              vm.patientDetail.dsPatientName),
+                        ),
+                      )
+                      .then(
+                        (value) => setState(
+                          () {
+                            vm.refreshState();
+                          },
+                        ),
+                      ), */
+                ),
+                   SpeedDialChild(
+                  backgroundColor: CustomColor.primaryColor,
+                  foregroundColor: Colors.white,
+                  label: "Hızlı müşteri ekle",
+                  onTap: () =>  Navigator.of(context)
                 .push(MaterialPageRoute(
                     builder: (context) => CustomerEditScreen('')))
                 .then((value) => setState(() {
                       vm.refreshState();
                     })),
-            backgroundColor: CustomColor.primaryColor,
-            child: const Icon(
-              Icons.add,
-              size: 30,
-            ),
+                ),
+              ]
           ),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
+          
         );
       },
     );
@@ -315,7 +394,7 @@ class _CustomersScreenState extends State<CustomersScreen> with ChangeNotifier {
             },
           ),
         ),
-      ),
+      ), 
     );
   }
 

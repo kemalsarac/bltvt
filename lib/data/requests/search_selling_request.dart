@@ -12,6 +12,7 @@ class SearchSellinRequest {
   int length;
   int sortColumnIndex;
   bool sortDirectionAsc;
+  String searchText;
   int startIndex;
 
   SearchSellinRequest({
@@ -28,6 +29,7 @@ class SearchSellinRequest {
      this.length,
      this.sortColumnIndex,
      this.sortDirectionAsc,
+     this.searchText,
      this.startIndex,
   });
 
@@ -46,6 +48,7 @@ class SearchSellinRequest {
       'length': length,
       'sortColumnIndex': sortColumnIndex,
       'sortDirectionAsc': sortDirectionAsc,
+      'searchText' : searchText,
       'startIndex': startIndex,
     };
   }

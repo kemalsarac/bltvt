@@ -408,9 +408,5 @@ class _ProfileInfoCardState extends State<ProfileInfoCard> {
     );
   }
 
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
+  
 }

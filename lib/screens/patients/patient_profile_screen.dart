@@ -6,8 +6,11 @@ import 'package:bltvt_mobile_veterinary/data/responses/get_appointment_by_id_pat
 import 'package:bltvt_mobile_veterinary/screens/_base/base_widget.dart';
 import 'package:bltvt_mobile_veterinary/screens/admissions/admission_edit_screen.dart';
 import 'package:bltvt_mobile_veterinary/screens/admissions/admission_test_screen.dart';
+import 'package:bltvt_mobile_veterinary/screens/main_menu/main_menu_screen.dart';
 import 'package:bltvt_mobile_veterinary/screens/patients/patient_edit_screen.dart';
 import 'package:bltvt_mobile_veterinary/screens/patients/patient_profile_screen_view_model.dart';
+import 'package:bltvt_mobile_veterinary/screens/profil/profil_screen.dart';
+import 'package:bltvt_mobile_veterinary/screens/sellingscreen/selling_screen.dart';
 import 'package:bltvt_mobile_veterinary/utils/colors.dart';
 import 'package:bltvt_mobile_veterinary/utils/custom_style.dart';
 import 'package:bltvt_mobile_veterinary/utils/dimensions.dart';
@@ -58,7 +61,7 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
         return Form(
           key: _keyForm,
           child: Scaffold(
-            floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+            floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
             floatingActionButton: SpeedDial(
               icon: Icons.menu,
               activeIcon: Icons.close,
@@ -1120,7 +1123,76 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
                   ],
                 ),
               ),
+            ), bottomNavigationBar: BottomAppBar(
+            shape: CircularNotchedRectangle(),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                IconButton(
+                  icon: Icon(Icons.home),
+                  onPressed: () {
+                    Navigator.of(context)
+                      .push(
+                        MaterialPageRoute(
+                          builder: (context) => MainMenuScreen()
+                        ),
+                      )
+                      .then(
+                        (value) => setState(
+                          () {
+                            vm.refreshState();
+                          },
+                        ),
+                      );
+                
+                    
+                  },
+                ),
+                IconButton(
+                  icon: Icon(Icons.search),
+                  onPressed: () {
+                    Navigator.of(context)
+                      .push(
+                        MaterialPageRoute(
+                          builder: (context) => SellingScreen()
+                        ),
+                      )
+                      .then(
+                        (value) => setState(
+                          () {
+                            vm.refreshState();
+                          },
+                        ),
+                      );
+                  },
+                ), Text('            '),
+                 IconButton(
+                  icon: Icon(Icons.person),
+                  onPressed: () {
+                    Navigator.of(context)
+                      .push(
+                        MaterialPageRoute(
+                          builder: (context) => ProfileScreen()
+                        ),
+                      )
+                      .then(
+                        (value) => setState(
+                          () {
+                            vm.refreshState();
+                          },
+                        ),
+                      );
+                  },
+                ),
+                 IconButton(
+                  icon: Icon(Icons.settings),
+                  onPressed: () {
+                  },
+                ),
+             
+              ],
             ),
+          ),
           ),
         );
       },

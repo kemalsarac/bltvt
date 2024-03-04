@@ -245,7 +245,7 @@ Widget build(BuildContext context) {
                       ),
                     ],
                   ),
-                ),
+                ), 
                 Padding(
                   padding: const EdgeInsets.only(top: 10),
                   child: Row(

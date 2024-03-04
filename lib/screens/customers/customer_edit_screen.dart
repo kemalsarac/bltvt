@@ -133,11 +133,12 @@ class CustomerEditScreen extends StatelessWidget {
                   TabPage1(vm),
                   TabPage2(vm),
                   TabPage3(vm),
-                ],
-              ),
-            ),
-          ),
-        );
+                  
+                ], 
+              ) 
+            ), 
+          ), 
+        ); 
       },
     );
   }

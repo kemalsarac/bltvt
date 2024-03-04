@@ -6,6 +6,7 @@ import 'package:bltvt_mobile_veterinary/screens/customers/customers_screen.dart'
 import 'package:bltvt_mobile_veterinary/screens/main_menu/main_menu_view_model.dart';
 import 'package:bltvt_mobile_veterinary/screens/products/products_screen.dart';
 import 'package:bltvt_mobile_veterinary/screens/products/vaccines_screen.dart';
+import 'package:bltvt_mobile_veterinary/screens/searchpage/search_page.dart';
 import 'package:bltvt_mobile_veterinary/screens/sellingscreen/selling_screen.dart';
 import 'package:bltvt_mobile_veterinary/utils/colors.dart';
 import 'package:bltvt_mobile_veterinary/utils/dimensions.dart';
@@ -72,20 +73,18 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
                 SizedBox(height: 2.0),
                 Expanded(
                   child: GridView.count(
-                    mainAxisSpacing: 10.scaleByHeight(),
-                    crossAxisSpacing: 10.scaleByHeight(),
-                    crossAxisCount: 2,
+                    mainAxisSpacing: 0.scaleByHeight(),
+                    crossAxisSpacing: 0.scaleByHeight(),
+                    crossAxisCount: 3,
                     children: const <Widget>[
                       MainMenuItemWidget('Müşteriler', Icons.groups),
                       MainMenuItemWidget(
-                          'Randevular', Icons.date_range_outlined),
+                          'Randevu', Icons.date_range_outlined),
                       MainMenuItemWidget('Ürünler', Icons.shopping_bag),
                       MainMenuItemWidget('Aşılar', Icons.vaccines),
-                      //MainMenuItemWidget('Cüzdan', Icons.wallet),
-                      MainMenuItemWidget('Profilim', Icons.person),
-                
+                      MainMenuItemWidget('Satışlar', Icons.sell),
                       MainMenuItemWidget(
-                          'Bilanço', Icons.account_balance_wallet_rounded),
+                          'Özet', Icons.account_balance_wallet_rounded),
                     ],
                   ),
                 ),
@@ -119,10 +118,10 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
                 IconButton(
                   icon: Icon(Icons.search),
                   onPressed: () {
-                    Navigator.of(context)
+                      Navigator.of(context)
                       .push(
                         MaterialPageRoute(
-                          builder: (context) => SellingScreen()
+                          builder: (context) => SearchScreen()
                         ),
                       )
                       .then(
@@ -132,8 +131,9 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
                           },
                         ),
                       );
+                   
                   },
-                ),
+                ), Text('            '),
                  IconButton(
                   icon: Icon(Icons.person),
                   onPressed: () {
@@ -248,10 +248,12 @@ class MainMenuItemWidget extends StatelessWidget {
           case "Randevular":
             _navigateToScreen(context, const AdmissionsScreen());
             break;
-          case "Profilim":
-            _navigateToScreen(context, ProfileScreen());
+            case "Satışlar":
+            _navigateToScreen(context, SellingScreen());
             break;
-          case "Bilanço":
+            
+
+          case "Özet":
             _navigateToScreen(context, BilancoScreen());
             break;
         }
