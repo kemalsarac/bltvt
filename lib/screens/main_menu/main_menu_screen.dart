@@ -241,7 +241,7 @@ class MainMenuItemWidget extends StatelessWidget {
             _navigateToScreen(context, const VaccinesScreen());
             break;
           case "Randevular":
-            _navigateToScreen(context, const AdmissionsScreen());
+            _navigateToScreen(context, AdmissionsScreen());
             break;
             case "Satışlar":
             _navigateToScreen(context, SellingScreen());
