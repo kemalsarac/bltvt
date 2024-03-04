@@ -1,9 +1,13 @@
 import 'package:bltvt_mobile_veterinary/data/requests/save_customer_request.dart';
 import 'package:bltvt_mobile_veterinary/data/responses/get_customer_search_response.dart';
+import 'package:bltvt_mobile_veterinary/screens/Depobilgileri.dart/depo_look.dart';
 import 'package:bltvt_mobile_veterinary/screens/_base/base_widget.dart';
 import 'package:bltvt_mobile_veterinary/screens/customers/customer_edit_screen.dart';
 import 'package:bltvt_mobile_veterinary/screens/customers/customer_profile_screen.dart';
 import 'package:bltvt_mobile_veterinary/screens/customers/customers_screen_view_model.dart';
+import 'package:bltvt_mobile_veterinary/screens/main_menu/main_menu_screen.dart';
+import 'package:bltvt_mobile_veterinary/screens/profil/profil_screen.dart';
+import 'package:bltvt_mobile_veterinary/screens/searchpage/search_page.dart';
 import 'package:bltvt_mobile_veterinary/utils/colors.dart';
 import 'package:bltvt_mobile_veterinary/utils/dimensions.dart';
 import 'package:bltvt_mobile_veterinary/utils/extensions/extensions.dart';
@@ -52,7 +56,7 @@ class _CustomersScreenState extends State<CustomersScreen> with ChangeNotifier {
           ),
         
           
-          bottomNavigationBar: BottomAppBar(
+         bottomNavigationBar: BottomAppBar(
             shape: CircularNotchedRectangle(),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -60,27 +64,65 @@ class _CustomersScreenState extends State<CustomersScreen> with ChangeNotifier {
                 IconButton(
                   icon: Icon(Icons.home),
                   onPressed: () {
-                    // Burada ana ekranınıza yönlendirme yapabilirsiniz
+                    Navigator.of(context)
+                      .push(
+                        MaterialPageRoute(
+                          builder: (context) => MainMenuScreen()
+                        ),
+                      )
+                      .then(
+                        (value) => setState(
+                          () {
+                            vm.refreshState();
+                          },
+                        ),
+                      );
+                
+                    
                   },
                 ),
                 IconButton(
                   icon: Icon(Icons.search),
                   onPressed: () {
-                    // Burada arama ekranınıza yönlendirme yapabilirsiniz
+                    Navigator.of(context)
+                      .push(
+                        MaterialPageRoute(
+                          builder: (context) => SearchScreen()
+                        ),
+                      )
+                      .then(
+                        (value) => setState(
+                          () {
+                            vm.refreshState();
+                          },
+                        ),
+                      );
                   },
                 ), Text('            '),
-                IconButton(
+                 IconButton(
                   icon: Icon(Icons.person),
                   onPressed: () {
-                    // Burada profil ekranınıza yönlendirme yapabilirsiniz
+                    Navigator.of(context)
+                      .push(
+                        MaterialPageRoute(
+                          builder: (context) => ProfileScreen()
+                        ),
+                      )
+                      .then(
+                        (value) => setState(
+                          () {
+                            vm.refreshState();
+                          },
+                        ),
+                      );
                   },
                 ),
-                IconButton(
+                 IconButton(
                   icon: Icon(Icons.settings),
                   onPressed: () {
-                    // Burada ayarlar ekranınıza yönlendirme yapabilirsiniz
                   },
                 ),
+             
               ],
             ),
           ), floatingActionButton: SpeedDial(
@@ -136,6 +178,17 @@ class _CustomersScreenState extends State<CustomersScreen> with ChangeNotifier {
                       vm.refreshState();
                     })),
                 ),
+                 SpeedDialChild(
+                  backgroundColor: CustomColor.primaryColor,
+                  foregroundColor: Colors.white,
+                  label: "Depo",
+                  onTap: () =>  Navigator.of(context)
+                .push(MaterialPageRoute(
+                    builder: (context) => DepoLookScreen()))
+                .then((value) => setState(() {
+                      vm.refreshState();
+                    })),
+                ), 
               ]
           ),
           floatingActionButtonLocation:

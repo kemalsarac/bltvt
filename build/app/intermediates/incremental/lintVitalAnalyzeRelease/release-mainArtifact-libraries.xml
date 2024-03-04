@@ -30,6 +30,19 @@
       externalAnnotations="annotations.zip"
       proguardRules="proguard.txt"/>
   <library
+      name="/Users/kemalsarac/Downloads/bulutvet-mobile-veterinary-main/android@@:flutter_keyboard_visibility::release"
+      jars="/Users/kemalsarac/Downloads/bulutvet-mobile-veterinary-main/build/flutter_keyboard_visibility/.transforms/3306c8c77db7d7d0fe891582664fa3a2/transformed/out/jars/classes.jar"
+      resolved="com.jrai.flutter_keyboard_visibility:flutter_keyboard_visibility:unspecified"
+      folder="/Users/kemalsarac/Downloads/bulutvet-mobile-veterinary-main/build/flutter_keyboard_visibility/.transforms/3306c8c77db7d7d0fe891582664fa3a2/transformed/out"
+      manifest="AndroidManifest.xml"
+      resFolder="res"
+      assetsFolder="assets"
+      lintJar="lint.jar"
+      publicResources="public.txt"
+      symbolFile="R.txt"
+      externalAnnotations="annotations.zip"
+      proguardRules="proguard.txt"/>
+  <library
       name="/Users/kemalsarac/Downloads/bulutvet-mobile-veterinary-main/android@@:fluttertoast::release"
       jars="/Users/kemalsarac/Downloads/bulutvet-mobile-veterinary-main/build/fluttertoast/.transforms/14a997a347ab009d9d6e514dcd5e094f/transformed/out/jars/classes.jar"
       resolved="com.example.FlutterToast:fluttertoast:unspecified"

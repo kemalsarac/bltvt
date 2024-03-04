@@ -4,8 +4,11 @@ import 'package:bltvt_mobile_veterinary/data/responses/save_patient_response.dar
 import 'package:bltvt_mobile_veterinary/screens/_base/base_widget.dart';
 import 'package:bltvt_mobile_veterinary/screens/customers/customer_edit_screen.dart';
 import 'package:bltvt_mobile_veterinary/screens/customers/customer_profile_screen_view_model.dart';
+import 'package:bltvt_mobile_veterinary/screens/main_menu/main_menu_screen.dart';
 import 'package:bltvt_mobile_veterinary/screens/patients/patient_edit_screen.dart';
 import 'package:bltvt_mobile_veterinary/screens/patients/patient_profile_screen.dart';
+import 'package:bltvt_mobile_veterinary/screens/profil/profil_screen.dart';
+import 'package:bltvt_mobile_veterinary/screens/searchpage/search_page.dart';
 import 'package:bltvt_mobile_veterinary/utils/colors.dart';
 import 'package:bltvt_mobile_veterinary/utils/custom_style.dart';
 import 'package:bltvt_mobile_veterinary/utils/dimensions.dart';
@@ -649,7 +652,7 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
                     ),
               ),
             ],
-          ), */  bottomNavigationBar: BottomAppBar(
+          ), */ bottomNavigationBar: BottomAppBar(
             shape: CircularNotchedRectangle(),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -657,30 +660,69 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
                 IconButton(
                   icon: Icon(Icons.home),
                   onPressed: () {
-                    // Burada ana ekranınıza yönlendirme yapabilirsiniz
+                    Navigator.of(context)
+                      .push(
+                        MaterialPageRoute(
+                          builder: (context) => MainMenuScreen()
+                        ),
+                      )
+                      .then(
+                        (value) => setState(
+                          () {
+                            vm.refreshState();
+                          },
+                        ),
+                      );
+                
+                    
                   },
                 ),
                 IconButton(
                   icon: Icon(Icons.search),
                   onPressed: () {
-                    // Burada arama ekranınıza yönlendirme yapabilirsiniz
+                    Navigator.of(context)
+                      .push(
+                        MaterialPageRoute(
+                          builder: (context) => SearchScreen()
+                        ),
+                      )
+                      .then(
+                        (value) => setState(
+                          () {
+                            vm.refreshState();
+                          },
+                        ),
+                      );
                   },
                 ), Text('            '),
-                IconButton(
+                 IconButton(
                   icon: Icon(Icons.person),
                   onPressed: () {
-                    // Burada profil ekranınıza yönlendirme yapabilirsiniz
+                    Navigator.of(context)
+                      .push(
+                        MaterialPageRoute(
+                          builder: (context) => ProfileScreen()
+                        ),
+                      )
+                      .then(
+                        (value) => setState(
+                          () {
+                            vm.refreshState();
+                          },
+                        ),
+                      );
                   },
                 ),
-                IconButton(
+                 IconButton(
                   icon: Icon(Icons.settings),
                   onPressed: () {
-                    // Burada ayarlar ekranınıza yönlendirme yapabilirsiniz
                   },
                 ),
+             
               ],
             ),
-          ), floatingActionButton: SpeedDial(
+          ), floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+            floatingActionButton: SpeedDial(
               icon: Icons.menu,
               activeIcon: Icons.close,
               spacing: 3,
@@ -696,23 +738,21 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
               buttonSize: const Size(60, 60),
               childrenButtonSize: const Size(60, 60),
               children: [
-               
-                   SpeedDialChild(
-                  
-                  backgroundColor: CustomColor.primaryColor,
-                  foregroundColor: Colors.white,
-                  label: "Hızlı Satış",
-                /*  onTap: () => Navigator.of(context)
+                SpeedDialChild(
+                  child: const Icon(Icons.date_range_outlined),
+                  backgroundColor: CustomColor.accentColor,
+                  foregroundColor: Colors.blue,
+                  label: "Randevu Oluştur",
+                  onTap: () => Navigator.of(context)
                       .push(
-                        MaterialPageRoute(
-                          builder: (context) => AdmissionTestScreen(
-                              vm.patientDetail.dsPatientName ?? "",
-                              "",
-                              GetAppointmentByIdPatientResponse(),
-                              vm.customerDetail.dsGuidId,
-                              widget.patientGuid,
-                              vm.patientDetail.dsPatientName),
+                         MaterialPageRoute(
+                        builder: (context) => AdmissionEditScreen(
+                          "",
+                          GetAppointmentByIdPatientResponse(),
+                          vm.customerDetail.dsGuidId,
+                          widget.patientGuid,
                         ),
+                      ),
                       )
                       .then(
                         (value) => setState(
@@ -720,23 +760,36 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
                             vm.refreshState();
                           },
                         ),
-                      ), */
+                      ),
                 ),
-                   SpeedDialChild(
-                  backgroundColor: CustomColor.primaryColor,
-                  foregroundColor: Colors.white,
-                  label: "Hızlı müşteri ekle",
-                  onTap: () =>  Navigator.of(context)
-                .push(MaterialPageRoute(
-                    builder: (context) => CustomerEditScreen('')))
-                .then((value) => setState(() {
-                      vm.refreshState();
-                    })),
+                SpeedDialChild(
+                  child: const Icon(Icons.edit_document),
+                  backgroundColor: CustomColor.accentColor,
+                  foregroundColor: Colors.blue,
+                  label: "Hasta ekle",
+                  onTap: () => Navigator.of(context)
+                      .push(
+                       MaterialPageRoute(
+                        builder: (context) => PatientEditScreen(
+                          '',
+                          '',
+                          vm.customerDetail.idCustomer,
+                          vm.customerDetail,
+                          false,
+                        ),
+                      ),
+                      )
+                      .then(
+                        (value) => setState(
+                          () {
+                            vm.refreshState();
+                          },
+                        ),
+                      ),
                 ),
-              ]
-          ),
-          floatingActionButtonLocation:
-              FloatingActionButtonLocation.centerDocked,
+               
+              ], ),
+          
           
         
         ); 

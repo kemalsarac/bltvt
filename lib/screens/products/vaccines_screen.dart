@@ -6,6 +6,7 @@ import 'package:bltvt_mobile_veterinary/screens/main_menu/main_menu_screen.dart'
 import 'package:bltvt_mobile_veterinary/screens/products/vaccines_detail_screen.dart';
 import 'package:bltvt_mobile_veterinary/screens/products/vaccines_screen_view_model.dart';
 import 'package:bltvt_mobile_veterinary/screens/profil/profil_screen.dart';
+import 'package:bltvt_mobile_veterinary/screens/searchpage/search_page.dart';
 import 'package:bltvt_mobile_veterinary/screens/sellingscreen/selling_screen.dart';
 import 'package:bltvt_mobile_veterinary/utils/colors.dart';
 import 'package:bltvt_mobile_veterinary/utils/custom_style.dart';
@@ -94,7 +95,7 @@ class _VaccinesScreenState extends State<VaccinesScreen> {
                     Navigator.of(context)
                       .push(
                         MaterialPageRoute(
-                          builder: (context) => SellingScreen()
+                          builder: (context) => SearchScreen()
                         ),
                       )
                       .then(
@@ -179,6 +180,16 @@ class _VaccinesScreenState extends State<VaccinesScreen> {
                   backgroundColor: CustomColor.primaryColor,
                   foregroundColor: Colors.white,
                   label: "Hızlı müşteri ekle",
+                  onTap: () =>  Navigator.of(context)
+                .push(MaterialPageRoute(
+                    builder: (context) => CustomerEditScreen('')))
+                .then((value) => setState(() {
+                      vm.refreshState();
+                    })),
+                ), SpeedDialChild(
+                  backgroundColor: CustomColor.primaryColor,
+                  foregroundColor: Colors.white,
+                  label: "Depolar",
                   onTap: () =>  Navigator.of(context)
                 .push(MaterialPageRoute(
                     builder: (context) => CustomerEditScreen('')))

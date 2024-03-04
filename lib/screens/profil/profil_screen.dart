@@ -1,9 +1,15 @@
 import 'dart:io';
 
+import 'package:bltvt_mobile_veterinary/screens/Depobilgileri.dart/depo_look.dart';
+import 'package:bltvt_mobile_veterinary/screens/customers/customer_edit_screen.dart';
+import 'package:bltvt_mobile_veterinary/screens/main_menu/main_menu_screen.dart';
+import 'package:bltvt_mobile_veterinary/screens/searchpage/search_page.dart';
+import 'package:bltvt_mobile_veterinary/screens/sellingscreen/retail_sales.dart';
 import 'package:flutter/material.dart';
 import 'package:bltvt_mobile_veterinary/screens/_base/base_widget.dart';
 import 'package:bltvt_mobile_veterinary/screens/profil/profil_screen_view_model.dart';
 import 'package:bltvt_mobile_veterinary/utils/colors.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({Key key}) : super(key: key);
@@ -16,16 +22,18 @@ class ProfileScreen extends StatelessWidget {
         return Scaffold(
           backgroundColor: CustomColor.accentColor,
           appBar: AppBar(
+            
             title: Row(
+              
             children: [
+               
               Image.asset(
-                'assets/images/bulutvet-logo-white.png', 
+                'assets/images/bulutvet-logo-white.png' , 
                 height: 30,  
                 width: 102,   
                 fit: BoxFit.cover,
               ),
-             
-            ],
+                         ],
           ),
             centerTitle: false,
             backgroundColor: CustomColor.primaryColor,
@@ -68,15 +76,16 @@ class ProfileScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 1),
-                ProfileInfoCard(label: 'Şirket ismi', initialValue: companydata.dsCompany ?? 'Default Name'),
+                ProfileInfoCard(label:companydata.dsCompany , initialValue: companydata.dsCompany ?? 'Default Name'),
                 ProfileInfoCard(
-                    label: 'Telefon numarası', initialValue: companydata.dsOfficalPhone ?? 'Default Name'),
-                ProfileInfoCard(label: 'İl/İlçe', initialValue: companydata.dsCity + "/" + companydata.dsTown),
+                    label: companydata.dsOfficalPhone, initialValue: companydata.dsOfficalPhone ?? 'Default Name'),
+                ProfileInfoCard(label: companydata.dsCity + "/" + companydata.dsTown, initialValue: companydata.dsCity + "/" + companydata.dsTown),
                 ProfileInfoCard(
-                    label: 'Vergi dairesi', initialValue: companydata.dsTaxOffice),
-                ProfileInfoCard(label: 'Vergi no', initialValue: companydata.dsTaxNo),
+                    label: 'vergi dairesi' + companydata.dsTaxOffice, initialValue: companydata.dsTaxOffice),
+                ProfileInfoCard(label:  companydata.dsTaxNo, initialValue:  companydata.dsTaxNo ??'Default Name' ),
                
                 const SizedBox(height: 1),
+                
                 Column(
                   children: [
                     TextButton(
@@ -162,7 +171,111 @@ class ProfileScreen extends StatelessWidget {
                 ),
               ],
             ),
+          ),  bottomNavigationBar: BottomAppBar(
+            shape: CircularNotchedRectangle(),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                IconButton(
+                  icon: Icon(Icons.home),
+                  onPressed: () {
+                    Navigator.of(context)
+                      .push(
+                        MaterialPageRoute(
+                          builder: (context) => MainMenuScreen()
+                        ),
+                      )
+                      ;
+                
+                    
+                  },
+                ),
+                IconButton(
+                  icon: Icon(Icons.search),
+                  onPressed: () {
+                      Navigator.of(context)
+                      .push(
+                        MaterialPageRoute(
+                          builder: (context) => SearchScreen()
+                        ),
+                      )
+                     ;
+                   
+                  },
+                ), Text('            '),
+                 IconButton(
+                  icon: Icon(Icons.person),
+                  onPressed: () {
+                    Navigator.of(context)
+                      .push(
+                        MaterialPageRoute(
+                          builder: (context) => ProfileScreen()
+                        ),
+                      )
+                      ;
+                  },
+                ),
+                 IconButton(
+                  icon: Icon(Icons.settings),
+                  onPressed: () {
+                  },
+                ),
+             
+              ],
+            ),
           ),
+          floatingActionButton: SpeedDial(
+              icon: Icons.menu,
+              activeIcon: Icons.close,
+              spacing: 3,
+              childPadding: const EdgeInsets.all(5),
+              spaceBetweenChildren: 4,
+              visible: true,
+              direction: SpeedDialDirection.up,
+              elevation: 8,
+              animationCurve: Curves.elasticInOut,
+              isOpenOnStart: false,
+              backgroundColor: CustomColor.primaryColor,
+              foregroundColor: Colors.white,
+              buttonSize: const Size(60, 60),
+              childrenButtonSize: const Size(60, 60),
+              children: [
+               
+                   SpeedDialChild(
+                  
+                  backgroundColor: CustomColor.primaryColor,
+                  foregroundColor: Colors.white,
+                  label: "Hızlı Satış",
+                  onTap: () => Navigator.of(context)
+                      .push(
+                        MaterialPageRoute(
+                          builder: (context) => RetailSalesScreen("")
+                        ),
+                      )
+                     
+                ),
+                   SpeedDialChild(
+                  backgroundColor: CustomColor.primaryColor,
+                  foregroundColor: Colors.white,
+                  label: "Hızlı müşteri ekle",
+                  onTap: () =>  Navigator.of(context)
+                .push(MaterialPageRoute(
+                    builder: (context) => CustomerEditScreen('')))
+                
+                ),
+                    SpeedDialChild(
+                  backgroundColor: CustomColor.primaryColor,
+                  foregroundColor: Colors.white,
+                  label: "Depo",
+                  onTap: () =>  Navigator.of(context)
+                .push(MaterialPageRoute(
+                    builder: (context) => DepoLookScreen()))
+               
+                ),
+              ]
+          ),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
         );
       },
     );

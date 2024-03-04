@@ -1,9 +1,11 @@
 import 'package:bltvt_mobile_veterinary/data/responses/bilanco_response.dart';
+import 'package:bltvt_mobile_veterinary/screens/Depobilgileri.dart/depo_look.dart';
 import 'package:bltvt_mobile_veterinary/screens/_base/base_widget.dart';
 import 'package:bltvt_mobile_veterinary/screens/bilanco_screen/bilanco_screen_view_model.dart';
 import 'package:bltvt_mobile_veterinary/screens/customers/customer_edit_screen.dart';
 import 'package:bltvt_mobile_veterinary/screens/main_menu/main_menu_screen.dart';
 import 'package:bltvt_mobile_veterinary/screens/profil/profil_screen.dart';
+import 'package:bltvt_mobile_veterinary/screens/searchpage/search_page.dart';
 import 'package:bltvt_mobile_veterinary/screens/sellingscreen/selling_screen.dart';
 import 'package:bltvt_mobile_veterinary/utils/colors.dart';
 import 'package:bltvt_mobile_veterinary/utils/custom_style.dart';
@@ -320,7 +322,7 @@ class _BilancoScreenState extends State<BilancoScreen> {
                     Navigator.of(context)
                       .push(
                         MaterialPageRoute(
-                          builder: (context) => SellingScreen()
+                          builder: (context) => SearchScreen()
                         ),
                       )
                       .then(
@@ -411,7 +413,18 @@ class _BilancoScreenState extends State<BilancoScreen> {
                 .then((value) => setState(() {
                       vm.refreshState();
                     })),
-                ),
+                ), 
+                SpeedDialChild(
+                  backgroundColor: CustomColor.primaryColor,
+                  foregroundColor: Colors.white,
+                  label: "Depo",
+                  onTap: () =>  Navigator.of(context)
+                .push(MaterialPageRoute(
+                    builder: (context) => DepoLookScreen()))
+                .then((value) => setState(() {
+                      vm.refreshState();
+                    })),
+                ), 
                   
               ]
           ),

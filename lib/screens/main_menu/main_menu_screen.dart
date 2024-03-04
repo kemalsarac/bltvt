@@ -209,6 +209,17 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
                       vm.refreshState();
                     })),
                 ),
+                    SpeedDialChild(
+                  backgroundColor: CustomColor.primaryColor,
+                  foregroundColor: Colors.white,
+                  label: "Depo",
+                  onTap: () =>  Navigator.of(context)
+                .push(MaterialPageRoute(
+                    builder: (context) => CustomerEditScreen('')))
+                .then((value) => setState(() {
+                      vm.refreshState();
+                    })),
+                ),
               ]
           ),
           floatingActionButtonLocation:

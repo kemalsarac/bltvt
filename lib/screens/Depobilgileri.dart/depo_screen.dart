@@ -1,11 +1,13 @@
 import 'package:bltvt_mobile_veterinary/data/responses/get_all_products_response.dart';
 import 'package:bltvt_mobile_veterinary/data/responses/waredata_response.dart';
+import 'package:bltvt_mobile_veterinary/screens/Depobilgileri.dart/depo_look.dart';
 import 'package:bltvt_mobile_veterinary/screens/Depobilgileri.dart/depo_screen_view.dart';
 import 'package:bltvt_mobile_veterinary/screens/_base/base_widget.dart';
 import 'package:bltvt_mobile_veterinary/screens/customers/customer_edit_screen.dart';
 import 'package:bltvt_mobile_veterinary/screens/main_menu/main_menu_screen.dart';
 import 'package:bltvt_mobile_veterinary/screens/products/products_detail_view_model.dart';
 import 'package:bltvt_mobile_veterinary/screens/profil/profil_screen.dart';
+import 'package:bltvt_mobile_veterinary/screens/searchpage/search_page.dart';
 import 'package:bltvt_mobile_veterinary/screens/sellingscreen/selling_screen.dart';
 import 'package:bltvt_mobile_veterinary/services/general_api_service.dart';
 import 'package:bltvt_mobile_veterinary/utils/colors.dart';
@@ -189,7 +191,7 @@ class _DepoScreenState extends State<DepoScreen> {
                     Navigator.of(context)
                       .push(
                         MaterialPageRoute(
-                          builder: (context) => SellingScreen()
+                          builder: (context) => SearchScreen()
                         ),
                       )
                       .then(
@@ -281,7 +283,17 @@ class _DepoScreenState extends State<DepoScreen> {
                       vm.refreshState();
                     })),
                 ),
-                  
+                   SpeedDialChild(
+                  backgroundColor: CustomColor.primaryColor,
+                  foregroundColor: Colors.white,
+                  label: "Depo",
+                  onTap: () =>  Navigator.of(context)
+                .push(MaterialPageRoute(
+                    builder: (context) => DepoLookScreen()))
+                .then((value) => setState(() {
+                      vm.refreshState();
+                    })),
+                ), 
               ]
           ),
           floatingActionButtonLocation:

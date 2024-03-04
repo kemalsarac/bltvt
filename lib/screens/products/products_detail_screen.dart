@@ -1,10 +1,12 @@
 import 'package:bltvt_mobile_veterinary/data/responses/depohak_response.dart';
 import 'package:bltvt_mobile_veterinary/data/responses/gethavedepo_response.dart';
+import 'package:bltvt_mobile_veterinary/screens/Depobilgileri.dart/depo_look.dart';
 import 'package:bltvt_mobile_veterinary/screens/Depobilgileri.dart/depo_screen.dart';
 import 'package:bltvt_mobile_veterinary/screens/Depobilgileri.dart/depo_transfer.dart';
 import 'package:bltvt_mobile_veterinary/screens/customers/customer_edit_screen.dart';
 import 'package:bltvt_mobile_veterinary/screens/main_menu/main_menu_screen.dart';
 import 'package:bltvt_mobile_veterinary/screens/profil/profil_screen.dart';
+import 'package:bltvt_mobile_veterinary/screens/searchpage/search_page.dart';
 import 'package:bltvt_mobile_veterinary/screens/sellingscreen/selling_screen.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
@@ -309,7 +311,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     Navigator.of(context)
                       .push(
                         MaterialPageRoute(
-                          builder: (context) => SellingScreen()
+                          builder: (context) => SearchScreen()
                         ),
                       )
                       .then(
@@ -401,13 +403,14 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                       vm.refreshState();
                     })),
                 ),
-                    SpeedDialChild(
+                
+                   SpeedDialChild(
                   backgroundColor: CustomColor.primaryColor,
                   foregroundColor: Colors.white,
-                  label: "Hızlı müşteri ekle",
+                  label: "Depolar",
                   onTap: () =>  Navigator.of(context)
                 .push(MaterialPageRoute(
-                    builder: (context) => CustomerEditScreen('')))
+                    builder: (context) => DepoLookScreen()))
                 .then((value) => setState(() {
                       vm.refreshState();
                     })),

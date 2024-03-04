@@ -10,6 +10,7 @@ import 'package:bltvt_mobile_veterinary/screens/main_menu/main_menu_screen.dart'
 import 'package:bltvt_mobile_veterinary/screens/patients/patient_edit_screen.dart';
 import 'package:bltvt_mobile_veterinary/screens/patients/patient_profile_screen_view_model.dart';
 import 'package:bltvt_mobile_veterinary/screens/profil/profil_screen.dart';
+import 'package:bltvt_mobile_veterinary/screens/searchpage/search_page.dart';
 import 'package:bltvt_mobile_veterinary/screens/sellingscreen/selling_screen.dart';
 import 'package:bltvt_mobile_veterinary/utils/colors.dart';
 import 'package:bltvt_mobile_veterinary/utils/custom_style.dart';
@@ -80,8 +81,8 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
               children: [
                 SpeedDialChild(
                   child: const Icon(Icons.date_range_outlined),
-                  backgroundColor: CustomColor.primaryColor,
-                  foregroundColor: Colors.white,
+                  backgroundColor: CustomColor.accentColor,
+                  foregroundColor: Colors.blue,
                   label: "Randevu Oluştur",
                   onTap: () => Navigator.of(context)
                       .push(
@@ -105,8 +106,8 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
                 ),
                 SpeedDialChild(
                   child: const Icon(Icons.edit_document),
-                  backgroundColor: CustomColor.primaryColor,
-                  foregroundColor: Colors.white,
+                  backgroundColor: CustomColor.accentColor,
+                  foregroundColor: Colors.blue,
                   label: "Düzenle",
                   onTap: () => Navigator.of(context)
                       .push(
@@ -130,8 +131,8 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
                 ),
                 SpeedDialChild(
                   child: const Icon(Icons.delete),
-                  backgroundColor: CustomColor.primaryColor,
-                  foregroundColor: Colors.white,
+                  backgroundColor: CustomColor.accentColor,
+                  foregroundColor: CustomColor.blueColor,
                   label: "Sil",
                   onTap: () async {
                     showDialog(
@@ -1123,7 +1124,7 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
                   ],
                 ),
               ),
-            ), bottomNavigationBar: BottomAppBar(
+            ),  bottomNavigationBar: BottomAppBar(
             shape: CircularNotchedRectangle(),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -1151,10 +1152,10 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
                 IconButton(
                   icon: Icon(Icons.search),
                   onPressed: () {
-                    Navigator.of(context)
+                      Navigator.of(context)
                       .push(
                         MaterialPageRoute(
-                          builder: (context) => SellingScreen()
+                          builder: (context) => SearchScreen()
                         ),
                       )
                       .then(
@@ -1164,6 +1165,7 @@ class _PatientProfileScreenState extends State<PatientProfileScreen> {
                           },
                         ),
                       );
+                   
                   },
                 ), Text('            '),
                  IconButton(
