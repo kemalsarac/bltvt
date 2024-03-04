@@ -125,7 +125,7 @@ class _TabPage1State extends State<TabPage1>
   Widget build(BuildContext context) {
     super.build(context);
     List<SearchCalendarResponse> futureAppointments =
-        vm.getFutureAppointments();
+        vm.getFutureAppointments() ;
     return Padding(
       padding: const EdgeInsets.all(15),
       child: ListView.builder(

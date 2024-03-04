@@ -1,4 +1,4 @@
-import 'package:bltvt_mobile_veterinary/data/responses/sales_search_response.dart';
+ import 'package:bltvt_mobile_veterinary/data/responses/sales_search_response.dart';
 import 'package:bltvt_mobile_veterinary/screens/_base/base_widget.dart';
 import 'package:bltvt_mobile_veterinary/screens/sellingscreen/registered_customer.dart';
 import 'package:bltvt_mobile_veterinary/screens/sellingscreen/retail_sales.dart';
@@ -225,13 +225,12 @@ class _SellingScreenState extends State<SellingScreen> {
                                             width: 5,
                                           ),
                                           Text(
-                                            (sales.dsCustomer ?? "") .length > 13 ? "${sales.dsCustomer.substring(0,15)}..."
+                                           (sales.dsCustomer ?? "") .length > 13 ? "${sales.dsCustomer.substring(0,15)}..."
                                             : sales.dsCustomer,
                                             style:
                                             const TextStyle(fontSize: 17),
                                             overflow: TextOverflow.ellipsis,
                                           ),
-                                          
                                         ],
                                       ),
                                       Row(
@@ -310,24 +309,29 @@ class _SellingScreenState extends State<SellingScreen> {
     );
   }
   Widget buildButtonColumn() {
-    return Positioned(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          buildTextButton(
-            icon: Icons.add_box_outlined,
-            label: "Ürün",
-            color: CustomColor.primaryColor,
-          ),
-          buildTextButton(
-            icon: Icons.delete,
-            label: "Sil",
-            color: CustomColor.redColor,
-          ),
-        ],
+  return Stack(
+    children: [
+      Positioned(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            buildTextButton(
+              icon: Icons.add_box_outlined,
+              label: "Ürün",
+              color: CustomColor.primaryColor,
+            ),
+            buildTextButton(
+              icon: Icons.delete,
+              label: "Sil",
+              color: CustomColor.redColor,
+            ),
+          ],
+        ),
       ),
-    );
-  }
+    ],
+  );
+}
+
 
   Widget buildTextButton({
     VoidCallback onPressed,
@@ -370,4 +374,4 @@ class _SellingScreenState extends State<SellingScreen> {
     );
   }
 
-}
+} 

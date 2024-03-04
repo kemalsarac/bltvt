@@ -155,7 +155,19 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
                 ),
                  IconButton(
                   icon: Icon(Icons.settings),
-                  onPressed: () {
+                  onPressed: () { Navigator.of(context)
+                      .push(
+                        MaterialPageRoute(
+                          builder: (context) => AdmissionsScreen()
+                        ),
+                      )
+                      .then(
+                        (value) => setState(
+                          () {
+                            vm.refreshState();
+                          },
+                        ),
+                      );
                   },
                 ),
              
