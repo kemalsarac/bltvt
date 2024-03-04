@@ -60,7 +60,7 @@ Widget build(BuildContext context) {
     body: Container(
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage('assets/images/welcome_page.png'),
+          image: AssetImage('assets/images/welcome2page.JPG'),
           fit: BoxFit.cover,
         ),
       ),
