@@ -26,14 +26,16 @@ class MainMenuScreen extends StatefulWidget {
 class _MainMenuScreenState extends State<MainMenuScreen> {
   MainMenuViewModel viewModel = MainMenuViewModel();
 
+  MainMenuViewModel get vm => viewModel;
+
+
   @override
   Widget build(BuildContext context) {
     return BaseWidget<MainMenuViewModel>(
       viewModelBuilder: (p0) => MainMenuViewModel(),
       builder: (p0, vm) {
-        viewModel = vm;
         return Scaffold(
-          appBar: AppBar(
+          /*appBar: AppBar(
             title: Row(
               children: [
                 Image.asset(
@@ -53,8 +55,11 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
               fit: BoxFit.cover,
             ),
           ),
-          backgroundColor: CustomColor.accentColor,
-          body: Padding(
+          backgroundColor: CustomColor.accentColor,*/
+          body: Stack(
+            children: <Widget>[dashBg, content],
+          ),
+          /*Padding(
             padding: const EdgeInsets.all(0.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -91,7 +96,8 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
                 ),
               ],
             ),
-          ),    bottomNavigationBar: BottomAppBar(
+          ),*/
+          bottomNavigationBar: BottomAppBar(
             shape: CircularNotchedRectangle(),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -185,7 +191,7 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
               elevation: 8,
               animationCurve: Curves.elasticInOut,
               isOpenOnStart: false,
-              backgroundColor: CustomColor.primaryColor,
+              backgroundColor:  Color.fromARGB(255, 26, 49, 182),
               foregroundColor: Colors.white,
               buttonSize: const Size(60, 60),
               childrenButtonSize: const Size(60, 60),
@@ -241,82 +247,240 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
       },
     );
   }
-}
 
-class MainMenuItemWidget extends StatelessWidget {
-  const MainMenuItemWidget(this.title, this.icon, {Key key}) : super(key: key);
-
-  final String title;
-  final IconData icon;
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
-        switch (title) {
-          case "Müşteriler":
-            _navigateToScreen(context, CustomersScreen());
-            break;
-          case "Ürünler":
-            _navigateToScreen(context, const ProductsScreen());
-            break;
-          case "Aşılar":
-            _navigateToScreen(context, const VaccinesScreen());
-            break;
-          case "Randevular":
-            _navigateToScreen(context, AdmissionsScreen());
-            break;
-            case "Satışlar":
-            _navigateToScreen(context, SellingScreen());
-            break;
-            
-
-          case "Özet":
-            _navigateToScreen(context, BilancoScreen());
-            break;
-        }
-      },
-      child: Container(
-        padding: const EdgeInsets.all(15),
+  get dashBg => Column(
+    children: <Widget>[
+      Expanded(
         child: Container(
-          decoration: const BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.all(
-              Radius.circular(20),
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: Color.fromRGBO(0, 0, 0, 0.06),
-                blurRadius: 50.0,
-                spreadRadius: 0.0,
-                offset: Offset(0.0, 0.0),
-              ),
-            ],
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Icon(
-                icon,
-                size: 50.0.scaleByHeight(),
-                color: CustomColor.primaryColor,
-              ),
-              const SizedBox(height: 10.0),
-              Text(
-                title,
-                textAlign: TextAlign.center,
-                style:
-                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-              ),
-            ],
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/appbar1.jpg"),
+            fit: BoxFit.cover,
           ),
         ),
       ),
+        flex: 2,
+      ),
+      Expanded(
+        child: Container(color: Colors.transparent),
+        flex: 5,
+      ),
+    ],
+  );
+
+  get content => Container(
+    child: Column(
+      children: <Widget>[
+        header,
+        grid,
+      ],
+    ),
+  );
+
+  get header => ListTile(
+    contentPadding: EdgeInsets.only(top: 30),
+    title: Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Image.asset(
+          'assets/images/bulutvet-logo-white.png',
+          height: 70,
+          fit: BoxFit.contain,
+        ),SizedBox(height: 20),
+      ],
+    ),
+    subtitle: Center(
+      child: Text(
+        'Günlük Randevu: ${vm.hesaptablosu.appointmentRate.toInt()} ',
+        style: TextStyle(color: Colors.white),
+      ),
+    ),
+  );
+
+
+  get grid => Expanded(
+    child: Container(
+      padding: EdgeInsets.only(left: 15, right: 15,top: 10),
+      child: GridView.count(
+        crossAxisSpacing: 20,
+        mainAxisSpacing: 20,
+        crossAxisCount: 3,
+        childAspectRatio: .90,
+        children: List.generate(6, (index){
+          IconData icon;
+          String title;
+          switch (index) {
+            case 0:
+              icon = Icons.groups;
+              title = 'Müşteriler';
+              break;
+            case 1:
+              icon = Icons.date_range_outlined;
+              title = 'Randevu';
+              break;
+            case 2:
+              icon = Icons.shopping_bag;
+              title = 'Ürünler';
+              break;
+            case 3:
+              icon = Icons.vaccines;
+              title = 'Aşılar';
+              break;
+            case 4:
+              icon = Icons.sell;
+              title = 'Satışlar';
+              break;
+            case 5:
+              icon = Icons.account_balance_wallet_rounded;
+              title = 'Özet';
+              break;
+          }
+            return Card(
+              elevation: 4,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: InkWell(
+                onTap: () {
+                    switch (title) {
+                      case "Müşteriler":
+                        _navigateToScreen(context, CustomersScreen());
+                        break;
+                      case "Ürünler":
+                        _navigateToScreen(context, const ProductsScreen());
+                        break;
+                      case "Aşılar":
+                        _navigateToScreen(context, const VaccinesScreen());
+                        break;
+                      case "Randevular":
+                        _navigateToScreen(context, AdmissionsScreen());
+                        break;
+                      case "Satışlar":
+                        _navigateToScreen(context, SellingScreen());
+                        break;
+                      case "Özet":
+                        _navigateToScreen(context, BilancoScreen());
+                        break;
+                    }
+                },
+              child: Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Icon(
+                      icon,
+                      size: 50.0,
+                      color:  Color.fromARGB(255, 26, 49, 182),
+                    ),
+                    SizedBox(height: 8),
+                    Text(
+                      title,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+              ),
+              ),
+          );
+        }),
+      ),
+    ),
+  );
+  void _navigateToScreen(BuildContext context, Widget screen) {
+    Navigator.of(context).push(
+      PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) => screen,
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          const begin = Offset(1.0, 0.0);
+          const end = Offset.zero;
+          const curve = Curves.easeInOutQuart;
+
+          var tween =
+          Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
+          var offsetAnimation = animation.drive(tween);
+
+          return SlideTransition(position: offsetAnimation, child: child);
+        },
+        transitionDuration: const Duration(milliseconds: 1),
+      ),
     );
   }
+}
 
-  void _navigateToScreen(BuildContext context, Widget screen) {
+//class MainMenuItemWidget extends StatelessWidget {
+//  const MainMenuItemWidget(this.title, this.icon, {Key key}) : super(key: key);
+
+//  final String title;
+//  final IconData icon;
+
+//  @override
+//  Widget build(BuildContext context) {
+//    return InkWell(
+//      onTap: () {
+//        switch (title) {
+//          case "Müşteriler":
+//            _navigateToScreen(context, CustomersScreen());
+//            break;
+//          case "Ürünler":
+//            _navigateToScreen(context, const ProductsScreen());
+//            break;
+//          case "Aşılar":
+//            _navigateToScreen(context, const VaccinesScreen());
+//            break;
+//          case "Randevular":
+//            _navigateToScreen(context, AdmissionsScreen());
+//            break;
+//            case "Satışlar":
+//            _navigateToScreen(context, SellingScreen());
+//            break;
+
+
+//          case "Özet":
+//            _navigateToScreen(context, BilancoScreen());
+//            break;
+//        }
+//      },
+//      child: Container(
+//        padding: const EdgeInsets.all(15),
+//        child: Container(
+//          decoration: const BoxDecoration(
+//            color: Colors.white,
+//            borderRadius: BorderRadius.all(
+//              Radius.circular(20),
+//            ),
+//            boxShadow: [
+//              BoxShadow(
+//                color: Color.fromRGBO(0, 0, 0, 0.06),
+//                blurRadius: 50.0,
+//                spreadRadius: 0.0,
+//                offset: Offset(0.0, 0.0),
+//              ),
+//            ],
+//          ),
+//          child: Column(
+//            mainAxisAlignment: MainAxisAlignment.center,
+//            mainAxisSize: MainAxisSize.min,
+//            children: <Widget>[
+//              Icon(
+//                icon,
+//                size: 50.0.scaleByHeight(),
+//                color: CustomColor.primaryColor,
+//              ),
+//              const SizedBox(height: 10.0),
+//              Text(
+//                title,
+//                textAlign: TextAlign.center,
+//                style:
+//                    const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+//              ),
+//            ],
+//          ),
+//        ),
+//      ),
+//    );
+//  }
+  /*void _navigateToScreen(BuildContext context, Widget screen) {
     Navigator.of(context).push(
       PageRouteBuilder(
         pageBuilder: (context, animation, secondaryAnimation) => screen,
@@ -334,5 +498,9 @@ class MainMenuItemWidget extends StatelessWidget {
         transitionDuration: const Duration(milliseconds: 1),
       ),
     );
-  }
-}
+  }*/
+//}
+
+
+
+// Color.fromARGB(255, 26, 49, 182),

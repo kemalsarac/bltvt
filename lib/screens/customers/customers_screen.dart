@@ -31,7 +31,7 @@ class _CustomersScreenState extends State<CustomersScreen> with ChangeNotifier {
   String query = '';
   CustomersScreenViewModel viewModel;
   ScrollController scrollController = ScrollController();
-  int _selectedIndex = 0; // Seçili sekmenin dizini
+  int _selectedIndex = 0; 
 
   @override
   void initState() {
@@ -45,18 +45,25 @@ class _CustomersScreenState extends State<CustomersScreen> with ChangeNotifier {
       builder: (context, vm) {
         viewModel = vm;
         return Scaffold(
-          appBar: buildAppBar(),
-          body: Column(
+          body: Stack(
             children: <Widget>[
               Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage("assets/images/welcome page-5.png"),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                margin: EdgeInsets.only(top: 0),
+              ),
+              Container(
+                margin: EdgeInsets.only(top: 0, left: 30, right: 10),
                 child: buildSearch(context, vm),
               ),
               buildCustomerList(context, vm),
             ],
           ),
-        
-          
-         bottomNavigationBar: BottomAppBar(
+          bottomNavigationBar: BottomAppBar(
             shape: CircularNotchedRectangle(),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -65,67 +72,62 @@ class _CustomersScreenState extends State<CustomersScreen> with ChangeNotifier {
                   icon: Icon(Icons.home),
                   onPressed: () {
                     Navigator.of(context)
-                      .push(
-                        MaterialPageRoute(
-                          builder: (context) => MainMenuScreen()
-                        ),
-                      )
-                      .then(
-                        (value) => setState(
-                          () {
-                            vm.refreshState();
-                          },
-                        ),
-                      );
-                
-                    
+                        .push(
+                          MaterialPageRoute(
+                              builder: (context) => MainMenuScreen()),
+                        )
+                        .then(
+                          (value) => setState(
+                            () {
+                              vm.refreshState();
+                            },
+                          ),
+                        );
                   },
                 ),
                 IconButton(
                   icon: Icon(Icons.search),
                   onPressed: () {
                     Navigator.of(context)
-                      .push(
-                        MaterialPageRoute(
-                          builder: (context) => SearchScreen()
-                        ),
-                      )
-                      .then(
-                        (value) => setState(
-                          () {
-                            vm.refreshState();
-                          },
-                        ),
-                      );
+                        .push(
+                          MaterialPageRoute(
+                              builder: (context) => SearchScreen()),
+                        )
+                        .then(
+                          (value) => setState(
+                            () {
+                              vm.refreshState();
+                            },
+                          ),
+                        );
                   },
-                ), Text('            '),
-                 IconButton(
+                ),
+                Text('            '),
+                IconButton(
                   icon: Icon(Icons.person),
                   onPressed: () {
                     Navigator.of(context)
-                      .push(
-                        MaterialPageRoute(
-                          builder: (context) => ProfileScreen()
-                        ),
-                      )
-                      .then(
-                        (value) => setState(
-                          () {
-                            vm.refreshState();
-                          },
-                        ),
-                      );
+                        .push(
+                          MaterialPageRoute(
+                              builder: (context) => ProfileScreen()),
+                        )
+                        .then(
+                          (value) => setState(
+                            () {
+                              vm.refreshState();
+                            },
+                          ),
+                        );
                   },
                 ),
-                 IconButton(
+                IconButton(
                   icon: Icon(Icons.settings),
-                  onPressed: () {
-                  },
+                  onPressed: () {},
                 ),
-             
               ],
             ),
-          ), floatingActionButton: SpeedDial(
+          ),
+          floatingActionButton: SpeedDial(
               icon: Icons.menu,
               activeIcon: Icons.close,
               spacing: 3,
@@ -136,18 +138,16 @@ class _CustomersScreenState extends State<CustomersScreen> with ChangeNotifier {
               elevation: 8,
               animationCurve: Curves.elasticInOut,
               isOpenOnStart: false,
-              backgroundColor: CustomColor.primaryColor,
+              backgroundColor: Color.fromARGB(255, 26, 49, 182),
               foregroundColor: Colors.white,
               buttonSize: const Size(60, 60),
               childrenButtonSize: const Size(60, 60),
               children: [
-               
-                   SpeedDialChild(
-                  
+                SpeedDialChild(
                   backgroundColor: CustomColor.primaryColor,
                   foregroundColor: Colors.white,
                   label: "Hızlı Satış",
-                /*  onTap: () => Navigator.of(context)
+                  /*  onTap: () => Navigator.of(context)
                       .push(
                         MaterialPageRoute(
                           builder: (context) => AdmissionTestScreen(
@@ -167,47 +167,33 @@ class _CustomersScreenState extends State<CustomersScreen> with ChangeNotifier {
                         ),
                       ), */
                 ),
-                   SpeedDialChild(
+                SpeedDialChild(
                   backgroundColor: CustomColor.primaryColor,
                   foregroundColor: Colors.white,
                   label: "Hızlı müşteri ekle",
-                  onTap: () =>  Navigator.of(context)
-                .push(MaterialPageRoute(
-                    builder: (context) => CustomerEditScreen('')))
-                .then((value) => setState(() {
-                      vm.refreshState();
-                    })),
+                  onTap: () => Navigator.of(context)
+                      .push(MaterialPageRoute(
+                          builder: (context) => CustomerEditScreen('')))
+                      .then((value) => setState(() {
+                            vm.refreshState();
+                          })),
                 ),
-                 SpeedDialChild(
+                SpeedDialChild(
                   backgroundColor: CustomColor.primaryColor,
                   foregroundColor: Colors.white,
                   label: "Depo",
-                  onTap: () =>  Navigator.of(context)
-                .push(MaterialPageRoute(
-                    builder: (context) => DepoLookScreen()))
-                .then((value) => setState(() {
-                      vm.refreshState();
-                    })),
-                ), 
-              ]
-          ),
+                  onTap: () => Navigator.of(context)
+                      .push(MaterialPageRoute(
+                          builder: (context) => DepoLookScreen()))
+                      .then((value) => setState(() {
+                            vm.refreshState();
+                          })),
+                ),
+              ]),
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerDocked,
-          
         );
       },
-    );
-  }
-
-  Widget buildAppBar() {
-    return AppBar(
-      title: const Text("Müşteriler"),
-      backgroundColor: CustomColor.primaryColor,
-      centerTitle: true,
-      flexibleSpace: Image(
-                image: AssetImage("assets/images/appbar1.jpg"),
-                fit: BoxFit.cover,
-              ),
     );
   }
 
@@ -224,17 +210,16 @@ class _CustomersScreenState extends State<CustomersScreen> with ChangeNotifier {
     this.query = query;
     viewModel.searchText(query);
   }
- 
-
 
   Widget buildCustomerList(BuildContext context, CustomersScreenViewModel vm) {
     return Expanded(
       child: Container(
+        margin: EdgeInsets.only(top: 120),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(30.0),
-            topRight: Radius.circular(30.0),
+            topLeft: Radius.circular(80.0),
+            topRight: Radius.circular(0.0),
           ),
         ),
         child: ClipRRect(
@@ -247,7 +232,7 @@ class _CustomersScreenState extends State<CustomersScreen> with ChangeNotifier {
             scrollController: scrollController,
             promptTheme: const PromptButtonTheme(
               elevation: 30,
-              color: CustomColor.primaryColor,
+              color: Color.fromARGB(255, 40, 40, 40),
               icon: Icon(
                 Icons.arrow_circle_up,
                 size: 40,
@@ -280,160 +265,162 @@ class _CustomersScreenState extends State<CustomersScreen> with ChangeNotifier {
                             ),
                           ),
                       child: Container(
-                        margin: const EdgeInsets.all(10),
+                        margin:
+                            const EdgeInsets.only(left: 10, top: 10, right: 0),
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 10.0, vertical: 10.0),
+                            horizontal: 5.0, vertical: 0),
                         decoration: BoxDecoration(
-                          color: CustomColor.accentColor,
                           border: Border.all(
-                            color: CustomColor.primaryColor,
+                            color: Colors.transparent,
+                            width: 0,
                           ),
                           borderRadius: const BorderRadius.all(
                             Radius.circular(20.0),
                           ),
                         ),
-                        child: Column(
+                        child: Stack(
                           children: [
-                            Row(
-                              children: <Widget>[
-                                Expanded(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          Hero(
-                                            tag:
-                                                "customerPhoto-${contact.dsGuidId}",
-                                            child: ClipOval(
-                                              child: Image.network(
-                                                contact.dsCustomerPhoto ?? "",
-                                                width: 70.scaleByWidth(),
-                                                height: 70.scaleByWidth(),
-                                                errorBuilder:
-                                                    (context, obj, strace) {
-                                                  return ClipOval(
-                                                    child: NoImagePersonWidget(
-                                                        70, 70),
-                                                  );
-                                                },
-                                              ),
-                                            ),
-                                          ),
-                                          Expanded(
-                                            child: Padding(
-                                              padding: const EdgeInsets.only(
-                                                left: 10,
-                                                top: 10,
-                                              ),
-                                              child: Column(
+                            Container(
+                              margin: const EdgeInsets.only(
+                                  left: 35, top: 5, right: 30),
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10.0, vertical: 5.0),
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.black,
+                                  width: 2.0,
+                                ),
+                                borderRadius: const BorderRadius.all(
+                                  Radius.circular(15.0),
+                                ),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      children: <Widget>[
+                                        Expanded(
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              Row(
                                                 mainAxisAlignment:
                                                     MainAxisAlignment.start,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
                                                 children: [
-                                                  Row(
-                                                    children: [
-                                                      Expanded(
-                                                        child: Text(
-                                                          contact
-                                                              .dsNameAndSurname
-                                                              .trim(),
-                                                          style:
-                                                              const TextStyle(
-                                                                  fontSize: 18),
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                        ),
+                                                  Hero(
+                                                    tag:
+                                                        "customerPhoto-${contact.dsGuidId}",
+                                                    child: ClipOval(
+                                                      child: Image.network(
+                                                        contact.dsCustomerPhoto ??
+                                                            "",
+                                                        width: 100.0,
+                                                        height: 100.0,
+                                                        errorBuilder: (context,
+                                                            obj, strace) {
+                                                          return ClipOval(
+                                                            child:
+                                                                NoImagePersonWidget(
+                                                                    50.0, 50.0),
+                                                          );
+                                                        },
                                                       ),
-                                                    ],
+                                                    ),
                                                   ),
-                                                  const SizedBox(
-                                                    height: 5,
-                                                  ),
-                                                  Row(
-                                                    children: [
-                                                      Expanded(
-                                                        child: Text(
-                                                          (contact.dsPhoneNo ??
-                                                                  "")
-                                                              .trim(),
-                                                          textAlign:
-                                                              TextAlign.left,
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          style:
-                                                              const TextStyle(
-                                                            fontSize: 15,
-                                                            color: Colors.grey,
+                                                  Expanded(
+                                                    child: Padding(
+                                                      padding:
+                                                          const EdgeInsets.only(
+                                                        left: 10,
+                                                        top: 10,
+                                                      ),
+                                                      child: Column(
+                                                        mainAxisAlignment:
+                                                            MainAxisAlignment
+                                                                .start,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .center,
+                                                        children: [
+                                                          Row(
+                                                            children: [
+                                                              Expanded(
+                                                                child: Text(
+                                                                  contact
+                                                                      .dsNameAndSurname
+                                                                      .trim(),
+                                                                  style: const TextStyle(
+                                                                      fontSize:
+                                                                          12),
+                                                                  overflow:
+                                                                      TextOverflow
+                                                                          .ellipsis,
+                                                                ),
+                                                              ),
+                                                            ],
                                                           ),
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 5,
-                                                  ),
-                                                  Row(
-                                                    children: [
-                                                      Expanded(
-                                                        child: Text(
-                                                          (contact.dsEmail ??
-                                                                  "")
-                                                              .trim(),
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
-                                                          style:
-                                                              const TextStyle(
-                                                            fontSize: 15,
-                                                            color: Colors.grey,
+                                                          const SizedBox(
+                                                            height: 10,
                                                           ),
-                                                        ),
+                                                          Row(
+                                                            children: [
+                                                              Expanded(
+                                                                child: Text(
+                                                                  (contact.dsPhoneNo ??
+                                                                          "")
+                                                                      .trim(),
+                                                                  textAlign:
+                                                                      TextAlign
+                                                                          .left,
+                                                                  overflow:
+                                                                      TextOverflow
+                                                                          .ellipsis,
+                                                                  style:
+                                                                      const TextStyle(
+                                                                    fontSize:
+                                                                        12,
+                                                                    color: Colors
+                                                                        .grey,
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          ),
+                                                        ],
                                                       ),
-                                                    ],
+                                                    ),
                                                   ),
                                                 ],
                                               ),
-                                            ),
+                                            ],
                                           ),
-                                        ],
-                                      ),
-                                    ],
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              top: 27,
+                              right: 10,
+                              child: GestureDetector(
+                                onTap: () => navigateToEditCustomerScreen(
+                                    context, vm, contact),
+                                child: Container(
+                                  padding: const EdgeInsets.all(8.0),
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Colors.red,
+                                  ),
+                                  child: Icon(
+                                    Icons.edit_document,
+                                    color: Colors.white,
                                   ),
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 13),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.end,
-                                        children: [
-                                          buildTextButton(
-                                            onPressed: () =>
-                                                navigateToEditCustomerScreen(
-                                                    context, vm, contact),
-                                            icon: Icons.edit_document,
-                                            label: "Düzenle",
-                                            color: CustomColor.primaryColor,
-                                          ),
-                                          buildTextButton(
-                                            onPressed: () =>
-                                                showConfirmationDialog(
-                                                    context, vm, contact),
-                                            icon: Icons.delete,
-                                            label: "Sil",
-                                            color: CustomColor.redColor,
-                                          ),
-                                        ],
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
+                              ),
                             ),
                           ],
                         ),
@@ -447,7 +434,48 @@ class _CustomersScreenState extends State<CustomersScreen> with ChangeNotifier {
             },
           ),
         ),
-      ), 
+      ),
+    );
+  }
+  /* Center(
+          child: Container(
+            width: 200.0,
+            height: 200.0,
+            color: Colors.blue,
+            child: Padding(
+              padding: EdgeInsets.all(20.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.black, // Siyah renk
+                    width: 5.0,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+} */
+
+  Widget buildIconButtonWithCircleAvatar({
+    VoidCallback onPressed,
+    IconData icon,
+    String label,
+    Color color,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: CircleAvatar(
+        backgroundColor: color,
+        child: IconButton(
+          icon: Icon(icon),
+          color: Colors.white,
+          onPressed: onPressed,
+        ),
+      ),
     );
   }
 
@@ -526,8 +554,7 @@ class _CustomersScreenState extends State<CustomersScreen> with ChangeNotifier {
                     }
                   },
                   child: Padding(
-                    padding: EdgeInsets.only(
-                        left: 70.0, right: 20.0), 
+                    padding: EdgeInsets.only(left: 70.0, right: 20.0),
                     child: buildText(
                       "Evet",
                       Color.fromARGB(255, 2, 144, 59),

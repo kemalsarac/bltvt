@@ -1,9 +1,11 @@
 import 'package:bltvt_mobile_veterinary/data/requests/save_customer_request.dart';
 import 'package:bltvt_mobile_veterinary/data/requests/update_patient_status_request.dart';
+import 'package:bltvt_mobile_veterinary/data/responses/get_customer_search_response.dart';
 import 'package:bltvt_mobile_veterinary/data/responses/save_patient_response.dart';
 import 'package:bltvt_mobile_veterinary/screens/_base/base_widget.dart';
 import 'package:bltvt_mobile_veterinary/screens/customers/customer_edit_screen.dart';
 import 'package:bltvt_mobile_veterinary/screens/customers/customer_profile_screen_view_model.dart';
+import 'package:bltvt_mobile_veterinary/screens/customers/customers_screen_view_model.dart';
 import 'package:bltvt_mobile_veterinary/screens/main_menu/main_menu_screen.dart';
 import 'package:bltvt_mobile_veterinary/screens/patients/patient_edit_screen.dart';
 import 'package:bltvt_mobile_veterinary/screens/patients/patient_profile_screen.dart';
@@ -46,9 +48,15 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
             backgroundColor: CustomColor.primaryColor,
             centerTitle: true,
             flexibleSpace: Image(
-                image: AssetImage("assets/images/appbar1.jpg"),
-                fit: BoxFit.cover,
+              image: AssetImage("assets/images/appbar1.jpg"),
+              fit: BoxFit.cover,
+            ),
+            actions: [
+              IconButton(
+                icon: Icon(Icons.delete),
+                onPressed: () { },
               ),
+            ],
           ),
           backgroundColor: Colors.white,
           body: Padding(
@@ -591,8 +599,8 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
                 ],
               ),
             ),
-          ), 
-         /* floatingActionButton: SpeedDial(
+          ),
+          /* floatingActionButton: SpeedDial(
             // Ana düğme (FAB) özellikleri
             child: Icon(Icons.menu),
             backgroundColor: CustomColor.primaryColor,
@@ -652,7 +660,8 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
                     ),
               ),
             ],
-          ), */ bottomNavigationBar: BottomAppBar(
+          ), */
+          bottomNavigationBar: BottomAppBar(
             shape: CircularNotchedRectangle(),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -661,91 +670,87 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
                   icon: Icon(Icons.home),
                   onPressed: () {
                     Navigator.of(context)
-                      .push(
-                        MaterialPageRoute(
-                          builder: (context) => MainMenuScreen()
-                        ),
-                      )
-                      .then(
-                        (value) => setState(
-                          () {
-                            vm.refreshState();
-                          },
-                        ),
-                      );
-                
-                    
+                        .push(
+                          MaterialPageRoute(
+                              builder: (context) => MainMenuScreen()),
+                        )
+                        .then(
+                          (value) => setState(
+                            () {
+                              vm.refreshState();
+                            },
+                          ),
+                        );
                   },
                 ),
                 IconButton(
                   icon: Icon(Icons.search),
                   onPressed: () {
                     Navigator.of(context)
-                      .push(
-                        MaterialPageRoute(
-                          builder: (context) => SearchScreen()
-                        ),
-                      )
-                      .then(
-                        (value) => setState(
-                          () {
-                            vm.refreshState();
-                          },
-                        ),
-                      );
+                        .push(
+                          MaterialPageRoute(
+                              builder: (context) => SearchScreen()),
+                        )
+                        .then(
+                          (value) => setState(
+                            () {
+                              vm.refreshState();
+                            },
+                          ),
+                        );
                   },
-                ), Text('            '),
-                 IconButton(
+                ),
+                Text('            '),
+                IconButton(
                   icon: Icon(Icons.person),
                   onPressed: () {
                     Navigator.of(context)
-                      .push(
-                        MaterialPageRoute(
-                          builder: (context) => ProfileScreen()
-                        ),
-                      )
-                      .then(
-                        (value) => setState(
-                          () {
-                            vm.refreshState();
-                          },
-                        ),
-                      );
+                        .push(
+                          MaterialPageRoute(
+                              builder: (context) => ProfileScreen()),
+                        )
+                        .then(
+                          (value) => setState(
+                            () {
+                              vm.refreshState();
+                            },
+                          ),
+                        );
                   },
                 ),
-                 IconButton(
+                IconButton(
                   icon: Icon(Icons.settings),
-                  onPressed: () {
-                  },
+                  onPressed: () {},
                 ),
-             
               ],
             ),
-          ), floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-            floatingActionButton: SpeedDial(
-              icon: Icons.menu,
-              activeIcon: Icons.close,
-              spacing: 3,
-              childPadding: const EdgeInsets.all(5),
-              spaceBetweenChildren: 4,
-              visible: true,
-              direction: SpeedDialDirection.up,
-              elevation: 8,
-              animationCurve: Curves.elasticInOut,
-              isOpenOnStart: false,
-              backgroundColor: CustomColor.primaryColor,
-              foregroundColor: Colors.white,
-              buttonSize: const Size(60, 60),
-              childrenButtonSize: const Size(60, 60),
-              children: [
-                SpeedDialChild(
-                  child: const Icon(Icons.date_range_outlined),
-                  backgroundColor: CustomColor.accentColor,
-                  foregroundColor: Colors.blue,
-                  label: "Randevu Oluştur",
-                  onTap: () => Navigator.of(context)
-                      .push(
-                         MaterialPageRoute(
+          ),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
+          floatingActionButton: SpeedDial(
+            icon: Icons.menu,
+            activeIcon: Icons.close,
+            spacing: 3,
+            childPadding: const EdgeInsets.all(5),
+            spaceBetweenChildren: 4,
+            visible: true,
+            direction: SpeedDialDirection.up,
+            elevation: 8,
+            animationCurve: Curves.elasticInOut,
+            isOpenOnStart: false,
+            backgroundColor: CustomColor.primaryColor,
+            foregroundColor: Colors.white,
+            buttonSize: const Size(60, 60),
+            childrenButtonSize: const Size(60, 60),
+            children: [
+              SpeedDialChild(
+                child: const Icon(Icons.date_range_outlined),
+                backgroundColor: CustomColor.accentColor,
+                foregroundColor: Colors.blue,
+                label: "Randevu Oluştur",
+                onTap: () => Navigator.of(context)
+                    .push(
+                      MaterialPageRoute(
                         builder: (context) => AdmissionEditScreen(
                           "",
                           GetAppointmentByIdPatientResponse(),
@@ -753,23 +758,23 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
                           widget.patientGuid,
                         ),
                       ),
-                      )
-                      .then(
-                        (value) => setState(
-                          () {
-                            vm.refreshState();
-                          },
-                        ),
+                    )
+                    .then(
+                      (value) => setState(
+                        () {
+                          vm.refreshState();
+                        },
                       ),
-                ),
-                SpeedDialChild(
-                  child: const Icon(Icons.edit_document),
-                  backgroundColor: CustomColor.accentColor,
-                  foregroundColor: Colors.blue,
-                  label: "Hasta ekle",
-                  onTap: () => Navigator.of(context)
-                      .push(
-                       MaterialPageRoute(
+                    ),
+              ),
+              SpeedDialChild(
+                child: const Icon(Icons.edit_document),
+                backgroundColor: CustomColor.accentColor,
+                foregroundColor: Colors.blue,
+                label: "Hasta ekle",
+                onTap: () => Navigator.of(context)
+                    .push(
+                      MaterialPageRoute(
                         builder: (context) => PatientEditScreen(
                           '',
                           '',
@@ -778,22 +783,123 @@ class _CustomerProfileScreenState extends State<CustomerProfileScreen> {
                           false,
                         ),
                       ),
-                      )
-                      .then(
-                        (value) => setState(
-                          () {
-                            vm.refreshState();
-                          },
-                        ),
+                    )
+                    .then(
+                      (value) => setState(
+                        () {
+                          vm.refreshState();
+                        },
                       ),
-                ),
-               
-              ], ),
-          
-          
-        
-        ); 
+                    ),
+              ),
+            ],
+          ),
+        );
       },
-    );  
-  } 
+    );
+  }  void showConfirmationDialog(BuildContext context, CustomersScreenViewModel vm,
+      GetCustomerSearchResponse contact) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return SimpleDialog(
+          title: Text(
+            "Müşteri durumu pasif olacak onaylıyor musunuz?",
+            style: TextStyle(fontSize: Dimensions.extraLargeTextSize),
+          ),
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                buildGestureDetector(
+                  onTap: () async {
+                    SaveCustomerRequest customerData =
+                        await vm.getCustomerByGuid(contact.dsGuidId);
+                    customerData.valid = false;
+                    bool result = await vm.updateCustomerStatus(customerData);
+
+                    if (result) {
+                      showSuccessToast("Hasta durumu güncellendi");
+                      setState(() {
+                        Navigator.pop(context);
+                        vm.refreshState();
+                      });
+                    } else {
+                      showErrorToast("Bir Hata Oluştu!");
+                    }
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 70.0, right: 20.0),
+                    child: buildText(
+                      "Evet",
+                      Color.fromARGB(255, 2, 144, 59),
+                      Dimensions.largeTextSize,
+                    ),
+                  ),
+                ),
+                buildGestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Padding(
+                    padding: EdgeInsets.only(right: 35.0),
+                    child: buildText(
+                      "Hayır",
+                      Colors.red,
+                      Dimensions.largeTextSize,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  GestureDetector buildGestureDetector({VoidCallback onTap, Widget child}) {
+    return GestureDetector(
+      onTap: onTap,
+      child: child,
+    );
+  }
+
+  Text buildText(String text, Color color, double fontSize) {
+    return Text(
+      text,
+      style: TextStyle(
+        color: color,
+        fontSize: fontSize,
+      ),
+    );
+  }
+
+  Padding buildPadding() {
+    return Padding(
+      padding: const EdgeInsets.only(right: 20, left: 40),
+    );
+  }
+
+  void showSuccessToast(String message) {
+    Fluttertoast.showToast(
+      msg: message,
+      backgroundColor: Colors.green,
+      textColor: Colors.white,
+      fontSize: 20,
+      toastLength: Toast.LENGTH_LONG,
+    );
+  }
+
+  void showErrorToast(String message) {
+    Fluttertoast.showToast(
+      msg: message,
+      backgroundColor: Colors.red,
+      textColor: Colors.white,
+      fontSize: 20,
+      toastLength: Toast.LENGTH_LONG,
+    );
+  }
+
 }
+ 
